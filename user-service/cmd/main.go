@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"user-service/internal/config"
+	"user-service/internal/models"
 	repository "user-service/internal/repostory"
 	loadenv "user-service/pkg/loadEnv"
 )
@@ -26,6 +27,8 @@ func main(){
 	repo := repository.NewUserRepository(sql)
 
 	_ = repo
+
+   user := models
 
 	repo.Create()
 
