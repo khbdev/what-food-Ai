@@ -4,8 +4,7 @@ import (
 	"context"
 	"log"
 	"time"
-	"user-service/internal/config"
-	"user-service/internal/models"
+
 	repository "user-service/internal/repostory"
 	loadenv "user-service/pkg/loadEnv"
 )
@@ -30,3 +29,4 @@ func main(){
 
 	_ = repo
 
+}
