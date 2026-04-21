@@ -50,7 +50,7 @@ func (c *userCache) SetUser(ctx context.Context, user *models.User, ttl time.Dur
 }
 
 
-
+// Delete
 
 func (c *userCache) DeleteUser(ctx context.Context, id uint) error {
 	return c.rdb.Del(ctx, key(id)).Err()
