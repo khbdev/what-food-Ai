@@ -31,6 +31,6 @@ type User struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 
-	// soft delete (GORM style)
+
 	DeletedAt gorm.DeletedAt `gorm:"index"`
 }
