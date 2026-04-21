@@ -39,6 +39,7 @@ func (c *userCache) GetUser(ctx context.Context, id uint) (*models.User, error) 
 
 	return &user, nil
 }
+// SET
 
 func (c *userCache) SetUser(ctx context.Context, user *models.User, ttl time.Duration) error {
 	data, err := json.Marshal(user)
