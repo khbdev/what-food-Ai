@@ -1,7 +1,7 @@
 package main
 
 import (
-	"log"
+
 	"user-service/user-service/internal/config"
 	loadenv "user-service/user-service/pkg/loadEnv"
 )
@@ -12,6 +12,6 @@ func main(){
 
 	sql, err := config.NewPostgresDB()
 	if err != nil{
-		log
+		
 	}
 }
