@@ -5,8 +5,7 @@ import (
 	"log"
 	"os"
 	"time"
-
-	
+	"user-service/user-service/internal/models"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -49,7 +48,7 @@ func NewPostgresDB() (*gorm.DB, error) {
 
 	
 	if err := db.AutoMigrate(
-		&mod.User,
+		&models.User,
 	); err != nil {
 		return nil, err
 	}
