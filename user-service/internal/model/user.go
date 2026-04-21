@@ -22,11 +22,10 @@ type User struct {
 	Age     int    `gorm:"not null"`
 	Address string `gorm:"size:255;not null"`
 
-	// OPTIONAL fields (nullable)
 	Email *string `gorm:"size:100;uniqueIndex"`
 	Image *string `gorm:"size:255"`
 
-	// Role default user bo‘ladi
+	
 	Role Role `gorm:"type:varchar(20);default:user;not null"`
 
 	CreatedAt time.Time
