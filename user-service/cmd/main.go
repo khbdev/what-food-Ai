@@ -27,10 +27,15 @@ func main(){
 	repo := repository.NewUserRepository(sql)
 
 	_ = repo
-
-   user := models.User{
-	
-   }
+user := models.User{
+	Name:    "Azizbek",
+	Phone:   "+998901234567",
+	Age:     21,
+	Address: "Tashkent, Uzbekistan",
+	Email:   "azizbek@gmail.com",
+	Image:   "https://example.com/avatar.png",
+	Role:    models.RoleUser,
+}
 
 	repo.Create()
 
