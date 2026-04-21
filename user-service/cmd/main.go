@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"user-service/internal/config"
+	repository "user-service/internal/repostory"
 	loadenv "user-service/pkg/loadEnv"
 )
 
@@ -22,6 +23,6 @@ func main(){
 	}
 	_ = redis
 
-	repo := repo
+	repo := repository.NewUserRepository(sql)
 
 }
