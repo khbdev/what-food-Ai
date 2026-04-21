@@ -16,7 +16,7 @@ const (
 type User struct {
 	ID uint `gorm:"primaryKey"`
 
-	// REQUIRED fields (NOT NULL)
+	
 	Name    string `gorm:"size:100;not null"`
 	Phone   string `gorm:"size:20;uniqueIndex;not null"`
 	Age     int    `gorm:"not null"`
