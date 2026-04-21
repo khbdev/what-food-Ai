@@ -1,4 +1,6 @@
 package loadenv
 
 
-func Load
+func LoadEnv(){
+	
+}
