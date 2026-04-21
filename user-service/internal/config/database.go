@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 	"time"
-	"user-service/inrernal/repository/model"
+	
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
