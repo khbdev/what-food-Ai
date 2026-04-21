@@ -25,6 +25,6 @@ func main(){
 
 	repo := repository.NewUserRepository(sql)
 
-	
+	_ = rep
 
 }
