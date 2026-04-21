@@ -48,7 +48,7 @@ func NewPostgresDB() (*gorm.DB, error) {
 
 	
 	if err := db.AutoMigrate(
-		&models.
+		&models.User
 	); err != nil {
 		return nil, err
 	}
