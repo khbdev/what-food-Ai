@@ -28,7 +28,9 @@ func main(){
 
 	_ = repo
 
-   user := models
+   user := models.User{
+	
+   }
 
 	repo.Create()
 
