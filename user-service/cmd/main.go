@@ -42,6 +42,6 @@ user := models.User{
 	Role:    models.RoleUser,
 }
 
-	repo.Create(ctx,*user)
+	repo.Create(ctx, user)
 
 }
