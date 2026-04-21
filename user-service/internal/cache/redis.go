@@ -26,6 +26,8 @@ func key(id uint) string {
 	return fmt.Sprintf("user:%d", id)
 }
 
+
+
 func (c *userCache) GetUser(ctx context.Context, id uint) (*models.User, error) {
 	val, err := c.rdb.Get(ctx, key(id)).Result()
 	if err != nil {
