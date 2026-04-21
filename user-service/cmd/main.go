@@ -6,5 +6,5 @@ import loadenv "user-service/user-service/pkg/loadEnv"
 func main(){
 	loadenv.LoadEnv()
 
-	sql, er
+	sql, err := con
 }
