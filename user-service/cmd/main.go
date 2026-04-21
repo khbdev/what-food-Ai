@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log"
+	"time"
 	"user-service/internal/config"
 	"user-service/internal/models"
 	repository "user-service/internal/repostory"
@@ -29,7 +30,7 @@ func main(){
 
 	_ = repo
 
-	ctx, cancel := context.WithTimeout(context.Background(), )
+	ctx, cancel := context.WithTimeout(context.Background(), 3 * time.Second)
 user := models.User{
 	Name:    "Azizbek",
 	Phone:   "+998901234567",
