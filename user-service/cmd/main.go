@@ -1,6 +1,8 @@
 package main
 
+import loadenv "user-service/user-service/pkg/loadEnv"
+
 
 func main(){
-	lo
+	loadenv.LoadEnv()
 }
