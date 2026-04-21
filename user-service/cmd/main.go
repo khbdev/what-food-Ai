@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 	"user-service/internal/config"
 	"user-service/internal/models"
@@ -28,7 +29,7 @@ func main(){
 
 	_ = repo
 
-	ctx, 
+	ctx, cancel := context.
 user := models.User{
 	Name:    "Azizbek",
 	Phone:   "+998901234567",
