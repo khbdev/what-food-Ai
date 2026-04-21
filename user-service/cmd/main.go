@@ -16,5 +16,5 @@ func main(){
 	}
 	_ = 
 	
-	redis
+	redis, err := con
 }
