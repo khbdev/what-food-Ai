@@ -17,7 +17,9 @@ func main(){
 	_ =  sql
 
 	redis, err := config.NewRedisClient()
-	if condition {
-		
+	if err != nil{
+	   log.Fatal(err)
 	}
+
+	_ = redis
 }
