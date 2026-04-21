@@ -27,6 +27,6 @@ func main(){
 
 	_ = repo
 
-	re
+	repo.Create()
 
 }
