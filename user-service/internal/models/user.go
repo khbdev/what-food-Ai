@@ -1,4 +1,4 @@
-pac
+package models
 
 import (
 	"time"
