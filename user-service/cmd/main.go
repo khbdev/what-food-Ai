@@ -10,5 +10,5 @@ func main(){
 	loadenv.LoadEnv()
 
 	sql, err := config.NewPostgresDB()
-	
+	if
 }
