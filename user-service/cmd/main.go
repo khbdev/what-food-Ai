@@ -29,7 +29,7 @@ func main(){
 
 	_ = repo
 
-	ctx, cancel := context.
+	ctx, cancel := context.WithTimeout()
 user := models.User{
 	Name:    "Azizbek",
 	Phone:   "+998901234567",
