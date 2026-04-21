@@ -14,5 +14,7 @@ func main(){
 	if err != nil{
 	   log.Fatal(err)
 	}
-	_ = sql
+	_ = 
+	
+	redis
 }
