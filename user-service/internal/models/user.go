@@ -22,7 +22,7 @@ type User struct {
 	Age     int    `gorm:"not null"`
 	Address string `gorm:"size:255;not null"`
 
-	Email *string `gorm:"size:100;uniqueIndex"`
+	Email string `gorm:"size:100;uniqueIndex"`
 	Image *string `gorm:"size:255"`
 
 	
