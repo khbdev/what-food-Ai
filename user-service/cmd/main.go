@@ -16,5 +16,5 @@ func main(){
 	}
 	_ =  sql
 
-	redis, erf
+	redis, err := config
 }
