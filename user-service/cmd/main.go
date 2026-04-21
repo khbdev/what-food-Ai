@@ -30,18 +30,3 @@ func main(){
 
 	_ = repo
 
-	ctx, cancel := context.WithTimeout(context.Background(), 3 * time.Second)
-	defer cancel()
-user := models.User{
-	Name:    "Azizbek",
-	Phone:   "+998901234567",
-	Age:     21,
-	Address: "Tashkent, Uzbekistan",
-	Email:   "azizbek@gmail.com",
-	Image:   "https://example.com/avatar.png",
-	Role:    models.RoleUser,
-}
-
-	repo.Create(ctx, user)
-
-}
