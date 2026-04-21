@@ -2,8 +2,7 @@ package domain
 
 import (
 	"context"
-
-	"your_project/internal/models"
+	"user-service/internal/models"
 )
 
 // UserRepository — User uchun CRUD contract (interface)
