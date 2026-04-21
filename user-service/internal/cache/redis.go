@@ -49,6 +49,9 @@ func (c *userCache) SetUser(ctx context.Context, user *models.User, ttl time.Dur
 	return c.rdb.Set(ctx, key(user.ID), data, ttl).Err()
 }
 
+
+
+
 func (c *userCache) DeleteUser(ctx context.Context, id uint) error {
 	return c.rdb.Del(ctx, key(id)).Err()
 }
