@@ -27,6 +27,8 @@ func main(){
 	repo := repository.NewUserRepository(sql)
 
 	_ = repo
+
+	
 user := models.User{
 	Name:    "Azizbek",
 	Phone:   "+998901234567",
