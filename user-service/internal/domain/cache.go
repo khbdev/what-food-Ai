@@ -1,12 +1,16 @@
 package domain
 
-import "context"
+import (
+	"context"
+	"time"
+	"user-service/internal/models"
+)
 
 
 
 type UserCache interface {
 	// Read-through uchun
-	GetUser(ctx context.Context, id uint) (*mod.User, error)
+	GetUser(ctx context.Context, id uint) (*models.User, error)
 
 	// Write-through uchun
 	SetUser(ctx context.Context, user *models.User, ttl time.Duration) error
