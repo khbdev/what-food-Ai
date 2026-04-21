@@ -1,10 +1,14 @@
 package main
 
-import loadenv "user-service/user-service/pkg/loadEnv"
+import (
+	"user-service/user-service/internal/config"
+	loadenv "user-service/user-service/pkg/loadEnv"
+)
 
 
 func main(){
 	loadenv.LoadEnv()
 
-	sql, err := con
+	sql, err := config.NewPostgresDB()
+	
 }
