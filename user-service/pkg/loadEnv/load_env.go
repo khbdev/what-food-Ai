@@ -1,8 +1,10 @@
 package loadenv
 
+import "github.com/joho/godotenv"
+
 
 func LoadEnv(){
-	if err := godo {
+	if err := godotenv.Load(); err  {
 		
 	}
 }
