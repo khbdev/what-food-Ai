@@ -39,3 +39,12 @@ func (c *userCache) GetUser(ctx context.Context, id uint) (*models.User, error) 
 
 	return &user, nil
 }
+
+func (c *userCache) SetUser(ctx context.Context, user *models.User, ttl time.Duration) error {
+	data, err := json.Marshal(user)
+	if err != nil {
+		return err
+	}
+
+	return c.rdb.Set(ctx, key(user.ID), data, ttl).Err()
+}
