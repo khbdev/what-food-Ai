@@ -7,7 +7,7 @@ import (
 
 
 func main(){
-	loadenv.LoadEnv()
+	.LoadEnv()
 
 	sql, err := config.NewPostgresDB()
 	if err != nil{
