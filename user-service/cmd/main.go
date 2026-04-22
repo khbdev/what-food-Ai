@@ -37,6 +37,6 @@ func main(){
 
 	service := usecase.NewUserUsecase(repo, cache)
 
-	handler := handler.NewUserHandler(se)
+	handler := handler.NewUserHandler(service)
 
 }
