@@ -96,6 +96,17 @@ func (h *UserHandler) DeleteUser(ctx context.Context, req *userrpb.DeleteUserReq
 	return &userrpb.Empty{}, nil
 }
 
+func mapRole(r models.Role) userrpb.Role {
+	switch r {
+	case models.RoleUser:
+		return userrpb.Role_ROLE_USER
+	case models.RoleAdmin:
+		return userrpb.Role_ROLE_ADMIN
+	default:
+		return userrpb.Role_ROLE_UNSPECIFIED
+	}
+}
+
 // toProto — models.User -> userrpb.User
 func toProto(u *models.User) *userrpb.User {
 	return &userrpb.User{
