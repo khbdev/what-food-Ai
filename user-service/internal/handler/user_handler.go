@@ -20,7 +20,7 @@ func NewUserHandler(usecase domain.UserUsecase) *UserHandler {
 }
 
 func (h *UserHandler) CreateUser(ctx context.Context, req *userrpb.CreateUserRequest) (*userrpb.UserResponse, error) {
-	err := h.usecase.Create(ctx, &models{
+	err := h.usecase.Create(ctx, &models.User{
 		Name:    req.Name,
 		Phone:   req.Phone,
 		Age:     int(req.Age),
