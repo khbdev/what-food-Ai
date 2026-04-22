@@ -65,20 +65,24 @@ func (u *UserUsecase) GetByPhone(ctx context.Context, phone string) (*models.Use
 
 // GetAll — Read-through + pagination
 func (u *UserUsecase) GetAll(ctx context.Context, req *models.GetAllUsersRequest) (*models.GetAllUsersResponse, error) {
-	users, err := u.repo.GetAll(ctx, req.Limit, req.Offset)
-	if err != nil {
-		return nil, fmt.Errorf("usecase.GetAll: %w", err)
+
+	limit := req.Limit
+	if limit <= 0 {
+		limit = 10
 	}
 
-	for i := range users {
-		_ = u.cache.SetUser(ctx, &users[i], userCacheTTL)
+	offset := req.Offset
+
+	users, err := u.repo.GetAll(ctx, limit, offset)
+	if err != nil {
+		return nil, fmt.Errorf("usecase.GetAll: %w", err)
 	}
 
 	return &models.GetAllUsersResponse{
 		Users:  users,
 		Total:  len(users),
-		Limit:  req.Limit,
-		Offset: req.Offset,
+		Limit:  limit,
+		Offset: offset,
 	}, nil
 }
 
