@@ -54,9 +54,7 @@ func (h *UserHandler) GetUserByPhone(ctx context.Context, req *userrpb.GetUserBy
 }
 
 func (h *UserHandler) GetAllUsers(ctx context.Context, req *userrpb.GetAllUsersRequest) (*userrpb.GetAllUsersResponse, error) {
-	result, err := h.usecase.GetAll(ctx, &models.GetAllUsersRequest{
-
-	})
+	result, err := h.usecase.GetAll(ctx, &models.GetAllUsersRequest{})
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
