@@ -46,7 +46,7 @@ func main() {
 	userpb.RegisterUserServiceServer(grpcServer, userHandler)
 
 	// port from env (default 50050)
-	port := os.Getenv()
+	port := os.Getenv("GRPC_PORT")
 
 	lis, err := net.Listen("tcp", ":"+port)
 	if err != nil {
