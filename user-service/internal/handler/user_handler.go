@@ -76,7 +76,7 @@ func (h *UserHandler) GetAllUsers(ctx context.Context, req *userrpb.GetAllUsersR
 }
 
 func (h *UserHandler) UpdateUser(ctx context.Context, req *userrpb.UpdateUserRequest) (*userrpb.UserResponse, error) {
-	err := h.usecase.Update(ctx, uint(req.Id), &models.UpdateUserRequest{
+	err := h.usecase.Update(ctx, uint(req.Id), &models.{
 		Name:    req.Name,
 		Phone:   req.Phone,
 		Age:     int(req.Age),
