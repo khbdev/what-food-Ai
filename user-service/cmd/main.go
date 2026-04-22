@@ -5,6 +5,7 @@ import (
 
 	"user-service/internal/cache"
 	"user-service/internal/config"
+	"user-service/internal/handler"
 	"user-service/internal/usecase"
 
 	repository "user-service/internal/repostory"
@@ -36,6 +37,6 @@ func main(){
 
 	service := usecase.NewUserUsecase(repo, cache)
 
-	handler := hand
+	handler := handler.NewUserHandler(se)
 
 }
