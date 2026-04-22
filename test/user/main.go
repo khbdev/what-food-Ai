@@ -135,7 +135,7 @@ func deleteUser() {
 func main() {
 	connect()
 
-	createUser()
+	// createUser()
 	// getByID()
 	// getByPhone()
 	// getAll()
