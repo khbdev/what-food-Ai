@@ -3,8 +3,6 @@
 .env.local
 .env.*.local
 
-# Node modules (agar bor bo‘lsa)
-node_modules/
 
 # Build files
 dist/
