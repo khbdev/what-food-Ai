@@ -136,7 +136,7 @@ func main() {
 	connect()
 
 	// createUser()
-	// getByID()
+	getByID()
 	// getByPhone()
 	// getAll()
 	// updateUser()
