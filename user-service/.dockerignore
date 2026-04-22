@@ -2,9 +2,6 @@
 .DS_Store
 Thumbs.db
 
-# Git
-.git
-.gitignore
 
 # Build va bin fayllari
 bin/
