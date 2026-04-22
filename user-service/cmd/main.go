@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net"
+	"os"
 
 	"google.golang.org/grpc"
 
@@ -45,7 +46,7 @@ func main() {
 	userpb.RegisterUserServiceServer(grpcServer, userHandler)
 
 	// port from env (default 50050)
-	port := 
+	port := os.Getenv()
 
 	lis, err := net.Listen("tcp", ":"+port)
 	if err != nil {
