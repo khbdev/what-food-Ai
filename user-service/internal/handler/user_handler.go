@@ -117,7 +117,7 @@ func toProto(u *models.User) *userrpb.User {
 		Address:   u.Address,
 		Email:     u.Email,
 		Image:     u.Image,
-		Role:      userrpb.Role(u.Role),
+		Role:      mapRole(u.Role),
 		CreatedAt: u.CreatedAt.String(),
 		UpdatedAt: u.UpdatedAt.String(),
 	}
