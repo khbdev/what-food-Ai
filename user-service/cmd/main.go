@@ -30,6 +30,6 @@ func main(){
 
 	_ = repo
 
-	service := usecase.
+	service := usecase.NewUserUsecase(repo)
 
 }
