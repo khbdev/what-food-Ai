@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	"user-service/internal/cache"
 	"user-service/internal/config"
 	"user-service/internal/usecase"
 
@@ -27,7 +28,7 @@ func main(){
 	_ = redis
 
 
-	cache := 
+	cache := cache
 
 	repo := repository.NewUserRepository(sql)
 
