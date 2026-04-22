@@ -34,6 +34,6 @@ func main(){
 
 	_ = repo
 
-	service := usecase.NewUserUsecase(repo, )
+	service := usecase.NewUserUsecase(repo, cache)
 
 }
