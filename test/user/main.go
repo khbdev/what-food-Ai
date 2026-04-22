@@ -33,7 +33,7 @@ func createUser() {
 
 	res, err := client.CreateUser(ctx, &userpb.CreateUserRequest{
 		Name:    "Test",
-		Phone:   "+998901234567",
+		Phone:   "+998901234568",
 		Age:     20,
 		Address: "Tashkent",
 		Email:   "test@gmail.com",
