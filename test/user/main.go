@@ -53,7 +53,7 @@ func getByID() {
 	defer cancel()
 
 	res, err := client.GetUserByID(ctx, &userpb.GetUserByIDRequest{
-		Id: 1,
+		Id: 2,
 	})
 	if err != nil {
 		log.Println("getByID error:", err)
