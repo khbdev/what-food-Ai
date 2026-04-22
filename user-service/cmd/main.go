@@ -28,7 +28,7 @@ func main(){
 	_ = redis
 
 
-	cache := cache
+	cache := cache.NewUserCache(redis)
 
 	repo := repository.NewUserRepository(sql)
 
