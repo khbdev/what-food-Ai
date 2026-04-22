@@ -6,7 +6,7 @@ import (
 )
 
 type UserUsecase interface {
-	Create(ctx context.Context, req *models) error
+	Create(ctx context.Context, req *models.User) error
 
 	GetByID(ctx context.Context, id uint) (*models.User, error)
 
