@@ -83,7 +83,7 @@ func (u *UserUsecase) GetAll(ctx context.Context, req *models.GetAllUsersRequest
 }
 
 // Update — Write-through
-func (u *UserUsecase) Update(ctx context.Context, id uint, req *models.UpdateUserRequest) error {
+func (u *UserUsecase) Update(ctx context.Context, id uint, req *models.) error {
 	user, err := u.repo.GetByID(ctx, id)
 	if err != nil {
 		return fmt.Errorf("usecase.Update: %w", err)

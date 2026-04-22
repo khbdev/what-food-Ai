@@ -14,7 +14,7 @@ type UserUsecase interface {
 
 	GetAll(ctx context.Context, req *models.GetAllUsersRequest) (*models.GetAllUsersResponse, error)
 
-	Update(ctx context.Context, id uint, req *models.) error
+	Update(ctx context.Context, id uint, req *models.User) error
 
 	Delete(ctx context.Context, id uint) error
 }
