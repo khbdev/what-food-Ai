@@ -69,7 +69,7 @@ func getByPhone() {
 	defer cancel()
 
 	res, err := client.GetUserByPhone(ctx, &userpb.GetUserByPhoneRequest{
-		Phone: "+998901234567",
+		Phone: "+998901234568",
 	})
 	if err != nil {
 		log.Println("getByPhone error:", err)
