@@ -1,11 +1,11 @@
 package main
 
 import (
-
 	"log"
 
 	"user-service/internal/config"
-	
+	"user-service/internal/usecase"
+
 	repository "user-service/internal/repostory"
 	loadenv "user-service/pkg/loadEnv"
 )
@@ -30,6 +30,6 @@ func main(){
 
 	_ = repo
 
-	service := 
+	service := usecase.
 
 }
