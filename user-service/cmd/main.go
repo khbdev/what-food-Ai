@@ -2,6 +2,9 @@ package main
 
 import (
 	"log"
+	"net"
+
+	"google.golang.org/grpc"
 
 	"user-service/internal/cache"
 	"user-service/internal/config"
@@ -10,33 +13,48 @@ import (
 
 	repository "user-service/internal/repostory"
 	loadenv "user-service/pkg/loadEnv"
+
+	userpb "github.com/khbdev/what-food-proto/proto/user"
 )
 
-
-func main(){
+func main() {
+	// load env
 	loadenv.LoadEnv()
 
-	sql, err := config.NewPostgresDB()
-	if err != nil{
-	   log.Fatal(err)
+	// config
+	db, err := config.NewPostgresDB()
+	if err != nil {
+		log.Fatal(err)
 	}
-	_ =  sql
 
-	redis, err := config.NewRedisClient()
-	if err != nil{
-	   log.Fatal(err)
+	redisClient, err := config.NewRedisClient()
+	if err != nil {
+		log.Fatal(err)
 	}
-	_ = redis
 
+	// layers
+	userCache := cache.NewUserCache(redisClient)
+	userRepo := repository.NewUserRepository(db)
+	userUC := usecase.NewUserUsecase(userRepo, userCache)
+	userHandler := handler.NewUserHandler(userUC)
 
-	cache := cache.NewUserCache(redis)
+	// grpc server
+	grpcServer := grpc.NewServer()
 
-	repo := repository.NewUserRepository(sql)
+	// register service
+	userpb.RegisterUserServiceServer(grpcServer, userHandler)
 
-	_ = repo
+	// port from env (default 50050)
+	port := loadenv.GetEnv("GRPC_PORT", "50050")
 
-	service := usecase.NewUserUsecase(repo, cache)
+	lis, err := net.Listen("tcp", ":"+port)
+	if err != nil {
+		log.Fatal("failed to listen:", err)
+	}
 
-	handler := handler.NewUserHandler(service)
+	log.Println("🚀 gRPC server running on port:", port)
 
+	if err := grpcServer.Serve(lis); err != nil {
+		log.Fatal("failed to serve:", err)
+	}
 }
