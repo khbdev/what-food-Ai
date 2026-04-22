@@ -76,7 +76,7 @@ func (h *UserHandler) GetAllUsers(ctx context.Context, req *userrpb.GetAllUsersR
 }
 
 func (h *UserHandler) UpdateUser(ctx context.Context, req *userrpb.UpdateUserRequest) (*userrpb.UserResponse, error) {
-	err := h.usecase.Update(ctx, uint(req.Id), &models.{
+	err := h.usecase.Update(ctx, uint(req.Id), &models.User{
 		Name:    req.Name,
 		Phone:   req.Phone,
 		Age:     int(req.Age),
@@ -109,7 +109,7 @@ func toProto(u *models.User) *userrpb.User {
 		Address:   u.Address,
 		Email:     u.Email,
 		Image:     u.Image,
-		Role:      userrpb.Role(u.Role),
+		Role:      userrpb.Role(u),
 		CreatedAt: u.CreatedAt.String(),
 		UpdatedAt: u.UpdatedAt.String(),
 	}
