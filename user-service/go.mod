@@ -9,7 +9,6 @@ require (
 	gorm.io/gorm v1.31.1
 )
 
-require github.com/khbdev/what-food-proto v0.0.0-20260422124008-3a41dd3efef2 // indirect
 
 require (
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
