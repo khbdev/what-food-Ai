@@ -137,7 +137,7 @@ func main() {
 
 	// createUser()
 	// getByID()
-	getByPhone()
+	// getByPhone()
 	// getAll()
 	// updateUser()
 	// deleteUser()
