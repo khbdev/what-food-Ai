@@ -36,4 +36,6 @@ func main(){
 
 	service := usecase.NewUserUsecase(repo, cache)
 
+	handler := hand
+
 }
