@@ -21,7 +21,7 @@ func NewUserUsecase(repo domain.UserRepository, cache domain.UserCache) *UserUse
 }
 
 // Create — Write-through
-func (u *UserUsecase) Create(ctx context.Context, req *models.) error {
+func (u *UserUsecase) Create(ctx context.Context, req *models.User) error {
 	user := &models.User{
 		Name:  req.Name,
 		Phone: req.Phone,
