@@ -4,16 +4,3 @@
 .env.*.local
 
 
-# Build files
-dist/
-build/
-tmp/
-
-
-# OS system files
-.DS_Store
-Thumbs.db
-
-# IDE/project configs
-.vscode/
-.idea/
