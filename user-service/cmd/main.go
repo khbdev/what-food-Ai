@@ -15,7 +15,7 @@ import (
 	repository "user-service/internal/repostory"
 	loadenv "user-service/pkg/loadEnv"
 
-	userpb "github.com/khbdev/what-food-proto/proto/user"
+	userpb "github.com/khbdev/what-food-proto/proto/userr"
 )
 
 func main() {
