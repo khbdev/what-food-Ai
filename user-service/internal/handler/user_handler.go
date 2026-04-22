@@ -23,7 +23,7 @@ func (h *UserHandler) CreateUser(ctx context.Context, req *userrpb.CreateUserReq
 	err := h.usecase.Create(ctx, &models.CreateUserRequest{
 		Name:    req.Name,
 		Phone:   req.Phone,
-		A:     int(req.Age),
+		:     int(req.Age),
 		Address: req.Address,
 		Email:   req.Email,
 		Image:   req.Image,
