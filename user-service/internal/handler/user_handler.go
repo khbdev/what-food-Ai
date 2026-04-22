@@ -55,8 +55,7 @@ func (h *UserHandler) GetUserByPhone(ctx context.Context, req *userrpb.GetUserBy
 
 func (h *UserHandler) GetAllUsers(ctx context.Context, req *userrpb.GetAllUsersRequest) (*userrpb.GetAllUsersResponse, error) {
 	result, err := h.usecase.GetAll(ctx, &models.GetAllUsersRequest{
-		Limit:  int(req.Limit),
-		Offset: int(req.Offset),
+
 	})
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
@@ -109,7 +108,7 @@ func toProto(u *models.User) *userrpb.User {
 		Address:   u.Address,
 		Email:     u.Email,
 		Image:     u.Image,
-		Role:      userrpb.Role(u.Role.),
+		Role:      userrpb.Role(u.Role),
 		CreatedAt: u.CreatedAt.String(),
 		UpdatedAt: u.UpdatedAt.String(),
 	}
