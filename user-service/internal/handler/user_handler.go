@@ -3,7 +3,7 @@ package handler
 import (
 	"context"
 
-	userpb "https://github.com/khbdev/what-food-proto/blob/main/proto/user"
+	userpb "https://github.com/khbdev/what-food-proto/bl/proto/user"
 
 	"user-service/internal/domain"
 	"user-service/internal/models"
