@@ -54,10 +54,12 @@ func (r *userRepository) GetByPhone(ctx context.Context, phone string) (*models.
 }
 
 // GET ALL
-func (r *userRepository) GetAll(ctx context.Context) ([]models.User, error) {
+func (r *userRepository) GetAll(ctx context.Context, limit, offset int) ([]models.User, error) {
 	var users []models.User
 
 	err := r.db.WithContext(ctx).
+		Limit(limit).
+		Offset(offset).
 		Find(&users).Error
 
 	return users, err

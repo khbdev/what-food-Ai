@@ -27,7 +27,7 @@ func key(id uint) string {
 }
 
 
-
+// Get
 func (c *userCache) GetUser(ctx context.Context, id uint) (*models.User, error) {
 	val, err := c.rdb.Get(ctx, key(id)).Result()
 	if err != nil {

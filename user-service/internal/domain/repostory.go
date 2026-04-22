@@ -17,7 +17,7 @@ type UserRepository interface {
 	GetByPhone(ctx context.Context, phone string) (*models.User, error)
 
 	// GetAll barcha userlarni olish (pagination bilan keyin kengaytirasan)
-	GetAll(ctx context.Context) ([]models.User, error)
+	 GetAll(ctx context.Context, limit, offset int) ([]models.User, error)
 
 	// Update user ma’lumotlarini yangilash
 	Update(ctx context.Context, user *models.User) error
