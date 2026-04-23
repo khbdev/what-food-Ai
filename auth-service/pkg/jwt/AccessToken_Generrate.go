@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"your_project/models"
+	
 )
 
 type Claims struct {
