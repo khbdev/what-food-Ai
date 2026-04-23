@@ -13,6 +13,6 @@ func main(){
 
 	_ = rabbitmq
 
-  redis, err 
+  redis, err := con
 
 }
