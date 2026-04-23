@@ -33,3 +33,25 @@ func (s *Service) SetOTP(otp int64, data models.RegisterRequest) error {
 
 	return s.rdb.Set(s.ctx, key, body, time.Minute).Err()
 }
+
+func (s *Service) GetOTP(otp int64) (*models.RegisterRequest, error) {
+	key := fmt.Sprintf("otp:%d", otp)
+
+	val, err := s.rdb.Get(s.ctx, key).Result()
+	if err == redis.Nil {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
+	}
+
+	var data models.RegisterRequest
+	if err := json.Unmarshal([]byte(val), &data); err != nil {
+		return nil, err
+	}
+
+	// one-time use
+	_ = s.rdb.Del(s.ctx, key).Err()
+
+	return &data, nil
+}
