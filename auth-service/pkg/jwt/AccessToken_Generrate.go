@@ -18,7 +18,7 @@ type Claims struct {
 func GenerateAccessToken(m models.TokenModel) (string, error) {
 	secret := os.Getenv("JWT_ACCESS_SECRET")
 	if secret == "" {
-		return "", ErrMissingSecret
+		return "", 
 	}
 
 	expStr := os.Getenv("JWT_ACCESS_EXP_MIN")
