@@ -2,4 +2,8 @@ package loadenv
 
 
 
-func Load()
+func Load(){
+	if  {
+		
+	}
+}
