@@ -1,6 +1,9 @@
 package main
 
+import "auth-service/internal/config"
+
 
 func main(){
-	rabbitmq := con
+	rabbitmq := config.NewRabbit()
+	
 }
