@@ -1,11 +1,11 @@
 package jwt
 
 import (
+	"auth-service/internal/models"
 	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	
 )
 
 type RefreshClaims struct {
@@ -13,7 +13,7 @@ type RefreshClaims struct {
 	jwt.RegisteredClaims
 }
 
-func GenerateRefreshToken(m mod.RefreshTokenModel) (string, error) {
+func GenerateRefreshToken(m models.RefreshTokedel) (string, error) {
 	secret := os.Getenv("JWT_REFRESH_SECRET")
 
 
