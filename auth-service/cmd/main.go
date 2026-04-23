@@ -15,7 +15,7 @@ func main(){
 
   redis, err := config.NewRedisClient()
   if err !=nil {
-	log.Pri
+	log
   }
 
 }
