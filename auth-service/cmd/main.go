@@ -13,7 +13,6 @@ func main(){
 
 	_ = rabbitmq
 
-	select {}
 
 
 }
