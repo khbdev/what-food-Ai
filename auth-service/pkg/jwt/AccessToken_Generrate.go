@@ -1,11 +1,11 @@
 package jwt
 
 import (
+	"auth-service/internal/models"
 	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	
 )
 
 type Claims struct {
@@ -15,7 +15,7 @@ type Claims struct {
 	jwt.RegisteredClaims
 }
 
-func GenerateAccessToken(m mod.AccessTokenModel) (string, error) {
+func GenerateAccessToken(m models.TokenModel) (string, error) {
 	secret := os.Getenv("JWT_ACCESS_SECRET")
 	if secret == "" {
 		return "", ErrMissingSecret
