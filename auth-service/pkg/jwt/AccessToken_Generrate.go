@@ -21,7 +21,7 @@ func GenerateAccessToken(m models.TokenModel) (string, error) {
 
 	expStr := os.Getenv("JWT_ACCESS_EXP_MIN")
 	if expStr == "" {
-		expStr = "15"
+		expStr = "30"
 	}
 
 	expMinutes, err := time.ParseDuration(expStr + "m")
