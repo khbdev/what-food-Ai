@@ -10,6 +10,6 @@ import (
 
 func Load(){
 	if err := godotenv.Load(); err != nil {
-		log.Fatal("Er")
-	}
+		log.Fatal("Error")
+	
 }
