@@ -8,4 +8,5 @@ func main(){
 
 	_ = rabbitmq
 
+	
 }
