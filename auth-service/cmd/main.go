@@ -8,6 +8,7 @@ import (
 
 func main(){
 	loadenv.Load()
+	
 	rabbitmq := config.NewRabbit()
 
 	_ = rabbitmq

@@ -47,6 +47,8 @@ func NewRabbit() *Rabbit {
 		log.Fatal(err)
 	}
 
+	fmt.Pri
+
 	return r
 }
 
