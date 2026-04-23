@@ -13,7 +13,7 @@ type RefreshClaims struct {
 	jwt.RegisteredClaims
 }
 
-func GenerateRefreshToken(m models.RefreshTokedel) (string, error) {
+func GenerateRefreshToken(m models.TokenModel) (string, error) {
 	secret := os.Getenv("JWT_REFRESH_SECRET")
 
 
