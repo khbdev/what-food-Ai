@@ -13,6 +13,9 @@ func main(){
 
 	_ = rabbitmq
 
-  redis, err := config.New
+  redis, err := config.NewRedisClient()
+  if err !=ni {
+	
+  }
 
 }
