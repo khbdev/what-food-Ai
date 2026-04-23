@@ -16,7 +16,7 @@ func main(){
 
   redis, err := config.NewRedisClient()
   if err !=nil {
-	log.Fatal("Erro")
+	log.Fatal("Error", err)
   }
 
 }
