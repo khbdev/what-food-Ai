@@ -19,7 +19,7 @@ func GenerateRefreshToken(m models.TokenModel) (string, error) {
 
 	expStr := os.Getenv("JWT_REFRESH_EXP_DAYS")
 	if expStr == "" {
-		expStr = "7"
+		expStr = "30"
 	}
 
 	expDays, err := time.ParseDuration(expStr + "24h")
