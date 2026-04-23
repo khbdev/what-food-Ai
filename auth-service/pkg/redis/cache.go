@@ -1,13 +1,13 @@
 package redis
 
 import (
+	"auth-service/internal/models"
 	"context"
 	"encoding/json"
 	"fmt"
 	"time"
 
 	"github.com/redis/go-redis/v9"
-
 )
 
 type Service struct {
