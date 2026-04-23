@@ -3,7 +3,7 @@ package loadenv
 
 
 func Load(){
-	if  {
+	if err := loa {
 		
 	}
 }
