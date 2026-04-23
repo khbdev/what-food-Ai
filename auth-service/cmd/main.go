@@ -14,8 +14,8 @@ func main(){
 	_ = rabbitmq
 
   redis, err := config.NewRedisClient()
-  if err !=ni {
-	
+  if err !=nil {
+	log.Pri
   }
 
 }
