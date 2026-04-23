@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -47,7 +48,7 @@ func NewRabbit() *Rabbit {
 		log.Fatal(err)
 	}
 
-	fmt.Pri
+	fmt.Println("RabbitMq Connection")
 
 	return r
 }
