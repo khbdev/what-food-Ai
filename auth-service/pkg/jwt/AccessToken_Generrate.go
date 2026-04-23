@@ -15,7 +15,7 @@ type Claims struct {
 	jwt.RegisteredClaims
 }
 
-func GenerateAccessToken(m models.AccessTokenModel) (string, error) {
+func GenerateAccessToken(m mod.AccessTokenModel) (string, error) {
 	secret := os.Getenv("JWT_ACCESS_SECRET")
 	if secret == "" {
 		return "", ErrMissingSecret
