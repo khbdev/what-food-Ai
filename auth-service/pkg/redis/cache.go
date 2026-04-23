@@ -50,7 +50,7 @@ func (s *Service) GetOTP(otp int64) (*models.RegisterRequest, error) {
 		return nil, err
 	}
 
-	// one-time use
+	
 	_ = s.rdb.Del(s.ctx, key).Err()
 
 	return &data, nil
