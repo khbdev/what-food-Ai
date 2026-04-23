@@ -26,7 +26,7 @@ func GenerateAccessToken(m models.TokenModel) (string, error) {
 
 	expMinutes, err := time.ParseDuration(expStr + "m")
 	if err != nil {
-		expMinutes = 15 * time.Minute
+		expMinutes = 30 * time.Minute
 	}
 
 	claims := Claims{
