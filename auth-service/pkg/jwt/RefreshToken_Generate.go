@@ -1,1 +1,43 @@
-package jwt
+package jwtapackage jwt
+
+import (
+	"os"
+	"time"
+
+	"github.com/golang-jwt/jwt/v5"
+	"your_project/models"
+)
+
+type RefreshClaims struct {
+	UserID uint `json:"user_id"`
+	jwt.RegisteredClaims
+}
+
+func GenerateRefreshToken(m models.RefreshTokenModel) (string, error) {
+	secret := os.Getenv("JWT_REFRESH_SECRET")
+	if secret == "" {
+		return "", ErrMissingSecret
+	}
+
+	expStr := os.Getenv("JWT_REFRESH_EXP_DAYS")
+	if expStr == "" {
+		expStr = "7"
+	}
+
+	expDays, err := time.ParseDuration(expStr + "24h")
+	if err != nil {
+		expDays = 7 * 24 * time.Hour
+	}
+
+	claims := RefreshClaims{
+		UserID: m.UserID,
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(expDays)),
+			IssuedAt:  jwt.NewNumericDate(time.Now()),
+		},
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+	return token.SignedString([]byte(secret))
+}
