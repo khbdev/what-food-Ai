@@ -13,6 +13,6 @@ func main(){
 
 	_ = rabbitmq
 
-  redis, err := con
+  redis, err := config.New
 
 }
