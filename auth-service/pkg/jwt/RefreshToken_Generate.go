@@ -24,7 +24,7 @@ func GenerateRefreshToken(m models.TokenModel) (string, error) {
 
 	expDays, err := time.ParseDuration(expStr + "24h")
 	if err != nil {
-		expDays = 7 * 24 * time.Hour
+		expDays = 30 * 24 * time.Hour
 	}
 
 	claims := RefreshClaims{
