@@ -1,4 +1,4 @@
-package jwtapackage jwt
+package jwt
 
 import (
 	"os"
@@ -15,9 +15,7 @@ type RefreshClaims struct {
 
 func GenerateRefreshToken(m models.RefreshTokenModel) (string, error) {
 	secret := os.Getenv("JWT_REFRESH_SECRET")
-	if secret == "" {
-		return "", ErrMissingSecret
-	}
+
 
 	expStr := os.Getenv("JWT_REFRESH_EXP_DAYS")
 	if expStr == "" {
