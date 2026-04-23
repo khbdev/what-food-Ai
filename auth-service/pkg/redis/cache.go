@@ -21,3 +21,15 @@ func NewService(rdb *redis.Client) *Service {
 		ctx: context.Background(),
 	}
 }
+
+
+func (s *Service) SetOTP(otp int64, data models.RegisterRequest) error {
+	key := fmt.Sprintf("otp:%d", otp)
+
+	body, err := json.Marshal(data)
+	if err != nil {
+		return err
+	}
+
+	return s.rdb.Set(s.ctx, key, body, time.Minute).Err()
+}
