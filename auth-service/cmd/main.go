@@ -3,6 +3,7 @@ package main
 import (
 	"auth-service/internal/config"
 	loadenv "auth-service/pkg/LoadEnv"
+	"log"
 )
 
 
@@ -15,7 +16,7 @@ func main(){
 
   redis, err := config.NewRedisClient()
   if err !=nil {
-	log
+	log.Fatal("Erro")
   }
 
 }
