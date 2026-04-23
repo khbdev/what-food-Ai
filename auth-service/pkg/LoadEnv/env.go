@@ -1,11 +1,15 @@
 package loadenv
 
-import "github.com/joho/godotenv"
+import (
+	"log"
+
+	"github.com/joho/godotenv"
+)
 
 
 
 func Load(){
-	if err := godotenv.Load(); err != {
-		
+	if err := godotenv.Load(); err != nil {
+		log.Pri
 	}
 }
