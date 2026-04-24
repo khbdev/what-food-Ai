@@ -3,10 +3,10 @@ package main
 import (
 	"auth-service/internal/client"
 	"auth-service/internal/config"
+	"auth-service/internal/handler"
 	"auth-service/internal/usecase"
 	"os"
 
-	
 	loadenv "auth-service/pkg/LoadEnv"
 	rabbitMq "auth-service/pkg/rabbitMq"
 	Redis "auth-service/pkg/redis"
@@ -40,6 +40,6 @@ func main(){
 
  usc := usecase.NewAuthUsecase(userClient, rd, producer)
 
- hand :
+ hand := handler.
 
 }
