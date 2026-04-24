@@ -18,3 +18,4 @@ func NewAuthHandler(u domain.AuthUsecase) *AuthHandler {
 		authUsecase: u,
 	}
 }
+
