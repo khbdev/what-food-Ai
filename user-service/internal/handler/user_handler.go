@@ -20,19 +20,19 @@ func NewUserHandler(usecase domain.UserUsecase) *UserHandler {
 }
 
 func (h *UserHandler) CreateUser(ctx context.Context, req *userrpb.CreateUserRequest) (*userrpb.UserResponse, error) {
-	err := h.usecase.Create(ctx, &models.User{
-		Name:    req.Name,
-		Phone:   req.Phone,
-		Age:     int(req.Age),
-		Address: req.Address,
-		Email:   req.Email,
-		Image:   req.Image,
-	})
-	if err != nil {
-		return nil, status.Error(codes.Internal, err.Error())
-	}
+    user, err := h.usecase.Create(ctx, &models.User{
+        Name:    req.Name,
+        Phone:   req.Phone,
+        Age:     int(req.Age),
+        Address: req.Address,
+        Email:   req.Email,
+        Image:   req.Image,
+    })
+    if err != nil {
+        return nil, status.Error(codes.Internal, err.Error())
+    }
 
-	return &userrpb.UserResponse{}, nil
+    return &userrpb.UserResponse{User: toProto(user)}, nil  // ← User qaytarilsin
 }
 
 func (h *UserHandler) GetUserByID(ctx context.Context, req *userrpb.GetUserByIDRequest) (*userrpb.UserResponse, error) {
