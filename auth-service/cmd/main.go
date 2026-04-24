@@ -37,6 +37,7 @@ func main(){
 
  rd := Redis.NewService(redis)
 
- usc := usecase.NewAuthUsecase(userClient,rd, )
+
+ usc := usecase.NewAuthUsecase(userClient,rd, producer)
 
 }
