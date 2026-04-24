@@ -20,19 +20,19 @@ func NewUserHandler(usecase domain.UserUsecase) *UserHandler {
 }
 
 func (h *UserHandler) CreateUser(ctx context.Context, req *userrpb.CreateUserRequest) (*userrpb.UserResponse, error) {
-	user, err := h.usecase.Create(ctx, &models.User{
-		Name:    req.Name,
-		Phone:   req.Phone,
-		Age:     int(req.Age),
-		Address: req.Address,
-		Email:   req.Email,
-		Image:   req.Image,
-	})
-	if err != nil {
-		return nil, status.Error(codes.Internal, err.Error())
-	}
+    user, err := h.usecase.Create(ctx, &models.User{
+        Name:    req.Name,
+        Phone:   req.Phone,
+        Age:     int(req.Age),
+        Address: req.Address,
+        Email:   req.Email,
+        Image:   req.Image,
+    })
+    if err != nil {
+        return nil, status.Error(codes.Internal, err.Error())
+    }
 
-	return &userrpb.UserResponse{User: toProto(user)}, nil
+    return &userrpb.UserResponse{User: toProto(user)}, nil  // ← User qaytarilsin
 }
 
 func (h *UserHandler) GetUserByID(ctx context.Context, req *userrpb.GetUserByIDRequest) (*userrpb.UserResponse, error) {
@@ -54,10 +54,7 @@ func (h *UserHandler) GetUserByPhone(ctx context.Context, req *userrpb.GetUserBy
 }
 
 func (h *UserHandler) GetAllUsers(ctx context.Context, req *userrpb.GetAllUsersRequest) (*userrpb.GetAllUsersResponse, error) {
-	result, err := h.usecase.GetAll(ctx, &models.GetAllUsersRequest{
-		Limit:  int(req.Limit),
-		Offset: int(req.Offset),
-	})
+	result, err := h.usecase.GetAll(ctx, &models.GetAllUsersRequest{})
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
@@ -110,6 +107,7 @@ func mapRole(r models.Role) userrpb.Role {
 	}
 }
 
+// toProto — models.User -> userrpb.User
 func toProto(u *models.User) *userrpb.User {
 	return &userrpb.User{
 		Id:        uint64(u.ID),
