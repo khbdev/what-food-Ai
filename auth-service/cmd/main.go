@@ -1,12 +1,12 @@
 package main
 
 import (
+	"auth-service/internal/client"
 	"auth-service/internal/config"
-	
+
 	loadenv "auth-service/pkg/LoadEnv"
 	rabbitMq "auth-service/pkg/rabbitMq"
 	"log"
-	
 )
 
 
@@ -27,6 +27,6 @@ func main(){
   producer :=  rabbitMq.NewPublisher(rabbitmq)
  _ = producer
 
- userClient, err := cli
+ userClient, err := client.NewUserClient("")
 
 }
