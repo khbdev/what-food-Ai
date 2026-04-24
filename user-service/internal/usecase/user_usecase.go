@@ -8,7 +8,6 @@ import (
 	"user-service/internal/models"
 )
 
-
 const userCacheTTL = 5 * time.Minute
 
 type UserUsecase struct {
@@ -20,23 +19,24 @@ func NewUserUsecase(repo domain.UserRepository, cache domain.UserCache) *UserUse
 	return &UserUsecase{repo: repo, cache: cache}
 }
 
-// Create — Write-through
+// Create — Write-through, yaratilgan user'ni qaytaradi
 func (u *UserUsecase) Create(ctx context.Context, req *models.User) (*models.User, error) {
-    user := &models.User{
-        Name:    req.Name,
-        Phone:   req.Phone,
-        Age:     req.Age,
-        Address: req.Address,
-        Email:   req.Email,
-        Image:   req.Image,
-    }
+	user := &models.User{
+		Name:    req.Name,
+		Phone:   req.Phone,
+		Age:     req.Age,
+		Address: req.Address,
+		Email:   req.Email,
+		Image:   req.Image,
+	}
 
-    if err := u.repo.Create(ctx, user); err != nil {
-        return nil, fmt.Errorf("usecase.Create: %w", err)
-    }
+	if err := u.repo.Create(ctx, user); err != nil {
+		return nil, fmt.Errorf("usecase.Create: %w", err)
+	}
 
-    _ = u.cache.SetUser(ctx, user, userCacheTTL)
-    return user, nil  // ← GORM Create'dan keyin user.ID to'ldirilgan bo'ladi
+	// GORM Create dan keyin user.ID avtomatik to'ldiriladi
+	_ = u.cache.SetUser(ctx, user, userCacheTTL)
+	return user, nil
 }
 
 // GetByID — Read-through
@@ -66,17 +66,14 @@ func (u *UserUsecase) GetByPhone(ctx context.Context, phone string) (*models.Use
 	return user, nil
 }
 
-// GetAll — Read-through + pagination
+// GetAll — pagination
 func (u *UserUsecase) GetAll(ctx context.Context, req *models.GetAllUsersRequest) (*models.GetAllUsersResponse, error) {
-
 	limit := req.Limit
 	if limit <= 0 {
 		limit = 10
 	}
 
-	offset := req.Offset
-
-	users, err := u.repo.GetAll(ctx, limit, offset)
+	users, err := u.repo.GetAll(ctx, limit, req.Offset)
 	if err != nil {
 		return nil, fmt.Errorf("usecase.GetAll: %w", err)
 	}
@@ -85,7 +82,7 @@ func (u *UserUsecase) GetAll(ctx context.Context, req *models.GetAllUsersRequest
 		Users:  users,
 		Total:  len(users),
 		Limit:  limit,
-		Offset: offset,
+		Offset: req.Offset,
 	}, nil
 }
 
@@ -104,6 +101,15 @@ func (u *UserUsecase) Update(ctx context.Context, id uint, req *models.User) err
 	}
 	if req.Email != "" {
 		user.Email = req.Email
+	}
+	if req.Age != 0 {
+		user.Age = req.Age
+	}
+	if req.Address != "" {
+		user.Address = req.Address
+	}
+	if req.Image != "" {
+		user.Image = req.Image
 	}
 
 	if err := u.repo.Update(ctx, user); err != nil {
