@@ -10,7 +10,7 @@ import (
 	"auth-service/internal/handler"
 	"auth-service/internal/usecase"
 
-	authpb "github.com/khbdev/what-food-proto/proto/"
+	authpb "github.com/khbdev/what-food-proto/proto/auth"
 
 	loadenv "auth-service/pkg/LoadEnv"
 	rabbitMq "auth-service/pkg/rabbitMq"
@@ -54,7 +54,7 @@ func main() {
 	server := grpc.NewServer()
 
 	// register service
-	authpb.RegisterAuthServiceServer(server, h)
+	authpb.(server, h)
 
 	// port from env
 	port := os.Getenv("PORT")
