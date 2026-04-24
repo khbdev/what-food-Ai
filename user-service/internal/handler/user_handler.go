@@ -26,7 +26,7 @@ func (h *UserHandler) CreateUser(ctx context.Context, req *userrpb.CreateUserReq
         Age:     int(req.Age),
         Address: req.Address,
         Email:   req.Email,
-        Image:   req.Image,-
+        Image:   req.Image,v
     })
     if err != nil {
         return nil, status.Error(codes.Internal, err.Error())
