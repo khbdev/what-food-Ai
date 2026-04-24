@@ -3,6 +3,7 @@ package usecase
 import (
 	"errors"
 	"fmt"
+	"os"
 	"strconv"
 
 	"auth-service/internal/domain"
@@ -54,7 +55,7 @@ func (uc *AuthUsecase) Register(req models.RegisterRequest) error {
 	}
 
 	// RabbitMQ push
-	if err := uc.rabbit.PublishAuthMessage(, models.AuthMessage{
+	if err := uc.rabbit.PublishAuthMessage(os.Getenv(""), models.AuthMessage{
 		Task:  "register",
 		Phone: req.Phone,
 		OTP:   strconv.Itoa(code),
