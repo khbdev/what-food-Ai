@@ -47,7 +47,7 @@ func main() {
 	h := handler.NewAuthHandler(usc)
 
 	// gRPC server
-	server := grpc.NewServer()
+	server := gr.NewServer()
 
 	// register service
 	authpb.RegisterAuthServiceServer(server, h)
