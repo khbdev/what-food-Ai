@@ -36,3 +36,18 @@ func (h *AuthHandler) Register(ctx context.Context, req *authpb.RegisterRequest)
 		Message: "success",
 	}, nil
 }
+
+func (h *AuthHandler) Login(ctx context.Context, req *authpb.LoginRequest) (*authpb.SimpleResponse, error) {
+
+	err := h.authUsecase.Login(models.LoginRequest{
+		Phone: req.Phone,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &authpb.SimpleResponse{
+		Message: "success",
+	}, nil
+}
