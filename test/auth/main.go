@@ -73,6 +73,6 @@ func main() {
 
 	// 👉 o'zing tanlaysan
 	// register(client)
-	// login(client)
-	// verify(client)
+	login(client)
+	verify(client)
 }
