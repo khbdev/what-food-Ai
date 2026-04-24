@@ -9,7 +9,7 @@ import (
 	
 	loadenv "auth-service/pkg/LoadEnv"
 	rabbitMq "auth-service/pkg/rabbitMq"
-	 "auth-service/pkg/rabbitMq"
+	Redis "auth-service/pkg/"
 	"log"
 )
 
