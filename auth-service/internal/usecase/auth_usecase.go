@@ -55,8 +55,7 @@ func (uc *AuthUsecase) Register(req models.RegisterRequest) error {
 	}
 
 	// RabbitMQ push
-AUTH_ROUTING_KEY=auth.success
-	if err := uc.rabbit.PublishAuthMessage(os.Getenv(""), models.AuthMessage{
+	if err := uc.rabbit.PublishAuthMessage(os.Getenv("AUTH_ROUTING_KEY"), models.AuthMessage{
 		Task:  "register",
 		Phone: req.Phone,
 		OTP:   strconv.Itoa(code),
