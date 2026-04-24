@@ -2,7 +2,8 @@ package client
 
 import (
 	"context"
-	"log"
+	"fmt"
+	
 
 	"time"
 
@@ -26,7 +27,7 @@ func NewUserClient(addr string) (*UserClient, error) {
 		return nil, err
 	}
 
-	fmt("user service connection succesfull")
+	fmt.Println("user service connection succesfull")
 	return &UserClient{
 		conn:   conn,
 		client: userrpb.NewUserServiceClient(conn),
