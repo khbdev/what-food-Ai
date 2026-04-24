@@ -28,7 +28,7 @@ func register(c authpb.AuthServiceClient) {
 
 	res, err := c.Register(ctx, &authpb.RegisterRequest{
 		FullName: "Azizbek",
-		Phone:    "+9984545563",
+		Phone:    "+99845455653",
 		Age:      21,
 		Address:  "Tashkent",
 	})
@@ -58,7 +58,7 @@ func verify(c authpb.AuthServiceClient) {
 	defer cancel()
 
 	res, err := c.VerifyOTP(ctx, &authpb.VerifyRequest{
-		Otp: 742425,
+		Otp: 504613,
 	})
 	if err != nil {
 		log.Fatal(err)
