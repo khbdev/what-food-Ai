@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 
 	"auth-service/internal/domain"
@@ -45,7 +46,7 @@ func (uc *AuthUsecase) Register(req models.RegisterRequest) error {
 	// OTP generate
 	code := otp.GenerateCode()
 
-	fmt.Pri
+	fmt.Println(code)
 
 	// Redisga saqlash
 	if err := uc.redis.SetOTP(int64(code), req); err != nil {
