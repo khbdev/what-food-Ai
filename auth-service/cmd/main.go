@@ -1,19 +1,23 @@
 package main
 
 import (
+	"log"
+	"net"
+	"os"
+
 	"auth-service/internal/client"
 	"auth-service/internal/config"
 	"auth-service/internal/handler"
 	"auth-service/internal/usecase"
-	"os"
+
+	authpb "github.com/khbdev/what-food-proto/proto/authpb"
 
 	loadenv "auth-service/pkg/LoadEnv"
 	rabbitMq "auth-service/pkg/rabbitMq"
 	Redis "auth-service/pkg/redis"
-	"log"
+
+	"google.golang.org/grpc"
 )
-
-
 func main() {
 
 	// env load
@@ -47,7 +51,7 @@ func main() {
 	h := handler.NewAuthHandler(usc)
 
 	// gRPC server
-	server := gr.NewServer()
+	server := grpc.NewServer()
 
 	// register service
 	authpb.RegisterAuthServiceServer(server, h)
