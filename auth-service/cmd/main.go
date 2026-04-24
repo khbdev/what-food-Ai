@@ -14,32 +14,59 @@ import (
 )
 
 
-func main(){
+func main() {
+
+	// env load
 	loadenv.Load()
 
+	// rabbit
 	rabbitmq := config.NewRabbit()
 
-	_ = rabbitmq
+	// redis
+	redisClient, err := config.NewRedisClient()
+	if err != nil {
+		log.Fatal("redis error:", err)
+	}
 
-  redis, err := config.NewRedisClient()
-  if err !=nil {
-	log.Fatal("Error", err)
-  }
+	// publisher
+	producer := rabbitMq.NewPublisher(rabbitmq)
 
-  _ = redis
+	// user service client (gRPC)
+	userClient, err := client.NewUserClient(os.Getenv("USER_SERVICE"))
+	if err != nil {
+		log.Fatal("user client error:", err)
+	}
 
-  producer :=  rabbitMq.NewPublisher(rabbitmq)
- _ = producer
+	// redis service wrapper
+	rd := Redis.NewService(redisClient)
 
- userClient, err := client.NewUserClient(os.Getenv("USER_SERVICE"))
+	// usecase
+	usc := usecase.NewAuthUsecase(userClient, rd, producer)
 
- _ = userClient
+	// handler
+	h := handler.NewAuthHandler(usc)
 
- rd := Redis.NewService(redis)
+	// gRPC server
+	server := grpc.NewServer()
 
+	// register service
+	authpb.RegisterAuthServiceServer(server, h)
 
- usc := usecase.NewAuthUsecase(userClient, rd, producer)
+	// port from env
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "50051"
+	}
 
- hand := handler.NewAuthHandler(usc)
+	lis, err := net.Listen("tcp", ":"+port)
+	if err != nil {
+		log.Fatal("listen error:", err)
+	}
 
+	log.Println("🚀 Auth gRPC server running on port:", port)
+
+	// serve
+	if err := server.Serve(lis); err != nil {
+		log.Fatal("server error:", err)
+	}
 }
