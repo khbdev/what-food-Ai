@@ -33,6 +33,6 @@ func main(){
 
  _ = userClient
 
- usc := usecase.NewAuthUsecase(userClient, redis, ra)
+ usc := usecase.NewAuthUsecase(userClient, redis., rabbitmq)
 
 }
