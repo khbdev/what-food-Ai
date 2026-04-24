@@ -54,7 +54,7 @@ func (uc *AuthUsecase) Register(req models.RegisterRequest) error {
 	}
 
 	// RabbitMQ push
-	if err := uc.rabbit.PublishAuthMessage("auth.otp", models.AuthMessage{
+	if err := uc.rabbit.PublishAuthMessage(, models.AuthMessage{
 		Task:  "register",
 		Phone: req.Phone,
 		OTP:   strconv.Itoa(code),
