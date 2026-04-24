@@ -30,6 +30,6 @@ func main(){
 
  userClient, err := client.NewUserClient(os.Getenv("USER_SERVICE"))
 
- 
+ _ = userClient
 
 }
