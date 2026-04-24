@@ -8,7 +8,7 @@ import (
 	"auth-service/internal/models"
 	
 
-	userrpb "github.com/khbdev/what-food-proto/proto/userrpb"
+	userrpb "github.com/khbdev/what-food-proto/proto/userr"
 )
 
 type AuthUsecase struct {
