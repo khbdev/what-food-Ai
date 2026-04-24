@@ -6,14 +6,14 @@ import (
 
 	"auth-service/internal/domain"
 	"auth-service/internal/models"
-	
+	"auth-service/pkg/redis"
 
 	userrpb "github.com/khbdev/what-food-proto/proto/userr"
 )
 
 type AuthUsecase struct {
 	userClient domain.UserService
-	redis      *.Service
+	redis      *redis.Service
 	rabbit     *rabbitmq.Publisher
 }
 
