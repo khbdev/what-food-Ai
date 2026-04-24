@@ -27,5 +27,5 @@ func main(){
   producer :=  rabbitMq.NewPublisher(rabbitmq)
 
 
- 
+ _ = 
 }
