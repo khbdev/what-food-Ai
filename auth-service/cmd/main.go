@@ -27,6 +27,6 @@ func main(){
   producer :=  rabbitMq.NewPublisher(rabbitmq)
  _ = producer
 
- userClient, err 
+ userClient, err := cli
 
 }
