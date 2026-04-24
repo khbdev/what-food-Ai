@@ -7,7 +7,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	userrpb "github.com/khbdev/what-food-proto/proto/userrpb"
+	userrpb "github.com/khbdev/what-food-proto/proto/userr"
 )
 
 type UserClient struct {
