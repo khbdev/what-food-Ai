@@ -50,7 +50,6 @@ func (s *Service) GetOTP(otp int64) (*models.RegisterRequest, error) {
 		return nil, err
 	}
 
-	
 	_ = s.rdb.Del(s.ctx, key).Err()
 
 	return &data, nil
