@@ -28,7 +28,7 @@ func register(c authpb.AuthServiceClient) {
 
 	res, err := c.Register(ctx, &authpb.RegisterRequest{
 		FullName: "Azizbek",
-		Phone:    "+998901112233",
+		Phone:    "+",
 		Age:      21,
 		Address:  "Tashkent",
 	})
