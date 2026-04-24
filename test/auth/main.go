@@ -58,7 +58,7 @@ func verify(c authpb.AuthServiceClient) {
 	defer cancel()
 
 	res, err := c.VerifyOTP(ctx, &authpb.VerifyRequest{
-		Otp: 504613,
+		Otp: 845708,
 	})
 	if err != nil {
 		log.Fatal(err)
