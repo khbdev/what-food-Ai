@@ -44,7 +44,7 @@ func login(c authpb.AuthServiceClient) {
 	defer cancel()
 
 	res, err := c.Login(ctx, &authpb.LoginRequest{
-		Phone: "+998901112233",
+		Phone: "+99845455351",
 	})
 	if err != nil {
 		log.Fatal(err)
