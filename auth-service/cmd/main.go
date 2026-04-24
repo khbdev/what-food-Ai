@@ -40,6 +40,6 @@ func main(){
 
  usc := usecase.NewAuthUsecase(userClient, rd, producer)
 
- hand := handler.
+ hand := handler.NewAuthHandler(usc)
 
 }
