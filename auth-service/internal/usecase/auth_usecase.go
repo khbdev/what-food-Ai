@@ -131,7 +131,7 @@ func (uc *AuthUsecase) Verify(code int64) (string, string, error) {
 	// token model
 	tokenModel := models.TokenModel{
 		UserID:   uint(userRes.User.Id),
-		UserName: userRes.User.Name,
+		UserName: userRes.,
 		Role:     "user",
 	}
 
