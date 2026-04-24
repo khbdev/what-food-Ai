@@ -10,60 +10,69 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-func main() {
-
-	// connect to auth service
+func connect() authpb.AuthServiceClient {
 	conn, err := grpc.Dial(
 		"localhost:50051",
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 	)
 	if err != nil {
-		log.Fatal("connection error:", err)
+		log.Fatal(err)
 	}
-	defer conn.Close()
 
-	client := authpb.NewAuthServiceClient(conn)
+	return authpb.NewAuthServiceClient(conn)
+}
 
+func register(c authpb.AuthServiceClient) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	// =========================
-	// REGISTER TEST
-	// =========================
-	r1, err := client.Register(ctx, &authpb.RegisterRequest{
+	res, err := c.Register(ctx, &authpb.RegisterRequest{
 		FullName: "Azizbek",
 		Phone:    "+998901112233",
 		Age:      21,
 		Address:  "Tashkent",
 	})
 	if err != nil {
-		log.Fatal("register error:", err)
+		log.Fatal(err)
 	}
 
-	log.Println("REGISTER:", r1.Message)
+	log.Println("REGISTER:", res.Message)
+}
 
-	// =========================
-	// LOGIN TEST
-	// =========================
-	r2, err := client.Login(ctx, &authpb.LoginRequest{
+func login(c authpb.AuthServiceClient) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	res, err := c.Login(ctx, &authpb.LoginRequest{
 		Phone: "+998901112233",
 	})
 	if err != nil {
-		log.Fatal("login error:", err)
+		log.Fatal(err)
 	}
 
-	log.Println("LOGIN:", r2.Message)
+	log.Println("LOGIN:", res.Message)
+}
 
-	// =========================
-	// VERIFY TEST (manual OTP)
-	// =========================
-	r3, err := client.VerifyOTP(ctx, &authpb.VerifyRequest{
-		Otp: 123456, // Redisdan chiqqan OTP ni qo'yasan
+func verify(c authpb.AuthServiceClient) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	res, err := c.VerifyOTP(ctx, &authpb.VerifyRequest{
+		Otp: 123456,
 	})
 	if err != nil {
-		log.Fatal("verify error:", err)
+		log.Fatal(err)
 	}
 
-	log.Println("ACCESS TOKEN:", r3.AccessToken)
-	log.Println("REFRESH TOKEN:", r3.RefreshToken)
+	log.Println("ACCESS:", res.AccessToken)
+	log.Println("REFRESH:", res.RefreshToken)
+}
+
+func main() {
+	client := connect()
+
+	// 👉 o'zing tanlaysan
+	register(client)
+	// login(client)
+	// verify(client)
 }
