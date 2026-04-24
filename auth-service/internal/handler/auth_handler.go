@@ -10,6 +10,7 @@ import (
 )
 
 type AuthHandler struct {
+	authpb.UnimplementedAuthServiceServer
 	authUsecase domain.AuthUsecase
 }
 
@@ -51,7 +52,6 @@ func (h *AuthHandler) Login(ctx context.Context, req *authpb.LoginRequest) (*aut
 		Message: "success",
 	}, nil
 }
-
 
 func (h *AuthHandler) VerifyOTP(ctx context.Context, req *authpb.VerifyRequest) (*authpb.AuthResponse, error) {
 

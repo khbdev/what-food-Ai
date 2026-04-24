@@ -54,7 +54,7 @@ func main() {
 	server := grpc.NewServer()
 
 	// register service
-	authpb.RegisterAuthServiceServer(server, )
+	authpb.RegisterAuthServiceServer(server, hand)
 
 	// port from env
 	port := os.Getenv("PORT")
