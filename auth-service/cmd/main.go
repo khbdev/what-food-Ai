@@ -33,7 +33,7 @@ func main(){
 
  _ = userClient
 
- 
+ rd := 
 
 
  usc := usecase.NewAuthUsecase(userClient,)
