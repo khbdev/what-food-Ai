@@ -4,9 +4,9 @@ import (
 	"context"
 
 	"auth-service/internal/domain"
-	"auth-service/internal/models"
+	
 
-	authpb  "github.com/khbdev/what-food-proto/proto/"
+	authpb  "github.com/khbdev/what-food-proto/proto/auth"
 )
 
 type AuthHandler struct {
