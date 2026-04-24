@@ -92,7 +92,7 @@ func (uc *AuthUsecase) Login(req models.LoginRequest) error {
 		return err
 	}
 
-	if err := uc.rabbit.PublishAuthMessage("auth.otp", models.AuthMessage{
+	if err := uc.rabbit.PublishAuthMessage(os.Getenv("AUTH_ROUTING_KEY"), models.AuthMessage{
 		Task:  "login",
 		Phone: req.Phone,
 		OTP:   strconv.Itoa(code),
