@@ -45,6 +45,8 @@ func (uc *AuthUsecase) Register(req models.RegisterRequest) error {
 	// OTP generate
 	code := otp.GenerateCode()
 
+	fmt.Pri
+
 	// Redisga saqlash
 	if err := uc.redis.SetOTP(int64(code), req); err != nil {
 		return err
