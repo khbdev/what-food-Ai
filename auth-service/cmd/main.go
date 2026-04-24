@@ -48,7 +48,7 @@ func main() {
 	usc := usecase.NewAuthUsecase(userClient, rd, producer)
 
 	// handler
-	h := handler.NewAuthHandler(usc)
+	hand := handler.NewAuthHandler(usc)
 
 	// gRPC server
 	server := grpc.NewServer()
