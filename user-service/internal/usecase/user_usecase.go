@@ -21,19 +21,22 @@ func NewUserUsecase(repo domain.UserRepository, cache domain.UserCache) *UserUse
 }
 
 // Create — Write-through
-func (u *UserUsecase) Create(ctx context.Context, req *models.User) error {
-	user := &models.User{
-		Name:  req.Name,
-		Phone: req.Phone,
-		Email: req.Email,
-	}
+func (u *UserUsecase) Create(ctx context.Context, req *models.User) (*models.User, error) {
+    user := &models.User{
+        Name:    req.Name,
+        Phone:   req.Phone,
+        Age:     req.Age,
+        Address: req.Address,
+        Email:   req.Email,
+        Image:   req.Image,
+    }
 
-	if err := u.repo.Create(ctx, user); err != nil {
-		return fmt.Errorf("usecase.Create: %w", err)
-	}
+    if err := u.repo.Create(ctx, user); err != nil {
+        return nil, fmt.Errorf("usecase.Create: %w", err)
+    }
 
-	_ = u.cache.SetUser(ctx, user, userCacheTTL)
-	return nil
+    _ = u.cache.SetUser(ctx, user, userCacheTTL)
+    return user, nil  // ← GORM Create'dan keyin user.ID to'ldirilgan bo'ladi
 }
 
 // GetByID — Read-through
