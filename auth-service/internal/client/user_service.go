@@ -2,6 +2,7 @@ package client
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"google.golang.org/grpc"
@@ -24,7 +25,7 @@ func NewUserClient(addr string) (*UserClient, error) {
 		return nil, err
 	}
 
-	fmt.Pri
+	fmt.Println("user service")
 	return &UserClient{
 		conn:   conn,
 		client: userrpb.NewUserServiceClient(conn),
