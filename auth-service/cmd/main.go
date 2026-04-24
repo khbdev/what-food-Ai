@@ -27,15 +27,5 @@ func main(){
   producer :=  rabbitMq.NewPublisher(rabbitmq)
 
 
-  rutingKey := os.Getenv("AUTH_ROUTING_KEY")
-  
- for i := 0; i < 5; i++ {
-	 producer.PublishAuthMessage(rutingKey, models.AuthMessage{
-	Task: "SEND_SMS_OTP",
-	Phone: "+998911013630",
-	OTP: "234563",
-  })
- }
-
-  select{}
+ 
 }
