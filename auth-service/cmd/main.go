@@ -35,7 +35,7 @@ func main() {
 	// publisher
 	producer := rabbitMq.NewPublisher(rabbitmq)
 
-	
+	rt := os.Ge
 
 	producer.PublishAuthMessage()
 
