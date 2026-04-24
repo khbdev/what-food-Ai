@@ -6,7 +6,7 @@ import (
 	loadenv "auth-service/pkg/LoadEnv"
 	rabbitMq "auth-service/pkg/rabbitMq"
 	"log"
-	"os"
+	
 )
 
 
@@ -25,7 +25,5 @@ func main(){
   _ = redis
 
   producer :=  rabbitMq.NewPublisher(rabbitmq)
-
-
  _ = producer
 }
