@@ -24,6 +24,7 @@ func NewUserClient(addr string) (*UserClient, error) {
 		return nil, err
 	}
 
+	
 	return &UserClient{
 		conn:   conn,
 		client: userrpb.NewUserServiceClient(conn),
