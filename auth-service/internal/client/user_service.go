@@ -26,7 +26,7 @@ func NewUserClient(addr string) (*UserClient, error) {
 		return nil, err
 	}
 
-	log.Fatal("user service connection su")
+	fmt("user service connection succesfull")
 	return &UserClient{
 		conn:   conn,
 		client: userrpb.NewUserServiceClient(conn),
