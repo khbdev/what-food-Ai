@@ -51,3 +51,17 @@ func (h *AuthHandler) Login(ctx context.Context, req *authpb.LoginRequest) (*aut
 		Message: "success",
 	}, nil
 }
+
+
+func (h *AuthHandler) VerifyOTP(ctx context.Context, req *authpb.VerifyRequest) (*authpb.AuthResponse, error) {
+
+	access, refresh, err := h.authUsecase.Verify(req.Otp)
+	if err != nil {
+		return nil, err
+	}
+
+	return &authpb.AuthResponse{
+		AccessToken:  access,
+		RefreshToken: refresh,
+	}, nil
+}
