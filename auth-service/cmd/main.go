@@ -28,6 +28,6 @@ func main(){
   producer :=  rabbitMq.NewPublisher(rabbitmq)
  _ = producer
 
- userClient, err := client.NewUserClient(os.Getenv(""))
+ userClient, err := client.NewUserClient(os.Getenv("USER_SER"))
 
 }
