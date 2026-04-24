@@ -13,7 +13,7 @@ import (
 
 type AuthUsecase struct {
 	userClient domain.UserService
-	redis      *redis.Service
+	redis      *.Service
 	rabbit     *rabbitmq.Publisher
 }
 
