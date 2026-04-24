@@ -6,10 +6,7 @@ import (
 
 	"auth-service/internal/domain"
 	"auth-service/internal/models"
-	"auth-service/internal/pkg/jwt"
-	"auth-service/internal/pkg/otp"
-	"auth-service/internal/pkg/rabbitmq"
-	"auth-service/internal/pkg/redis"
+	
 
 	userrpb "github.com/khbdev/what-food-proto/proto/userrpb"
 )
