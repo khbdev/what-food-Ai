@@ -3,6 +3,7 @@ package main
 import (
 	"auth-service/internal/client"
 	"auth-service/internal/config"
+	"auth-service/internal/usecase"
 	"os"
 
 	loadenv "auth-service/pkg/LoadEnv"
@@ -32,6 +33,6 @@ func main(){
 
  _ = userClient
 
- usc := use
+ usc := usecase.NewAuthUsecase()
 
 }
