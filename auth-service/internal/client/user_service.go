@@ -24,7 +24,7 @@ func NewUserClient(addr string) (*UserClient, error) {
 		return nil, err
 	}
 
-	
+	log.Fa
 	return &UserClient{
 		conn:   conn,
 		client: userrpb.NewUserServiceClient(conn),
