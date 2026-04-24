@@ -106,7 +106,6 @@ func (uc *AuthUsecase) Login(req models.LoginRequest) error {
 //////////////////////////////////////////////////////
 // VERIFY
 //////////////////////////////////////////////////////
-
 func (uc *AuthUsecase) Verify(code int64) (string, string, error) {
 
 	// Redisdan olish
@@ -118,31 +117,50 @@ func (uc *AuthUsecase) Verify(code int64) (string, string, error) {
 		return "", "", errors.New("otp expired or invalid")
 	}
 
-	// user create (har doim create qilamiz — sen aytgandek flow)
-	userRes, err := uc.userClient.CreateUser(&userrpb.CreateUserRequest{
-		Name:    data.FullName,
-		Phone:   data.Phone,
-		Age:     int32(data.Age),
-		Address: data.Address,
+	var userID uint
+	var userName string
+
+	// Phone bazada bormi?
+	res, _ := uc.userClient.GetUserByPhone(&userrpb.GetUserByPhoneRequest{
+		Phone: data.Phone,
 	})
-	if err != nil {
-		return "", "", err
+
+	if res != nil && res.User != nil {
+		// LOGIN: user mavjud — faqat tokenlar beramiz
+		userID = uint(res.User.Id)
+		userName = res.User.Name
+	} else {
+		// REGISTER: user yo'q — yangi yaratamiz
+		userRes, err := uc.userClient.CreateUser(&userrpb.CreateUserRequest{
+			Name:    data.FullName,
+			Phone:   data.Phone,
+			Age:     int32(data.Age),
+			Address: data.Address,
+		})
+		if err != nil {
+			return "", "", err
+		}
+		if userRes == nil || userRes.User == nil {
+			return "", "", errors.New("user yaratishda xato")
+		}
+		userID = uint(userRes.User.Id)
+		userName = userRes.User.Name
 	}
 
-	// token model
+	// Token model
 	tokenModel := models.TokenModel{
-		UserID:   uint(userRes.User.Id),
-		UserName: userRes.User.Name,
+		UserID:   userID,
+		UserName: userName,
 		Role:     "user",
 	}
 
-	// access
+	// Access token
 	access, err := jwt.GenerateAccessToken(tokenModel)
 	if err != nil {
 		return "", "", err
 	}
 
-	// refresh
+	// Refresh token
 	refresh, err := jwt.GenerateRefreshToken(tokenModel)
 	if err != nil {
 		return "", "", err
