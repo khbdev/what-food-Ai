@@ -35,6 +35,7 @@ func main(){
 
  
 
+
  usc := usecase.NewAuthUsecase(userClient,)
 
 }
