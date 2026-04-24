@@ -3,7 +3,7 @@ module testy
 go 1.25.0
 
 require (
-	github.com/khbdev/what-food-proto v0.0.0-20260422135114-ef238fbae3d2
+	github.com/khbdev/what-food-proto v0.0.0-20260423154413-afefb2c8d023
 	google.golang.org/grpc v1.80.0
 )
 
