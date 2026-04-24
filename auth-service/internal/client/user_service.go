@@ -2,7 +2,7 @@ package client
 
 import (
 	"context"
-	"fmt"
+
 	"time"
 
 	"google.golang.org/grpc"
