@@ -35,7 +35,7 @@ func main() {
 	// publisher
 	producer := rabbitMq.NewPublisher(rabbitmq)
 
-	pro
+	producer.
 
 	// user service client (gRPC)
 	userClient, err := client.NewUserClient(os.Getenv("USER_SERVICE"))
