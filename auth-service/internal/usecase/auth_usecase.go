@@ -6,6 +6,8 @@ import (
 
 	"auth-service/internal/domain"
 	"auth-service/internal/models"
+	"auth-service/pkg/jwt"
+	"auth-service/pkg/otp"
 	rabbitmq "auth-service/pkg/rabbitMq"
 	"auth-service/pkg/redis"
 
@@ -41,7 +43,7 @@ func (uc *AuthUsecase) Register(req models.RegisterRequest) error {
 	}
 
 	// OTP generate
-	code := .GenerateCode()
+	code := otp.GenerateCode()
 
 	// Redisga saqlash
 	if err := uc.redis.SetOTP(int64(code), req); err != nil {
