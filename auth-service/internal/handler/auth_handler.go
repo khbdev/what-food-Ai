@@ -6,7 +6,7 @@ import (
 	"auth-service/internal/domain"
 	"auth-service/internal/models"
 
-	authpb "github.com/khbdev/what-food-proto/proto/authpb"
+	authpb  "github.com/khbdev/what-food-proto/proto/userr"
 )
 
 type AuthHandler struct {
