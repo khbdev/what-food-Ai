@@ -33,7 +33,7 @@ func main(){
 
  _ = userClient
 
- rd := red
+ rd := redis
 
 
  usc := usecase.NewAuthUsecase(userClient,)
