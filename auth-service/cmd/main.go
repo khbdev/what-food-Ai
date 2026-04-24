@@ -10,7 +10,7 @@ import (
 	"auth-service/internal/handler"
 	"auth-service/internal/usecase"
 
-	authpb "github.com/khbdev/what-food-proto/proto/authpb"
+	authpb "github.com/khbdev/what-food-proto/proto/"
 
 	loadenv "auth-service/pkg/LoadEnv"
 	rabbitMq "auth-service/pkg/rabbitMq"
