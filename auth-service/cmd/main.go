@@ -9,7 +9,7 @@ import (
 	
 	loadenv "auth-service/pkg/LoadEnv"
 	rabbitMq "auth-service/pkg/rabbitMq"
-	Redis "auth-service/pkg/"
+	Redis "auth-service/pkg/redis"
 	"log"
 )
 
@@ -35,8 +35,7 @@ func main(){
 
  _ = userClient
 
- rd := redis
-
+ rd := redi
 
  usc := usecase.NewAuthUsecase(userClient,)
 
