@@ -3,6 +3,7 @@ package main
 import (
 	"auth-service/internal/client"
 	"auth-service/internal/config"
+	"os"
 
 	loadenv "auth-service/pkg/LoadEnv"
 	rabbitMq "auth-service/pkg/rabbitMq"
@@ -27,6 +28,6 @@ func main(){
   producer :=  rabbitMq.NewPublisher(rabbitmq)
  _ = producer
 
- userClient, err := client.NewUserClient("")
+ userClient, err := client.NewUserClient(os.)
 
 }
