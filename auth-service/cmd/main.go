@@ -32,6 +32,6 @@ func main(){
 
  _ = userClient
 
- usc = 
+ usc := use
 
 }
