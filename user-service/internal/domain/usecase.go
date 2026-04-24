@@ -4,6 +4,8 @@ import (
 	"context"
 	"user-service/internal/models"
 )
+
+
 type UserUsecase interface {
 	Create(ctx context.Context, user *models.User) (*models.User, error) // ← *models.User qaytaradi
 	GetByID(ctx context.Context, id uint) (*models.User, error)
