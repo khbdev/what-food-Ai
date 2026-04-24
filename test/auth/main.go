@@ -72,7 +72,7 @@ func main() {
 	client := connect()
 
 	// 👉 o'zing tanlaysan
-	// register(client)
+	register(client)
 	// login(client)
 	// verify(client)
 }
