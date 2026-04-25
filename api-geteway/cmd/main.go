@@ -43,7 +43,11 @@ userURL := os.Getenv("USER_URL")
 	}
 	defer authClient.Close()
 
+
+
 	log.Println("✅ Auth client created")
+
+	userClinet, err := client.NewUserClient(userURL)
 
 	// =========================
 	// SERVICE (usecase)
