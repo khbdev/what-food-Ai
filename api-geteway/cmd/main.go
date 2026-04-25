@@ -21,7 +21,7 @@ func main() {
 	if authURL == "" {
 		log.Fatal("❌ AUTH_URL is empty")
 	}
-authURL := os.Getenv("AUTH_URL")
+URL := os.Getenv("AUTH_URL")
 	if authURL == "" {
 		log.Fatal("❌ AUTH_URL is empty")
 	}
