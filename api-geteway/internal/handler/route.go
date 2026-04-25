@@ -9,6 +9,7 @@ func SetupRouter(authHandler *AuthHandler, userHandler *UserHandler) *gin.Engine
 
 	r := gin.Default()
 
+	
 	// =========================
 	// AUTH ROUTES
 	// =========================
