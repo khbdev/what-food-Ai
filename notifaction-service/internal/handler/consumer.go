@@ -2,10 +2,10 @@ package handler
 
 import (
 	"log"
+	
 	"os"
 
 	amqp "github.com/rabbitmq/amqp091-go"
-
 )
 
 type Handler struct {
