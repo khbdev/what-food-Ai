@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"time"
 
@@ -26,7 +27,7 @@ func register(c authpb.AuthServiceClient, id int) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	idStr := ft.Sprintf("%d", id)
+	idStr := fmt.Sprintf("%d", id)
 
 	phone := "+99845" + idStr + "434311"
 
