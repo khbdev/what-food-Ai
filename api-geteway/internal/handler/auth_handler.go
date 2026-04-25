@@ -34,7 +34,7 @@ func (h *AuthHandler) Register(c *gin.Context) {
 
 	res, err := h.svc.Register(c.Request.Context(), req)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
 		return
@@ -60,7 +60,7 @@ func (h *AuthHandler) Login(c *gin.Context) {
 
 	res, err := h.svc.Login(c.Request.Context(), req)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
 		return
@@ -86,7 +86,7 @@ func (h *AuthHandler) VerifyOTP(c *gin.Context) {
 
 	res, err := h.svc.VerifyOTP(c.Request.Context(), req)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
 		return
