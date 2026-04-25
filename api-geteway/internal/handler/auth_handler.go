@@ -78,7 +78,7 @@ func (h *AuthHandler) VerifyOTP(c *gin.Context) {
 	var req models.VerifyRequest
 
 	if err := c.ShouldBindJSON(&req); err != nil {
-		response.Fail(c, http.StatusBadRequest, "invalid request")
+		response.Fail(c, http.StatusBadRequest, err)
 		return
 	}
 
@@ -87,7 +87,7 @@ func (h *AuthHandler) VerifyOTP(c *gin.Context) {
 	})
 
 	if err != nil {
-		response.Fail(c, http.StatusBadRequest, "otp verification failed")
+		response.Fail(c, http.StatusBadRequest, err)
 		return
 	}
 
