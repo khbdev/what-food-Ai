@@ -18,7 +18,7 @@ type Handler struct {
 }
 
 // DI constructor
-func New(ch *amqp.Channel) *Handler {
+func NewHandler(ch *amqp.Channel) *Handler {
 	return &Handler{
 		ch:        ch,
 		queueName: os.Getenv("QUEUE_NAME"),

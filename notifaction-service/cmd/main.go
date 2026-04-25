@@ -2,6 +2,7 @@ package main
 
 import (
 	"notifaction-service/internal/config"
+	"notifaction-service/internal/handler"
 	"notifaction-service/pkg/loadenv"
 )
 
@@ -14,6 +15,6 @@ func main(){
 
 	_ = rabbitMqConnectio
 
-	handConsumer := hand
+	handConsumer := handler.
 
 }
