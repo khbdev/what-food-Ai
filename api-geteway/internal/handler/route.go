@@ -20,7 +20,6 @@ func SetupRouter(authHandler *AuthHandler, userHandler *UserHandler) *gin.Engine
 	}
 
 
-
 	// =========================
 	// ADMIN ROUTES (ONLY ADMIN)
 	// =========================

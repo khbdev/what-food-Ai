@@ -8,7 +8,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-var jwtSecret = []byte("secret")
+var jwtSecret = []byte(os.Getenv("JWT_ACCESS_SECRET"))
 
 type ClaimsRole struct {
 	Role string `json:"role"`
