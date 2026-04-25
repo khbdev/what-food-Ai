@@ -7,6 +7,6 @@ import (
 
 
 func main(){
-    authUR := os.Getenv("Auth")
+    authUR := os.Getenv("AUTH")
 	authServiceClient, err := client.NewAuthClient()
 }
