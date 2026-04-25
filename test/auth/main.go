@@ -77,8 +77,8 @@ func main() {
 	client := connect()
 
 	// 👉 o'zing tanlaysan
-for i := 0; i < ; i++ {
-	
+for i := 0; i < 50; i++ {
+		// register(client)
 }
 	// login(client)
 	// verify(client)
