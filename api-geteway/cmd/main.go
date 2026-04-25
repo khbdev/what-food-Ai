@@ -11,6 +11,7 @@ import (
 func main(){
 
 	loadenv.Load()
+	
     authUR := os.Getenv("AUTH_URL")
 	authServiceClient, err := client.NewAuthClient(authUR)
 
