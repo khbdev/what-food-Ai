@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"api-geteway/internal/models"
+	"api-geteway/internal/response"
 	"api-geteway/internal/service"
 
 	authpb "github.com/khbdev/what-food-proto/proto/auth"
@@ -24,33 +25,26 @@ func NewAuthHandler(s *service.AuthService) *AuthHandler {
 // =========================
 
 func (h *AuthHandler) Register(c *gin.Context) {
-
 	var req models.RegisterRequest
 
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
+		response.Fail(c, http.StatusBadRequest, "invalid request")
 		return
 	}
 
-	// 🔥 MAP: models → proto
-	protoReq := &authpb.RegisterRequest{
+	res, err := h.svc.Register(c.Request.Context(), &authpb.RegisterRequest{
 		FullName: req.FullName,
 		Phone:    req.Phone,
 		Age:      req.Age,
 		Address:  req.Address,
-	}
+	})
 
-	res, err := h.svc.Register(c.Request.Context(), protoReq)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
+		response.Fail(c, http.StatusBadRequest, "register failed")
 		return
 	}
 
-	c.JSON(http.StatusOK, res)
+	response.OK(c, res)
 }
 
 // =========================
@@ -58,30 +52,23 @@ func (h *AuthHandler) Register(c *gin.Context) {
 // =========================
 
 func (h *AuthHandler) Login(c *gin.Context) {
-
 	var req models.LoginRequest
 
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
+		response.Fail(c, http.StatusBadRequest, "invalid request")
 		return
 	}
 
-	// 🔥 MAP
-	protoReq := &authpb.LoginRequest{
+	res, err := h.svc.Login(c.Request.Context(), &authpb.LoginRequest{
 		Phone: req.Phone,
-	}
+	})
 
-	res, err := h.svc.Login(c.Request.Context(), protoReq)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
+		response.Fail(c, http.StatusBadRequest, "login failed")
 		return
 	}
 
-	c.JSON(http.StatusOK, res)
+	response.OK(c, res)
 }
 
 // =========================
@@ -89,28 +76,21 @@ func (h *AuthHandler) Login(c *gin.Context) {
 // =========================
 
 func (h *AuthHandler) VerifyOTP(c *gin.Context) {
-
 	var req models.VerifyRequest
 
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
+		response.Fail(c, http.StatusBadRequest, "invalid request")
 		return
 	}
 
-	// 🔥 MAP
-	protoReq := &authpb.VerifyRequest{
+	res, err := h.svc.VerifyOTP(c.Request.Context(), &authpb.VerifyRequest{
 		Otp: req.OTP,
-	}
+	})
 
-	res, err := h.svc.VerifyOTP(c.Request.Context(), protoReq)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
+		response.Fail(c, http.StatusBadRequest, "otp verification failed")
 		return
 	}
 
-	c.JSON(http.StatusOK, res)
+	response.OK(c, res)
 }
