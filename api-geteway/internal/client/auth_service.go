@@ -23,7 +23,7 @@ const timeoutAuth = 5 * time.Second
 // =========================
 
 func NewAuthClient(addr string) (*AuthClient, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), tim)
+	ctx, cancel := context.WithTimeout(context.Background(), timeoutAuth)
 	defer cancel()
 
 	conn, err := grpc.DialContext(
@@ -57,7 +57,7 @@ func (c *AuthClient) Close() error {
 // =========================
 
 func (c *AuthClient) ctx() (context.Context, context.CancelFunc) {
-	return context.WithTimeout(context.Background(), timeout)
+	return context.WithTimeout(context.Background(), tim)
 }
 
 // =========================
