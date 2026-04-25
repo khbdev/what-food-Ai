@@ -12,6 +12,6 @@ func main(){
 	authServiceClient, err := client.NewAuthClient(authUR)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Xatolikerr)
 	}
 }
