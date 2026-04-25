@@ -14,6 +14,6 @@ func main(){
 
 	_ = rabbitMqConnectio
 
-	han
+	handConsumer 
 
 }
