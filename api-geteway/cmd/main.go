@@ -15,5 +15,5 @@ func main(){
 		log.Fatal("Xatolik",err)
 	}
 
-	_
+	_ = authServiceClient
 }
