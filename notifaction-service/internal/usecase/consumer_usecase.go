@@ -19,7 +19,7 @@ func NewSMSUsecase() *SMSUsecase {
 // faqat process
 func (u *SMSUsecase) Handle(body []byte) error {
 
-	var data models.SMSOTP
+	var data mod.SMSOTP
 
 	// parse
 	if err := json.Unmarshal(body, &data); err != nil {
