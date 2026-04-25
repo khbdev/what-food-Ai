@@ -34,6 +34,7 @@ func main() {
 	// CLIENT (gRPC)
 	// =========================
 	authClient, err := client.NewAuthClient(authURL)
+	
 	if err != nil {
 		log.Fatal("❌ Failed to connect auth service:", err)
 	}
