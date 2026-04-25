@@ -2,6 +2,7 @@ package main
 
 import (
 	"api-geteway/internal/client"
+	"api-geteway/internal/handler"
 	"api-geteway/internal/service"
 	"api-geteway/pkg/loadenv"
 	"log"
@@ -31,5 +32,5 @@ func main() {
 
 	_ = uscAuth
 
-	authHand := hand
+	authHand := handler.NewAuthHandler(us)
 }
