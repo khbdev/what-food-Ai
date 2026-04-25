@@ -28,7 +28,7 @@ func (h *AuthHandler) Register(c *gin.Context) {
 	var req models.RegisterRequest
 
 	if err := c.ShouldBindJSON(&req); err != nil {
-		response.Fail(c, http.StatusBadRequest, "invalid request")
+		res.Fail(c, http.StatusBadRequest, "invalid request")
 		return
 	}
 
