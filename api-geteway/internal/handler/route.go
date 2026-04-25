@@ -23,15 +23,15 @@ func SetupRouter(authHandler *AuthHandler, userHandler *UserHandler) *gin.Engine
 	// =========================
 	// ADMIN ROUTES (ONLY ADMIN)
 	// =========================
-	admin := r.Group("/admin")
-	admin.Use(middleware.AuthMiddleware(), middleware.AdminMiddleware())
-	{
-		admin.POST("/user", userHandler.CreateUser)
-		admin.GET("/user/all", userHandler.GetAllUsers)
-		admin.GET("/user/:id", userHandler.GetUserByID)
-		admin.PUT("/user", userHandler.UpdateUser)
-		admin.DELETE("/user", userHandler.DeleteUser)
-	}
+admin := r.Group("/admin")
+admin.Use(middleware.AuthMiddleware(), middleware.AdminMiddleware())
+{
+	admin.POST("/user", userHandler.CreateUser)
+	admin.GET("/user/all", userHandler.GetAllUsers)
+	admin.GET("/user/:id", userHandler.GetUserByID)
+	admin.PUT("/user/:id", userHandler.UpdateUser)
+	admin.DELETE("/user/:id", userHandler.DeleteUser)
+}
 
 	return r
 }
