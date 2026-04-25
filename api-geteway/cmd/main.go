@@ -2,6 +2,7 @@ package main
 
 import (
 	"api-geteway/internal/client"
+	"api-geteway/internal/service"
 	"api-geteway/pkg/loadenv"
 	"log"
 	"os"
@@ -26,5 +27,5 @@ func main() {
 
 	_ = authServiceClient
 
-	uscAuth := 
+	uscAuth := service.NewAuthService()
 }
