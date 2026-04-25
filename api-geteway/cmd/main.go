@@ -34,5 +34,5 @@ func main() {
 
 	authHand := handler.NewAuthHandler(uscAuth)
 
-	router
+	router := hand
 }
