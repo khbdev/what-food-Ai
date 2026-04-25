@@ -28,7 +28,7 @@ func NewAuthClient(addr string) (*AuthClient, error) {
 	if err != nil {
 		return nil, err
 	}
-   log.Printf()
+   log.Printf("Auth service connection success")
 	return &AuthClient{
 		conn: conn,
 		svc:  authpb.NewAuthServiceClient(conn),
