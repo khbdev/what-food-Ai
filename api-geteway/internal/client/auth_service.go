@@ -64,7 +64,7 @@ func withRetry(fn func() error) error {
 
 		time.Sleep(retryDelay)
 	}
-log.Println("Auth service connecti")
+log.Println("Auth service connection UNsuccesfull")
 	return err
 }
 
