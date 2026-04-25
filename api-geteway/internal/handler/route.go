@@ -1,8 +1,7 @@
 package handler
 
 import (
-	"api-geteway/internal/service"
-
+	
 	"github.com/gin-gonic/gin"
 )
 

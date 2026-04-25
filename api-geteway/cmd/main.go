@@ -30,4 +30,6 @@ func main() {
 	uscAuth := service.NewAuthService(authServiceClient)
 
 	_ = uscAuth
+
+	
 }
