@@ -65,4 +65,4 @@ func (h *Handler) worker(msgs <-chan amqp.Delivery, id int) {
 
 		msg.Ack(false)
 	}
-}
+}g
