@@ -4,6 +4,6 @@ import "api-geteway/internal/client"
 
 
 func main(){
-    auth
+    authUR := os.Gete
 	authServiceClient, err := client.NewAuthClient()
 }
