@@ -63,7 +63,7 @@ func (c *UserClient) Close() error {
 // =========================
 
 func (c *UserClient) ctx() (context.Context, context.CancelFunc) {
-	return context.WithTimeout(context.Background(), tim)
+	return context.WithTimeout(context.Background(), timeoutUSER)
 }
 
 // =========================
