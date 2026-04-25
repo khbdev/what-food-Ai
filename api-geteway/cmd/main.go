@@ -61,7 +61,7 @@ userURL := os.Getenv("USER_URL")
 	// SERVICE (usecase)
 	// =========================
 	authService := service.NewAuthService(authClient)
-	userService := service.
+	userService := service.NewUserService(us)
 
 	// =========================
 	// HANDLER (HTTP)
