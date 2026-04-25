@@ -1,15 +1,20 @@
 package main
 
 import (
+	"log"
+	"os"
+
 	"api-geteway/internal/client"
 	"api-geteway/internal/handler"
 	"api-geteway/internal/service"
 	"api-geteway/pkg/loadenv"
-	"log"
-	"os"
 )
 
 func main() {
+
+	// =========================
+	// LOAD ENV
+	// =========================
 	loadenv.Load()
 
 	authURL := os.Getenv("AUTH_URL")
@@ -19,23 +24,36 @@ func main() {
 
 	log.Println("AUTH_URL =", authURL)
 
-	authServiceClient, err := client.NewAuthClient(authURL)
+	// =========================
+	// CLIENT (gRPC)
+	// =========================
+	authClient, err := client.NewAuthClient(authURL)
 	if err != nil {
 		log.Fatal("❌ Failed to connect auth service:", err)
 	}
+	defer authClient.Close()
 
 	log.Println("✅ Auth client created")
 
-	_ = authServiceClient
+	// =========================
+	// SERVICE (usecase)
+	// =========================
+	authService := service.NewAuthService(authClient)
 
-	uscAuth := service.NewAuthService(authServiceClient)
+	// =========================
+	// HANDLER (HTTP)
+	// =========================
+	authHandler := handler.NewAuthHandler(authService)
 
-	_ = uscAuth
+	// =========================
+	// ROUTER
+	// =========================
+	router := handler.SetupRouter(authHandler)
 
-	authHand := handler.NewAuthHandler(uscAuth)
+	log.Println("🚀 API Gateway running on :8080")
 
-	router := handler.SetupRouter(authHand)
-
-
-	
+	// 🔥 START SERVER (MUHIM)
+	if err := router.Run(":8080"); err != nil {
+		log.Fatal("❌ failed to start server:", err)
+	}
 }
