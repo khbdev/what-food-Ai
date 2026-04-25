@@ -152,7 +152,7 @@ func (uc *AuthUsecase) Verify(code int64) (string, string, error) {
 	tokenModel := models.TokenModel{
 		UserID:   userID,
 		UserName: userName,
-		Role:     us,
+		Role:     userR,
 	}
 
 	// Access token
