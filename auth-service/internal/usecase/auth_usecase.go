@@ -13,7 +13,7 @@ import (
 	rabbitmq "auth-service/pkg/rabbitMq"
 	"auth-service/pkg/redis"
 
-	userrpb "github.com/khbdev/what-food-proto/proto/"
+	userrpb "github.com/khbdev/what-food-proto/proto/userr"
 )
 
 type AuthUsecase struct {
@@ -36,6 +36,7 @@ func NewAuthUsecase(u domain.UserService, r *redis.Service, mq *rabbitmq.Publish
 
 func (uc *AuthUsecase) Register(req models.RegisterRequest) error {
 
+	// user mavjudmi
 	res, _ := uc.userClient.GetUserByPhone(&userrpb.GetUserByPhoneRequest{
 		Phone: req.Phone,
 	})
@@ -43,13 +44,17 @@ func (uc *AuthUsecase) Register(req models.RegisterRequest) error {
 		return errors.New("user already exists")
 	}
 
+	// OTP generate
 	code := otp.GenerateCode()
-	fmt.Println("OTP:", code)
 
+	fmt.Println(code)
+
+	// Redisga saqlash
 	if err := uc.redis.SetOTP(int64(code), req); err != nil {
 		return err
 	}
 
+	// RabbitMQ push
 	if err := uc.rabbit.PublishAuthMessage(os.Getenv("AUTH_ROUTING_KEY"), models.AuthMessage{
 		Task:  "register",
 		Phone: req.Phone,
@@ -67,6 +72,7 @@ func (uc *AuthUsecase) Register(req models.RegisterRequest) error {
 
 func (uc *AuthUsecase) Login(req models.LoginRequest) error {
 
+	// user borligini tekshiramiz
 	res, _ := uc.userClient.GetUserByPhone(&userrpb.GetUserByPhoneRequest{
 		Phone: req.Phone,
 	})
@@ -74,8 +80,10 @@ func (uc *AuthUsecase) Login(req models.LoginRequest) error {
 		return errors.New("user not found")
 	}
 
+	// OTP
 	code := otp.GenerateCode()
 
+	// login uchun ham RegisterRequest ishlatyapmiz (redis struct shu)
 	data := models.RegisterRequest{
 		Phone: req.Phone,
 	}
@@ -98,9 +106,9 @@ func (uc *AuthUsecase) Login(req models.LoginRequest) error {
 //////////////////////////////////////////////////////
 // VERIFY
 //////////////////////////////////////////////////////
-
 func (uc *AuthUsecase) Verify(code int64) (string, string, error) {
 
+	// Redisdan olish
 	data, err := uc.redis.GetOTP(code)
 	if err != nil {
 		return "", "", err
@@ -109,26 +117,20 @@ func (uc *AuthUsecase) Verify(code int64) (string, string, error) {
 		return "", "", errors.New("otp expired or invalid")
 	}
 
-	var (
-		userID   uint
-		userName string
-		userRole userrpb.Role
-	)
+	var userID uint
+	var userName string
 
+	// Phone bazada bormi?
 	res, _ := uc.userClient.GetUserByPhone(&userrpb.GetUserByPhoneRequest{
 		Phone: data.Phone,
 	})
 
 	if res != nil && res.User != nil {
-
-		// LOGIN CASE
+		// LOGIN: user mavjud — faqat tokenlar beramiz
 		userID = uint(res.User.Id)
 		userName = res.User.Name
-		userRole = res.User.Role
-
 	} else {
-
-		// REGISTER CASE
+		// REGISTER: user yo'q — yangi yaratamiz
 		userRes, err := uc.userClient.CreateUser(&userrpb.CreateUserRequest{
 			Name:    data.FullName,
 			Phone:   data.Phone,
@@ -141,23 +143,25 @@ func (uc *AuthUsecase) Verify(code int64) (string, string, error) {
 		if userRes == nil || userRes.User == nil {
 			return "", "", errors.New("user yaratishda xato")
 		}
-
 		userID = uint(userRes.User.Id)
 		userName = userRes.User.Name
 		userRole = userRes.User.Role
 	}
 
+	// Token model
 	tokenModel := models.TokenModel{
 		UserID:   userID,
 		UserName: userName,
 		Role:     userRole,
 	}
 
+	// Access token
 	access, err := jwt.GenerateAccessToken(tokenModel)
 	if err != nil {
 		return "", "", err
 	}
 
+	// Refresh token
 	refresh, err := jwt.GenerateRefreshToken(tokenModel)
 	if err != nil {
 		return "", "", err
