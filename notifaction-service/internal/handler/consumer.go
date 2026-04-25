@@ -17,11 +17,12 @@ type Handler struct {
 }
 
 // DI constructor
-func NewHandlerConsumer(ch *amqp.Channel) *Handler {
+func NewHandlerConsumer(ch *amqp.Channel, uc domain.SMSUsecase) *Handler {
 	return &Handler{
 		ch:        ch,
 		queueName: os.Getenv("QUEUE_NAME"),
 		workers:   10,
+		uc:        uc,
 	}
 }
 
