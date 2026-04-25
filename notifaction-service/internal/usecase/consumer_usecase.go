@@ -27,5 +27,5 @@ func (u *SMSUsecase) Handle(body []byte) error {
 	}
 
 	// business
-	return sms.Send(data.Phone, data.OTP)
+	return .Send(data.Phone, data.OTP)
 }
