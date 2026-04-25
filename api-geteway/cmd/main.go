@@ -56,7 +56,7 @@ userURL := os.Getenv("USER_URL")
 
 
 
-	log.Println("✅ Auth client created")
+	log.Println("✅ User client created")
 	// =========================
 	// SERVICE (usecase)
 	// =========================
