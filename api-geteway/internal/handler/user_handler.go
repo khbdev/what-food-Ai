@@ -170,17 +170,22 @@ func (h *UserHandler) UpdateUser(c *gin.Context) {
 // =========================
 // DELETE USER
 // =========================
-
 func (h *UserHandler) DeleteUser(c *gin.Context) {
-	var req models.DeleteUserRequest
 
-	if err := c.ShouldBindJSON(&req); err != nil {
-		response.Fail(c, http.StatusBadRequest, err)
+	idStr := c.Param("id")
+	if idStr == "" {
+		response.Fail(c, http.StatusBadRequest, errors.New("id is required"))
+		return
+	}
+
+	id, err := strconv.ParseUint(idStr, 10, 64)
+	if err != nil {
+		response.Fail(c, http.StatusBadRequest, errors.New("invalid id"))
 		return
 	}
 
 	res, err := h.svc.DeleteUser(c.Request.Context(), &userrpb.DeleteUserRequest{
-		Id: req.ID,
+		Id: id,
 	})
 
 	if err != nil {
