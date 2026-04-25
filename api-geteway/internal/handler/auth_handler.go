@@ -6,7 +6,7 @@ import (
 	"api-geteway/internal/models"
 	"api-geteway/internal/service"
 
-	authpb "github.com/khbdev/what-food-proto/proto/authpb"
+	authpb "github.com/khbdev/what-food-proto/proto/auth"
 
 	"github.com/gin-gonic/gin"
 )
