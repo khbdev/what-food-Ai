@@ -54,7 +54,14 @@ func (h *Handler) Start() {
 func (h *Handler) worker(msgs <-chan amqp.Delivery, id int) {
 	for msg := range msgs {
 
-		log.Printf("[worker-%d] %s\n", id, string(msg.Body))
+		err := h.uc.Handle(msg.Body)
+		if err != nil {
+			log.Printf("[worker-%d] error: %v\n", id, err)
+			msg.Nack(false, true)
+			continue
+		}
+
+		log.Printf("[worker-%d] done\n", id)
 
 		msg.Ack(false)
 	}
