@@ -78,7 +78,7 @@ func main() {
 
 	// 👉 o'zing tanlaysan
 for i := 0; i < 50; i++ {
-		// register(client)
+		register(client, i)
 }
 	// login(client)
 	// verify(client)
