@@ -3,6 +3,6 @@ package main
 
 func main(){
 
-	rabbitMqConnection
+	rabbitMqConnectio := con
 
 }
