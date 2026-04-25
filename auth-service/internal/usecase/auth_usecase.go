@@ -145,14 +145,14 @@ func (uc *AuthUsecase) Verify(code int64) (string, string, error) {
 		}
 		userID = uint(userRes.User.Id)
 		userName = userRes.User.Name
-		userRole = userRes.User.Ro
+		userRole = userRes.User.Role
 	}
 
 	// Token model
 	tokenModel := models.TokenModel{
 		UserID:   userID,
 		UserName: userName,
-		Role:     "user",
+		Role:     us,
 	}
 
 	// Access token
