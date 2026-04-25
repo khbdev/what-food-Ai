@@ -10,7 +10,7 @@ import (
 
 var jwtSecret = []byte("secret")
 
-type Claims struct {
+type ClaimsRole struct {
 	Role string `json:"role"`
 	jwt.RegisteredClaims
 }
