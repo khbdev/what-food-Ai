@@ -106,6 +106,12 @@ func (s *UserService) UpdateUser(ctx context.Context, req *userrpb.UpdateUserReq
 	if req.Phone != "" && len(req.Phone) < 9 {
 		return nil, errors.New("phone is invalid")
 	}
+khgopher@khgopher:~/Desktop/Go-Loyihalar/what-food-Ai/api-geteway$ cat go.work
+
+go 1.25.0
+
+khgopher@khgopher:~/Desktop/Go-Loyihalar/what-food-Ai/api-geteway$
+
 
 	if req.Age != 0 && (req.Age < 0 || req.Age > 120) {
 		return nil, errors.New("invalid age")
