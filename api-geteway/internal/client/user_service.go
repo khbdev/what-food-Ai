@@ -21,7 +21,7 @@ type UserClient struct {
 // =========================
 
 const (
-	timeout = 5 * time.Second
+	tim = 5 * time.Second
 )
 
 // =========================
