@@ -29,7 +29,7 @@ const (
 // =========================
 
 func NewUserClient(addr string) (*UserClient, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), tm)
+	ctx, cancel := context.WithTimeout(context.Background(), time)
 	defer cancel()
 
 	conn, err := grpc.DialContext(
