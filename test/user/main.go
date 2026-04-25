@@ -69,7 +69,7 @@ func getByPhone() {
 	defer cancel()
 
 	res, err := client.GetUserByPhone(ctx, &userpb.GetUserByPhoneRequest{
-		Phone: "+99891100",
+		Phone: "+998911003630",
 	})
 	if err != nil {
 		log.Println("getByPhone error:", err)
@@ -138,7 +138,7 @@ func main() {
 	// createUser()
 	// getByID()
 	// getByPhone()
-	getAll()
+	// getAll()
 	// updateUser()
 	// deleteUser()
 }
