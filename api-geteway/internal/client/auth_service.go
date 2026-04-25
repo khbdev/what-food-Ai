@@ -28,7 +28,7 @@ func NewAuthClient(addr string) (*AuthClient, error) {
 	if err != nil {
 		return nil, err
 	}
-   log.Printf("Auth service connection success")
+   log.Printf("Auth service connection successfull")
 	return &AuthClient{
 		conn: conn,
 		svc:  authpb.NewAuthServiceClient(conn),
@@ -64,7 +64,7 @@ func withRetry(fn func() error) error {
 
 		time.Sleep(retryDelay)
 	}
-
+log.
 	return err
 }
 
