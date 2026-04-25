@@ -27,7 +27,7 @@ func NewAuthClient(addr string) (*AuthClient, error) {
 	if err != nil {
 		return nil, err
 	}
-   
+   log.Pri
 	return &AuthClient{
 		conn: conn,
 		svc:  authpb.NewAuthServiceClient(conn),
