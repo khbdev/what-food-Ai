@@ -17,7 +17,17 @@ type AuthClient struct {
 }
 
 // =========================
-// INIT / CLOSE
+// CONFIG
+// =========================
+
+const (
+	requestTimeout = 5 * time.Second
+	maxRetries     = 3
+	retryDelay     = 200 * time.Millisecond
+)
+
+// =========================
+// INIT
 // =========================
 
 func NewAuthClient(addr string) (*AuthClient, error) {
@@ -28,26 +38,25 @@ func NewAuthClient(addr string) (*AuthClient, error) {
 	if err != nil {
 		return nil, err
 	}
-   log.Printf("Auth service connection successfull")
-	return &AuthClient{
+
+	client := &AuthClient{
 		conn: conn,
 		svc:  authpb.NewAuthServiceClient(conn),
-	}, nil
+	}
+
+	log.Println("⚡ Auth client initialized (connection created)")
+
+	return client, nil
 }
+
+// =========================
+// CLOSE
+// =========================
 
 func (c *AuthClient) Close() error {
+	log.Println("🔌 Auth client closed")
 	return c.conn.Close()
 }
-
-// =========================
-// CONFIG
-// =========================
-
-const (
-	requestTimeout = 5 * time.Second
-	maxRetries     = 3
-	retryDelay     = 200 * time.Millisecond
-)
 
 // =========================
 // RETRY WRAPPER
@@ -64,7 +73,7 @@ func withRetry(fn func() error) error {
 
 		time.Sleep(retryDelay)
 	}
-log.Println("Auth service connection UNsuccesfull")
+
 	return err
 }
 
@@ -73,8 +82,10 @@ log.Println("Auth service connection UNsuccesfull")
 // =========================
 
 func (c *AuthClient) Register(req *authpb.RegisterRequest) (*authpb.SimpleResponse, error) {
-	var res *authpb.SimpleResponse
-	var err error
+	var (
+		res *authpb.SimpleResponse
+		err error
+	)
 
 	err = withRetry(func() error {
 		ctx, cancel := context.WithTimeout(context.Background(), requestTimeout)
@@ -88,8 +99,10 @@ func (c *AuthClient) Register(req *authpb.RegisterRequest) (*authpb.SimpleRespon
 }
 
 func (c *AuthClient) Login(req *authpb.LoginRequest) (*authpb.SimpleResponse, error) {
-	var res *authpb.SimpleResponse
-	var err error
+	var (
+		res *authpb.SimpleResponse
+		err error
+	)
 
 	err = withRetry(func() error {
 		ctx, cancel := context.WithTimeout(context.Background(), requestTimeout)
@@ -103,8 +116,10 @@ func (c *AuthClient) Login(req *authpb.LoginRequest) (*authpb.SimpleResponse, er
 }
 
 func (c *AuthClient) VerifyOTP(req *authpb.VerifyRequest) (*authpb.AuthResponse, error) {
-	var res *authpb.AuthResponse
-	var err error
+	var (
+		res *authpb.AuthResponse
+		err error
+	)
 
 	err = withRetry(func() error {
 		ctx, cancel := context.WithTimeout(context.Background(), requestTimeout)
