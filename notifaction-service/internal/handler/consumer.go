@@ -5,16 +5,15 @@ import (
 	"os"
 
 	amqp "github.com/rabbitmq/amqp091-go"
-)
 
-// =====================
-// HANDLER = CONSUMER
-// =====================
+	"yourapp/domain"
+)
 
 type Handler struct {
 	ch        *amqp.Channel
 	queueName string
 	workers   int
+	uc        domain.SMSUsecase
 }
 
 // DI constructor
