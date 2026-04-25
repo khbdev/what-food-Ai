@@ -64,7 +64,7 @@ func withRetry(fn func() error) error {
 
 		time.Sleep(retryDelay)
 	}
-log.
+log.Println("")
 	return err
 }
 
