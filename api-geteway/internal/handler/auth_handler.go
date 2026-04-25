@@ -4,7 +4,8 @@ import (
 	"net/http"
 
 	"api-geteway/internal/models"
-	
+	"api-geteway/pkg/response"
+
 	"api-geteway/internal/service"
 
 	authpb "github.com/khbdev/what-food-proto/proto/auth"
@@ -28,7 +29,7 @@ func (h *AuthHandler) Register(c *gin.Context) {
 	var req models.RegisterRequest
 
 	if err := c.ShouldBindJSON(&req); err != nil {
-		res.Fail(c, http.StatusBadRequest, "invalid request")
+		response.Fail(c, http.StatusBadRequest, "invalid request")
 		return
 	}
 
