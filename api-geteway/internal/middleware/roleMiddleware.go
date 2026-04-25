@@ -15,9 +15,9 @@ type ClaimsRole struct {
 	Role string `json:"role"`
 	jwt.RegisteredClaims
 }
-
 func AdminMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		jwtSecret := []byte(os.Getenv("JWT_ACCESS_SECRET")) // <- shu yerga
 
 		authHeader := c.GetHeader("Authorization")
 		if authHeader == "" {
@@ -42,7 +42,6 @@ func AdminMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		// 🔥 ROLE CHECK
 		if claims.Role != "admin" {
 			c.AbortWithStatus(http.StatusForbidden)
 			return
