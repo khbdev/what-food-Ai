@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"api-geteway/internal/client"
-	userrpb "github.com/khbdev/what-food-proto/proto/userrpb"
+	userrpb "github.com/khbdev/what-food-proto/proto/"
 )
 
 type UserService struct {
