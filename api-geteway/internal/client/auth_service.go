@@ -21,31 +21,45 @@ type AuthClient struct {
 // =========================
 
 const (
-	requestTimeout = 5 * time.Second
-	maxRetries     = 3
-	retryDelay     = 200 * time.Millisecond
+	timeout = 5 * time.Second
 )
 
 // =========================
-// INIT
+// INIT (FAIL FAST)
 // =========================
 
 func NewAuthClient(addr string) (*AuthClient, error) {
-	conn, err := grpc.Dial(
+	ctx, cancel := context.WithTimeout(context.Background(), timeout)
+	defer cancel()
+
+	conn, err := grpc.DialContext(
+		ctx,
 		addr,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
-		grpc.WithBlock(), // 🔥 real connectni kutadi
+		grpc.WithBlock(), // 🔥 real connect kutadi
 	)
 	if err != nil {
 		return nil, err
 	}
 
-	log.Println("✅ Auth service connected:", addr)
-
-	return &AuthClient{
+	client := &AuthClient{
 		conn: conn,
 		svc:  authpb.NewAuthServiceClient(conn),
-	}, nil
+	}
+
+	// 🔥 REAL HEALTH CHECK (MUHIM)
+	_, err = client.svc.Login(ctx, &authpb.LoginRequest{
+		Phone: "health-check",
+	})
+
+	if err != nil {
+		_ = conn.Close()
+		return nil, err
+	}
+
+	log.Println("✅ Auth service connected:", addr)
+
+	return client, nil
 }
 
 // =========================
@@ -53,26 +67,16 @@ func NewAuthClient(addr string) (*AuthClient, error) {
 // =========================
 
 func (c *AuthClient) Close() error {
+	log.Println("🔌 Auth client closed")
 	return c.conn.Close()
 }
 
 // =========================
-// RETRY
+// INTERNAL HELPER
 // =========================
 
-func withRetry(fn func() error) error {
-	var err error
-
-	for i := 0; i < maxRetries; i++ {
-		err = fn()
-		if err == nil {
-			return nil
-		}
-
-		time.Sleep(retryDelay)
-	}
-
-	return err
+func (c *AuthClient) withContext() (context.Context, context.CancelFunc) {
+	return context.WithTimeout(context.Background(), timeout)
 }
 
 // =========================
@@ -80,46 +84,22 @@ func withRetry(fn func() error) error {
 // =========================
 
 func (c *AuthClient) Register(req *authpb.RegisterRequest) (*authpb.SimpleResponse, error) {
-	var res *authpb.SimpleResponse
-	var err error
+	ctx, cancel := c.withContext()
+	defer cancel()
 
-	err = withRetry(func() error {
-		ctx, cancel := context.WithTimeout(context.Background(), requestTimeout)
-		defer cancel()
-
-		res, err = c.svc.Register(ctx, req)
-		return err
-	})
-
-	return res, err
+	return c.svc.Register(ctx, req)
 }
 
 func (c *AuthClient) Login(req *authpb.LoginRequest) (*authpb.SimpleResponse, error) {
-	var res *authpb.SimpleResponse
-	var err error
+	ctx, cancel := c.withContext()
+	defer cancel()
 
-	err = withRetry(func() error {
-		ctx, cancel := context.WithTimeout(context.Background(), requestTimeout)
-		defer cancel()
-
-		res, err = c.svc.Login(ctx, req)
-		return err
-	})
-
-	return res, err
+	return c.svc.Login(ctx, req)
 }
 
 func (c *AuthClient) VerifyOTP(req *authpb.VerifyRequest) (*authpb.AuthResponse, error) {
-	var res *authpb.AuthResponse
-	var err error
+	ctx, cancel := c.withContext()
+	defer cancel()
 
-	err = withRetry(func() error {
-		ctx, cancel := context.WithTimeout(context.Background(), requestTimeout)
-		defer cancel()
-
-		res, err = c.svc.VerifyOTP(ctx, req)
-		return err
-	})
-
-	return res, err
+	return c.svc.VerifyOTP(ctx, req)
 }
