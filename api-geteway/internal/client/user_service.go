@@ -8,7 +8,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	userrpb "github.com/khbdev/what-food-proto/proto/userrpb"
+	userrpb "github.com/khbdev/what-food-proto/proto"
 )
 
 type UserClient struct {
@@ -21,7 +21,7 @@ type UserClient struct {
 // =========================
 
 const (
-	tim = 5 * time.Second
+	timeout = 5 * time.Second
 )
 
 // =========================
