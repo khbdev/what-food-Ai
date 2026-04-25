@@ -25,4 +25,6 @@ func main() {
 	log.Println("✅ Auth client created")
 
 	_ = authServiceClient
+
+	
 }
