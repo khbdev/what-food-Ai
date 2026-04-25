@@ -31,5 +31,5 @@ func main() {
 
 	_ = uscAuth
 
-	auth
+	authHand := hand
 }
