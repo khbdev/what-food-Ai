@@ -7,7 +7,7 @@ import (
 	"api-geteway/internal/service"
 	"api-geteway/pkg/response"
 
-	userrpb ""
+	userrpb "github.com/khbdev/what-food-proto/proto/userr"
 
 	"github.com/gin-gonic/gin"
 )
