@@ -26,9 +26,13 @@ func register(c authpb.AuthServiceClient, id int) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
+	idStr := fmt.Sprintf("%d", id)
+
+	phone := "+99845" + idStr + "434311"
+
 	res, err := c.Register(ctx, &authpb.RegisterRequest{
 		FullName: "Azizbek",
-		Phone:    "+99845434311",
+		Phone:    phone,
 		Age:      21,
 		Address:  "Tashkent",
 	})
