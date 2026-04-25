@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SetupRouter(authHandler *AuthHandler) *gin.Engine {
+func SetupRouter(authHandler *AuthHandler, userHandler) *gin.Engine {
 
 	r := gin.Default()
 
