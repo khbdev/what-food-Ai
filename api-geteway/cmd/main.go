@@ -27,5 +27,7 @@ func main() {
 
 	_ = authServiceClient
 
-	uscAuth := service.NewAuthService()
+	uscAuth := service.NewAuthService(authServiceClient)
+
+	
 }
