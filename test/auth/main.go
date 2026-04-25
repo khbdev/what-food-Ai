@@ -79,5 +79,5 @@ func main() {
 	// 👉 o'zing tanlaysan
 	// register(client)
 	// login(client)
-	verify(client)
+	// verify(client)
 }
