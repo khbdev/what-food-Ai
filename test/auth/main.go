@@ -24,7 +24,7 @@ func connect() authpb.AuthServiceClient {
 }
 
 func register(c authpb.AuthServiceClient, id int) {
-	ctx, cancel := context.WithTimeout(context.Background(), *time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 
 	idStr := fmt.Sprintf("%d", id)
