@@ -3,8 +3,6 @@ package usecase
 import (
 	"encoding/json"
 
-	"yourapp/models"
-	"yourapp/sms"
 )
 
 // =====================
