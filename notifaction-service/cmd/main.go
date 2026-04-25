@@ -7,4 +7,6 @@ func main(){
 
 	rabbitMqConnectio := config.NewRabbit()
 
+	_ = rabbitMqConnectio
+
 }
