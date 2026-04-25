@@ -34,19 +34,18 @@ func NewAuthClient(addr string) (*AuthClient, error) {
 	conn, err := grpc.Dial(
 		addr,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
+		grpc.WithBlock(), // 🔥 real connectni kutadi
 	)
 	if err != nil {
 		return nil, err
 	}
 
-	client := &AuthClient{
+	log.Println("✅ Auth service connected:", addr)
+
+	return &AuthClient{
 		conn: conn,
 		svc:  authpb.NewAuthServiceClient(conn),
-	}
-
-	log.Println("⚡ Auth client initialized (connection created)")
-
-	return client, nil
+	}, nil
 }
 
 // =========================
@@ -54,12 +53,11 @@ func NewAuthClient(addr string) (*AuthClient, error) {
 // =========================
 
 func (c *AuthClient) Close() error {
-	log.Println("🔌 Auth client closed")
 	return c.conn.Close()
 }
 
 // =========================
-// RETRY WRAPPER
+// RETRY
 // =========================
 
 func withRetry(fn func() error) error {
@@ -82,10 +80,8 @@ func withRetry(fn func() error) error {
 // =========================
 
 func (c *AuthClient) Register(req *authpb.RegisterRequest) (*authpb.SimpleResponse, error) {
-	var (
-		res *authpb.SimpleResponse
-		err error
-	)
+	var res *authpb.SimpleResponse
+	var err error
 
 	err = withRetry(func() error {
 		ctx, cancel := context.WithTimeout(context.Background(), requestTimeout)
@@ -99,10 +95,8 @@ func (c *AuthClient) Register(req *authpb.RegisterRequest) (*authpb.SimpleRespon
 }
 
 func (c *AuthClient) Login(req *authpb.LoginRequest) (*authpb.SimpleResponse, error) {
-	var (
-		res *authpb.SimpleResponse
-		err error
-	)
+	var res *authpb.SimpleResponse
+	var err error
 
 	err = withRetry(func() error {
 		ctx, cancel := context.WithTimeout(context.Background(), requestTimeout)
@@ -116,10 +110,8 @@ func (c *AuthClient) Login(req *authpb.LoginRequest) (*authpb.SimpleResponse, er
 }
 
 func (c *AuthClient) VerifyOTP(req *authpb.VerifyRequest) (*authpb.AuthResponse, error) {
-	var (
-		res *authpb.AuthResponse
-		err error
-	)
+	var res *authpb.AuthResponse
+	var err error
 
 	err = withRetry(func() error {
 		ctx, cancel := context.WithTimeout(context.Background(), requestTimeout)
