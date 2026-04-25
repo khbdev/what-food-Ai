@@ -26,5 +26,5 @@ func main() {
 
 	_ = authServiceClient
 
-	
+	usc
 }
