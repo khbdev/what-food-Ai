@@ -21,7 +21,7 @@ func main() {
 	if authURL == "" {
 		log.Fatal("❌ AUTH_URL is empty")
 	}
-userURL := os.Getenv("_URL")
+userURL := os.Getenv("USER_URL")
 	if authURL == "" {
 		log.Fatal("❌ AUTH_URL is empty")
 	}
@@ -37,7 +37,7 @@ userURL := os.Getenv("_URL")
 	// CLIENT (gRPC)
 	// =========================
 	authClient, err := client.NewAuthClient(authURL)
-	userClinet, err := client.NewUserClient()
+	userClinet, err := client.NewUserClient(us)
 	if err != nil {
 		log.Fatal("❌ Failed to connect auth service:", err)
 	}
