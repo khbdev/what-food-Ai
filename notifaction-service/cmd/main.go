@@ -17,6 +17,6 @@ func main(){
 
 	handConsumer := handler.NewHandlerConsumer(rabbitMqConnectio.Channel)
 
-	
+	handConsumer.Start()
 
 }
