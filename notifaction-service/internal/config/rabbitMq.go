@@ -29,7 +29,7 @@ func NewRabbit() *Rabbit {
 		log.Fatal("RabbitMQ channel error:", err)
 	}
 
-	// optional QoS (xohlasang qoldirasan)
+	
 	if err := ch.Qos(10, 0, false); err != nil {
 		log.Fatal("RabbitMQ QoS error:", err)
 	}
