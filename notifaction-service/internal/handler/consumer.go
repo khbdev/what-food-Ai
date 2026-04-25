@@ -61,7 +61,7 @@ func (h *Handler) worker(msgs <-chan amqp.Delivery, id int) {
 			continue
 		}
 
-		log.Printf("[worker-%d] done\n", id)
+
 
 		msg.Ack(false)
 	}
