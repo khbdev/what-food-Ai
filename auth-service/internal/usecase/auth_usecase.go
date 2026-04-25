@@ -13,7 +13,7 @@ import (
 	rabbitmq "auth-service/pkg/rabbitMq"
 	"auth-service/pkg/redis"
 
-	userrpb "github.com/khbdev/what-food-proto/proto/userrpb"
+	userrpb "github.com/khbdev/what-food-proto/proto/userr"
 )
 
 type AuthUsecase struct {
