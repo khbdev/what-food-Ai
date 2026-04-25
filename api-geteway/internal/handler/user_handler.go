@@ -3,6 +3,7 @@ package handler
 import (
 	"errors"
 	"net/http"
+	"strconv"
 
 	"api-geteway/internal/models"
 	"api-geteway/internal/service"
@@ -66,7 +67,7 @@ func (h *UserHandler) GetUserByID(c *gin.Context) {
 		return
 	}
 
-	id, err := str.ParseUint(idStr, 10, 64)
+	id, err := strconv.ParseUint(idStr, 10, 64)
 	if err != nil {
 		response.Fail(c, http.StatusBadRequest, errors.New("invalid id"))
 		return
@@ -128,6 +129,19 @@ func (h *UserHandler) GetAllUsers(c *gin.Context) {
 // =========================
 
 func (h *UserHandler) UpdateUser(c *gin.Context) {
+
+	idStr := c.Param("id")
+	if idStr == "" {
+		response.Fail(c, http.StatusBadRequest, errors.New("id is required"))
+		return
+	}
+
+	id, err := strconv.ParseUint(idStr, 10, 64)
+	if err != nil {
+		response.Fail(c, http.StatusBadRequest, errors.New("invalid id"))
+		return
+	}
+
 	var req models.UpdateUserRequest
 
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -136,7 +150,7 @@ func (h *UserHandler) UpdateUser(c *gin.Context) {
 	}
 
 	res, err := h.svc.UpdateUser(c.Request.Context(), &userrpb.UpdateUserRequest{
-		Id:      req.ID,
+		Id:      id,
 		Name:    req.Name,
 		Phone:   req.Phone,
 		Age:     req.Age,
