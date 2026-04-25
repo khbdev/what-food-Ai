@@ -16,7 +16,7 @@ type AuthClient struct {
 	svc  authpb.AuthServiceClient
 }
 
-const timeout = 5 * time.Second
+const timeoutAurh = 5 * time.Second
 
 // =========================
 // INIT (ONLY CONNECT)
