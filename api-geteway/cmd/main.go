@@ -61,12 +61,13 @@ userURL := os.Getenv("USER_URL")
 	// SERVICE (usecase)
 	// =========================
 	authService := service.NewAuthService(authClient)
-	userService := service.NewUserService(us)
+	userService := service.NewUserService(userClinet)
 
 	// =========================
 	// HANDLER (HTTP)
 	// =========================
 	authHandler := handler.NewAuthHandler(authService)
+	
 
 	// =========================
 	// ROUTER
