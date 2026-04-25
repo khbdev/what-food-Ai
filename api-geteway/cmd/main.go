@@ -8,5 +8,9 @@ import (
 
 func main(){
     authUR := os.Getenv("AUTH_URL")
-	authServiceClient, err := client.NewAuthClient(au)
+	authServiceClient, err := client.NewAuthClient(authUR)
+
+	if err ! {
+		
+	}
 }
