@@ -2,7 +2,8 @@ package handler
 
 import (
 	"log"
-	
+	"notifaction-service/internal/domain"
+
 	"os"
 
 	amqp "github.com/rabbitmq/amqp091-go"
