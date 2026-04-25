@@ -16,45 +16,45 @@ type AuthClient struct {
 	svc  authpb.AuthServiceClient
 }
 
-// =========================
+// =====================
 // CONFIG
-// =========================
+// =====================
 
 const (
-	requestTimeout = 5 * time.Second
-	maxRetries     = 3
-	retryDelay     = 200 * time.Millisecond
+	timeout = 5 * time.Second
 )
 
-// =========================
+// =====================
 // INIT
-// =========================
+// =====================
 
 func NewAuthClient(addr string) (*AuthClient, error) {
-	conn, err := grpc.Dial(
+	ctx, cancel := context.WithTimeout(context.Background(), timeout)
+	defer cancel()
+
+	conn, err := grpc.DialContext(
+		ctx,
 		addr,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
+		grpc.WithBlock(), // 🔥 muhim: real connect kutadi
 	)
 	if err != nil {
 		return nil, err
 	}
 
-	client := &AuthClient{
+	log.Println("✅ Auth service connected:", addr)
+
+	return &AuthClient{
 		conn: conn,
 		svc:  authpb.NewAuthServiceClient(conn),
-	}
-
-	log.Println("⚡ Auth client initialized (connection created)")
-
-	return client, nil
+	}, nil
 }
 
-// =========================
+// =====================
 // CLOSE
-// =========================
+// =====================
 
 func (c *AuthClient) Close() error {
-	log.Println("🔌 Auth client closed")
 	return c.conn.Close()
 }
 
