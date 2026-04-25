@@ -14,4 +14,6 @@ func main(){
 
 	_ = rabbitMqConnectio
 
+	
+
 }
