@@ -72,7 +72,7 @@ userURL := os.Getenv("USER_URL")
 	// =========================
 	// ROUTER
 	// =========================
-	router := handler.SetupRouter(authHandler)
+	router := handler.SetupRouter(authHandler, userHander)
 
 	log.Println("🚀 API Gateway running on :" + port)
 
