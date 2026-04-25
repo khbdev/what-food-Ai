@@ -7,17 +7,22 @@ import (
 	"os"
 )
 
-
-func main(){
-
+func main() {
 	loadenv.Load()
-	
-    authUR := os.Getenv("AUTH_URL")
-	authServiceClient, err := client.NewAuthClient(authUR)
 
-	if err != nil {
-		log.Fatal("Xatolik",err)
+	authURL := os.Getenv("AUTH_URL")
+	if authURL == "" {
+		log.Fatal("❌ AUTH_URL is empty")
 	}
+
+	log.Println("AUTH_URL =", authURL)
+
+	authServiceClient, err := client.NewAuthClient(authURL)
+	if err != nil {
+		log.Fatal("❌ Failed to connect auth service:", err)
+	}
+
+	log.Println("✅ Auth client created")
 
 	_ = authServiceClient
 }
