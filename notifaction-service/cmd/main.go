@@ -15,6 +15,6 @@ func main(){
 
 	_ = rabbitMqConnectio
 
-	handConsumer := handler.
+	handConsumer := handler.NewHandlerConsumer(ra)
 
 }
