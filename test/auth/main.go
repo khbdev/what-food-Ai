@@ -22,7 +22,7 @@ func connect() authpb.AuthServiceClient {
 	return authpb.NewAuthServiceClient(conn)
 }
 
-func register(c authpb.AuthServiceClient) {
+func register(c authpb.AuthServiceClient,) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
