@@ -37,7 +37,7 @@ userURL := os.Getenv("USER_URL")
 	// CLIENT (gRPC)
 	// =========================
 	authClient, err := client.NewAuthClient(authURL)
-	userClinet, err := client.NewUserClient(userURL)
+	
 	if err != nil {
 		log.Fatal("❌ Failed to connect auth service:", err)
 	}
