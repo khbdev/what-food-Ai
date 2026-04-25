@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"api-geteway/internal/client"
-	authpb "github.com/khbdev/what-food-proto/proto/"
+	authpb "github.com/khbdev/what-food-proto/proto/auth"
 )
 
 type AuthService struct {
