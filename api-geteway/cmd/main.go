@@ -22,7 +22,13 @@ func main() {
 		log.Fatal("❌ AUTH_URL is empty")
 	}
 
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080" // default
+	}
+
 	log.Println("AUTH_URL =", authURL)
+	log.Println("PORT =", port)
 
 	// =========================
 	// CLIENT (gRPC)
@@ -50,10 +56,12 @@ func main() {
 	// =========================
 	router := handler.SetupRouter(authHandler)
 
-	log.Println("🚀 API Gateway running on :8085")
+	log.Println("🚀 API Gateway running on :" + port)
 
-	// 🔥 START SERVER (MUHIM)
-	if err := router.Run(":8080"); err != nil {
+	// =========================
+	// START SERVER
+	// =========================
+	if err := router.Run(":" + port); err != nil {
 		log.Fatal("❌ failed to start server:", err)
 	}
 }
