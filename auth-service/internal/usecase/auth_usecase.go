@@ -124,7 +124,7 @@ func (uc *AuthUsecase) Verify(code int64) (string, string, error) {
 		// LOGIN CASE
 		userID = uint(res.User.Id)
 		userName = res.User.Name
-		userRole = userRes.User.Role.String()
+		userRole = .User.Role.String()
 
 	} else {
 
