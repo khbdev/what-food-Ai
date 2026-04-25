@@ -50,7 +50,7 @@ func main() {
 	// =========================
 	router := handler.SetupRouter(authHandler)
 
-	log.Println("🚀 API Gateway running on :8080")
+	log.Println("🚀 API Gateway running on :8085")
 
 	// 🔥 START SERVER (MUHIM)
 	if err := router.Run(":8080"); err != nil {
