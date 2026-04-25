@@ -29,7 +29,7 @@ func (h *AuthHandler) Register(c *gin.Context) {
 	var req models.RegisterRequest
 
 	if err := c.ShouldBindJSON(&req); err != nil {
-		response.Fail(c, http.StatusBadRequest, "invalid request")
+		response.Fail(c, http.StatusBadRequest, err)
 		return
 	}
 
@@ -41,13 +41,12 @@ func (h *AuthHandler) Register(c *gin.Context) {
 	})
 
 	if err != nil {
-		response.Fail(c, http.StatusBadRequest, "register failed")
+		response.Fail(c, http.StatusBadRequest, err)
 		return
 	}
 
 	response.OK(c, res)
 }
-
 // =========================
 // LOGIN
 // =========================
