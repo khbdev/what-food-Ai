@@ -22,13 +22,13 @@ func connect() authpb.AuthServiceClient {
 	return authpb.NewAuthServiceClient(conn)
 }
 
-func register(c authpb.AuthServiceClient,) {
+func register(c authpb.AuthServiceClient, id int) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
 	res, err := c.Register(ctx, &authpb.RegisterRequest{
 		FullName: "Azizbek",
-		Phone:    "+99845434311",
+		Phone:    "+9945434311",
 		Age:      21,
 		Address:  "Tashkent",
 	})
