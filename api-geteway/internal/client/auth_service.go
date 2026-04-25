@@ -2,6 +2,7 @@ package client
 
 import (
 	"context"
+	"log"
 	"time"
 
 	"google.golang.org/grpc"
@@ -27,7 +28,7 @@ func NewAuthClient(addr string) (*AuthClient, error) {
 	if err != nil {
 		return nil, err
 	}
-   log.Pri
+   log.Printf()
 	return &AuthClient{
 		conn: conn,
 		svc:  authpb.NewAuthServiceClient(conn),
