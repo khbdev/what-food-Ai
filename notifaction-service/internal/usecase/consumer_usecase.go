@@ -2,7 +2,7 @@ package usecase
 
 import (
 	"encoding/json"
-
+	"notifaction-service/internal/models"
 )
 
 // =====================
@@ -19,7 +19,7 @@ func NewSMSUsecase() *SMSUsecase {
 // faqat process
 func (u *SMSUsecase) Handle(body []byte) error {
 
-	var data mod.SMSOTP
+	var data models.SMSOTP
 
 	// parse
 	if err := json.Unmarshal(body, &data); err != nil {
