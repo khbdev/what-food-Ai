@@ -57,7 +57,7 @@ func (c *AuthClient) Close() error {
 // =========================
 
 func (c *AuthClient) ctx() (context.Context, context.CancelFunc) {
-	return context.WithTimeout(context.Background(), tim)
+	return context.WithTimeout(context.Background(), timeoutAuth)
 }
 
 // =========================
