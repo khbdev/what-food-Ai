@@ -98,7 +98,6 @@ func (uc *AuthUsecase) Login(req models.LoginRequest) error {
 //////////////////////////////////////////////////////
 // VERIFY
 //////////////////////////////////////////////////////
-
 func (uc *AuthUsecase) Verify(code int64) (string, string, error) {
 
 	data, err := uc.redis.GetOTP(code)
@@ -112,9 +111,10 @@ func (uc *AuthUsecase) Verify(code int64) (string, string, error) {
 	var (
 		userID   uint
 		userName string
-		userRole userrpb.Role
+		roleStr  string
 	)
 
+	// check user
 	res, _ := uc.userClient.GetUserByPhone(&userrpb.GetUserByPhoneRequest{
 		Phone: data.Phone,
 	})
@@ -124,7 +124,16 @@ func (uc *AuthUsecase) Verify(code int64) (string, string, error) {
 		// LOGIN CASE
 		userID = uint(res.User.Id)
 		userName = res.User.Name
-		userRole = userRes.User.Role.String()
+
+		// enum -> string convert
+		switch res.User.Role {
+		case userrpb.Role_ROLE_ADMIN:
+			roleStr = "admin"
+		case userrpb.Role_ROLE_USER:
+			roleStr = "user"
+		default:
+			roleStr = "user"
+		}
 
 	} else {
 
@@ -144,13 +153,22 @@ func (uc *AuthUsecase) Verify(code int64) (string, string, error) {
 
 		userID = uint(userRes.User.Id)
 		userName = userRes.User.Name
-		userRole = userRes.User.Role
+
+		switch userRes.User.Role {
+		case userrpb.Role_ROLE_ADMIN:
+			roleStr = "admin"
+		case userrpb.Role_ROLE_USER:
+			roleStr = "user"
+		default:
+			roleStr = "user"
+		}
 	}
 
+	// token model
 	tokenModel := models.TokenModel{
 		UserID:   userID,
 		UserName: userName,
-		Role:     userRole,
+		Role:     roleStr,
 	}
 
 	access, err := jwt.GenerateAccessToken(tokenModel)
