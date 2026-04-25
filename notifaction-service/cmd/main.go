@@ -1,8 +1,10 @@
 package main
 
+import "notifaction-service/internal/config"
+
 
 func main(){
 
-	rabbitMqConnectio := con
+	rabbitMqConnectio := config.NewRabbit()
 
 }
