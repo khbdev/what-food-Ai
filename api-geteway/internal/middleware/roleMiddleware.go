@@ -26,7 +26,7 @@ func AdminMiddleware() gin.HandlerFunc {
 
 		tokenStr := strings.TrimPrefix(authHeader, "Bearer ")
 
-		token, err := jwt.ParseWithClaims(tokenStr, &Claims{}, func(t *jwt.Token) (interface{}, error) {
+		token, err := jwt.ParseWithClaims(tokenStr, &ClaimsRole{}, func(t *jwt.Token) (interface{}, error) {
 			return jwtSecret, nil
 		})
 
@@ -35,7 +35,11 @@ func AdminMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		claims := token.Claims.(*Claims)
+		claims, ok := token.Claims.(*ClaimsRole)
+		if !ok {
+			c.AbortWithStatus(http.StatusUnauthorized)
+			return
+		}
 
 		// 🔥 ROLE CHECK
 		if claims.Role != "admin" {
