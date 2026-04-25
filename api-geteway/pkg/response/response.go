@@ -1,5 +1,11 @@
 package response
 
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
+
 type Response struct {
 	Success bool        `json:"success"`
 	Data    interface{} `json:"data,omitempty"`
@@ -7,17 +13,17 @@ type Response struct {
 }
 
 // SUCCESS
-func Success(data interface{}) Response {
-	return Response{
+func OK(c *gin.Context, data interface{}) {
+	c.JSON(http.StatusOK, Response{
 		Success: true,
 		Data:    data,
-	}
+	})
 }
 
 // ERROR
-func Error(msg string) Response {
-	return Response{
+func Fail(c *gin.Context, status int, msg string) {
+	c.JSON(status, Response{
 		Success: false,
 		Error:   msg,
-	}
+	})
 }
