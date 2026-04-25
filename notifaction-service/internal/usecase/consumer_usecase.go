@@ -3,6 +3,7 @@ package usecase
 import (
 	"encoding/json"
 	"notifaction-service/internal/models"
+	"notifaction-service/pkg/sms"
 )
 
 // =====================
@@ -27,5 +28,5 @@ func (u *SMSUsecase) Handle(body []byte) error {
 	}
 
 	// business
-	return .Send(data.Phone, data.OTP)
+	return sms.Send(data.Phone, data.OTP)
 }
