@@ -2,14 +2,13 @@ package middleware
 
 import (
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 )
-
-var jwtSecret = []byte("secret")
 
 type Claims struct {
 	UserID uint64 `json:"user_id"`
@@ -23,6 +22,9 @@ type Claims struct {
 
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
+
+		// 🔥 secret ENV dan olinadi
+		jwtSecret := []byte(os.Getenv("JWT_ACCESS_SECRET"))
 
 		authHeader := c.GetHeader("Authorization")
 		if authHeader == "" {
@@ -47,13 +49,13 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		// 🔥 EXPIRE CHECK
+		// 🔥 expiry check
 		if claims.ExpiresAt != nil && claims.ExpiresAt.Time.Before(time.Now()) {
 			c.AbortWithStatus(http.StatusUnauthorized)
 			return
 		}
 
-		// userni contextga saqlash
+		// contextga user saqlash
 		c.Set("user_id", claims.UserID)
 		c.Set("role", claims.Role)
 
