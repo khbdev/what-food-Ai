@@ -56,7 +56,7 @@ func (h *Handler) worker(msgs <-chan amqp.Delivery, id int) {
 
 		err := h.uc.Handle(msg.Body)
 		if err != nil {
-			log.Printf("[worker-%d] error: %v\n", id, err)
+		
 			msg.Nack(false, true)
 			continue
 		}
