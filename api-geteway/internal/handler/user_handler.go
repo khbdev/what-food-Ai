@@ -66,7 +66,7 @@ func (h *UserHandler) GetUserByID(c *gin.Context) {
 		return
 	}
 
-	id, err := strconv.ParseUint(idStr, 10, 64)
+	id, err := str.ParseUint(idStr, 10, 64)
 	if err != nil {
 		response.Fail(c, http.StatusBadRequest, errors.New("invalid id"))
 		return
