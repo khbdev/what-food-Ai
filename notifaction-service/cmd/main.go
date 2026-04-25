@@ -14,8 +14,8 @@ func main(){
 	rabbitMqConnectio := config.NewRabbit()
 
 	_ = rabbitMqConnectio
+   use
 
-	
 	handConsumer := handler.NewHandlerConsumer(rabbitMqConnectio.Channel, )
 
 	handConsumer.Start()
