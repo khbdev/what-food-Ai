@@ -16,14 +16,14 @@ type AuthClient struct {
 	svc  authpb.AuthServiceClient
 }
 
-const timeoutAurh = 5 * time.Second
+const timeoutAuth = 5 * time.Second
 
 // =========================
 // INIT (ONLY CONNECT)
 // =========================
 
 func NewAuthClient(addr string) (*AuthClient, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), timeout)
+	ctx, cancel := context.WithTimeout(context.Background(), tim)
 	defer cancel()
 
 	conn, err := grpc.DialContext(
