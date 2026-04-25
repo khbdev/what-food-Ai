@@ -145,7 +145,7 @@ func (uc *AuthUsecase) Verify(code int64) (string, string, error) {
 		}
 		userID = uint(userRes.User.Id)
 		userName = userRes.User.Name
-		user
+		userRole = us
 	}
 
 	// Token model
