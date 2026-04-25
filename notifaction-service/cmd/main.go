@@ -17,7 +17,7 @@ func main(){
 	_ = rabbitMqConnectio
    usc := usecase.NewSMSUsecase()
 
-	handConsumer := handler.NewHandlerConsumer(rabbitMqConnectio.Channel, )
+	handConsumer := handler.NewHandlerConsumer(rabbitMqConnectio.Channel, usc)
 
 	handConsumer.Start()
 
