@@ -16,16 +16,10 @@ type AuthClient struct {
 	svc  authpb.AuthServiceClient
 }
 
-// =========================
-// CONFIG
-// =========================
-
-const (
-	timeout = 5 * time.Second
-)
+const timeout = 5 * time.Second
 
 // =========================
-// INIT (FAIL FAST)
+// INIT (ONLY CONNECT)
 // =========================
 
 func NewAuthClient(addr string) (*AuthClient, error) {
@@ -36,30 +30,18 @@ func NewAuthClient(addr string) (*AuthClient, error) {
 		ctx,
 		addr,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
-		grpc.WithBlock(), // 🔥 real connect kutadi
+		grpc.WithBlock(),
 	)
 	if err != nil {
 		return nil, err
 	}
 
-	client := &AuthClient{
-		conn: conn,
-		svc:  authpb.NewAuthServiceClient(conn),
-	}
-
-	// 🔥 REAL HEALTH CHECK (MUHIM)
-	_, err = client.svc.Login(ctx, &authpb.LoginRequest{
-		Phone: "health-check",
-	})
-
-	if err != nil {
-		_ = conn.Close()
-		return nil, err
-	}
-
 	log.Println("✅ Auth service connected:", addr)
 
-	return client, nil
+	return &AuthClient{
+		conn: conn,
+		svc:  authpb.NewAuthServiceClient(conn),
+	}, nil
 }
 
 // =========================
@@ -67,15 +49,14 @@ func NewAuthClient(addr string) (*AuthClient, error) {
 // =========================
 
 func (c *AuthClient) Close() error {
-	log.Println("🔌 Auth client closed")
 	return c.conn.Close()
 }
 
 // =========================
-// INTERNAL HELPER
+// CONTEXT HELPER
 // =========================
 
-func (c *AuthClient) withContext() (context.Context, context.CancelFunc) {
+func (c *AuthClient) ctx() (context.Context, context.CancelFunc) {
 	return context.WithTimeout(context.Background(), timeout)
 }
 
@@ -84,21 +65,21 @@ func (c *AuthClient) withContext() (context.Context, context.CancelFunc) {
 // =========================
 
 func (c *AuthClient) Register(req *authpb.RegisterRequest) (*authpb.SimpleResponse, error) {
-	ctx, cancel := c.withContext()
+	ctx, cancel := c.ctx()
 	defer cancel()
 
 	return c.svc.Register(ctx, req)
 }
 
 func (c *AuthClient) Login(req *authpb.LoginRequest) (*authpb.SimpleResponse, error) {
-	ctx, cancel := c.withContext()
+	ctx, cancel := c.ctx()
 	defer cancel()
 
 	return c.svc.Login(ctx, req)
 }
 
 func (c *AuthClient) VerifyOTP(req *authpb.VerifyRequest) (*authpb.AuthResponse, error) {
-	ctx, cancel := c.withContext()
+	ctx, cancel := c.ctx()
 	defer cancel()
 
 	return c.svc.VerifyOTP(ctx, req)
