@@ -78,7 +78,7 @@ func getByPhone() {
 
 	fmt.Println("GET BY PHONE:", res)
 }
-
+	
 // ================= GET ALL =================
 func getAll() {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
