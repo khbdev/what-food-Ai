@@ -6,6 +6,8 @@ import (
 	"api-geteway/internal/models"
 	"api-geteway/internal/service"
 
+	authpb "github.com/khbdev/what-food-proto/proto/authpb"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -32,7 +34,15 @@ func (h *AuthHandler) Register(c *gin.Context) {
 		return
 	}
 
-	res, err := h.svc.Register(c.Request.Context(), req)
+	// 🔥 MAP: models → proto
+	protoReq := &authpb.RegisterRequest{
+		FullName: req.FullName,
+		Phone:    req.Phone,
+		Age:      req.Age,
+		Address:  req.Address,
+	}
+
+	res, err := h.svc.Register(c.Request.Context(), protoReq)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
@@ -58,7 +68,12 @@ func (h *AuthHandler) Login(c *gin.Context) {
 		return
 	}
 
-	res, err := h.svc.Login(c.Request.Context(), req)
+	// 🔥 MAP
+	protoReq := &authpb.LoginRequest{
+		Phone: req.Phone,
+	}
+
+	res, err := h.svc.Login(c.Request.Context(), protoReq)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
@@ -84,7 +99,12 @@ func (h *AuthHandler) VerifyOTP(c *gin.Context) {
 		return
 	}
 
-	res, err := h.svc.VerifyOTP(c.Request.Context(), req)
+	// 🔥 MAP
+	protoReq := &authpb.VerifyRequest{
+		Otp: req.OTP,
+	}
+
+	res, err := h.svc.VerifyOTP(c.Request.Context(), protoReq)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
