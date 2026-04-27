@@ -9,7 +9,7 @@ type Category struct {
 }
 
 
-type Ingredient struct {
+type IngredientC struct {
 	ID       int64
 	Name     string
 	Quantity float64
