@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"user-product-service/internal/cache"
 	"user-product-service/internal/config"
 	repository "user-product-service/internal/repostory"
 	"user-product-service/pkg/loadenv"
@@ -33,5 +34,5 @@ func main(){
 	_ = repoCategory
 	_ = repoIncrideat
 
-	cacheCategory 
+	cacheCategory := cache.
 }
