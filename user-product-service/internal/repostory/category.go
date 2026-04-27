@@ -1,5 +1,7 @@
 package repostory
 
+import "user-product-service/internal/domain"
+
 
 
 
