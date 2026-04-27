@@ -18,5 +18,5 @@ type IngredientC struct {
 type CategoryWithIngredients struct {
 	CategoryID int64
 	Name       string
-	Items      []Ingredient
+	Items      []IngredientC
 }
