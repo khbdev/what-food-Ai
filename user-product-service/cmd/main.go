@@ -19,5 +19,6 @@ func main(){
 
 	_ = postgress
 
-	redis, err := con
+	redis, err := config.NewRedisClient()
+	if
 }
