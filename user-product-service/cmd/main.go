@@ -28,4 +28,5 @@ func main(){
 	_ = redis
 
 	repoCategory := repository.NewCategoryRepository(postgress)
+	 := repository.NewCategoryRepository(postgress)
 }
