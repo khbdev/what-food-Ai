@@ -81,7 +81,7 @@ func (r *categoryRepo) Delete(id int64) error {
 }
 
 
-func (r *categoryRepo) GetAllWithUserProducts(userID int64) ([]domain.CategoryWithIngredients, error) {
+func (r *categoryRepo) GetAllWithUserProducts(userID int64) ([]mod.CategoryWithIngredients, error) {
 	query := `
 		SELECT c.id, c.name, i.id, i.name, i.quantity
 		FROM categories c

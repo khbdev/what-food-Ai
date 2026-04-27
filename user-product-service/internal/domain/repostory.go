@@ -10,5 +10,5 @@ type CategoryRepository interface {
 	Update(category *models.Category) error
 	Delete(id int64) error
 
-	GetAllWithUserProducts(userID int64) ([]mod, error)
+	GetAllWithUserProducts(userID int64) ([]models.CategoryWithIngredients, error)
 }
