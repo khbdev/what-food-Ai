@@ -27,21 +27,58 @@ func (r *categoryRepo) Create(c *models.Category) error {
 }
 
 
-func (r *categoryRepo) GetByID(id int64) (*models.Category, error) {
-	query := `SELECT id, name, created_at FROM categories WHERE id = $1`
+func (r *categoryRepo) GetByID(id int64) (*models.CategoryWithIngredients, error) {
+	// 1. category olish
+	queryCat := `
+		SELECT id, name, created_at
+		FROM categories
+		WHERE id = $1
+	`
 
-	var c models.Category
+	var cat models.CategoryWithIngredients
 
-	err := r.db.QueryRow(query, id).
-		Scan(&c.ID, &c.Name, &c.CreatedAt)
+	err := r.db.QueryRow(queryCat, id).Scan(
+		&cat.CategoryID,
+		&cat.Name,
+		&cat.CreatedAt,
+	)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return &c, nil
-}
+	// 2. product/ingredient olish
+	queryItems := `
+		SELECT id, name, quantity
+		FROM ingredients
+		WHERE category_id = $1
+	`
 
+	rows, err := r.db.Query(queryItems, id)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	cat.Items = []models.IngredientC{}
+
+	for rows.Next() {
+		var item models.IngredientC
+
+		err := rows.Scan(
+			&item.ID,
+			&item.Name,
+			&item.Quantity,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		cat.Items = append(cat.Items, item)
+	}
+
+	return &cat, nil
+}
 func (r *categoryRepo) GetAll() ([]models.Category, error) {
 	query := `SELECT id, name, created_at FROM categories`
 
