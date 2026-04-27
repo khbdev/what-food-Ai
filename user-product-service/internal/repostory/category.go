@@ -81,7 +81,7 @@ func (r *categoryRepo) Delete(id int64) error {
 }
 
 
-func (r *categoryRepo) GetAllWithUserProducts(userID int64) ([]mod.CategoryWithIngredients, error) {
+func (r *categoryRepo) GetAllWithUserProducts(userID int64) ([]models.CategoryWithIngredients, error) {
 	query := `
 		SELECT c.id, c.name, i.id, i.name, i.quantity
 		FROM categories c
@@ -96,7 +96,7 @@ func (r *categoryRepo) GetAllWithUserProducts(userID int64) ([]mod.CategoryWithI
 	}
 	defer rows.Close()
 
-	resultMap := make(map[int64]*domain.CategoryWithIngredients)
+	resultMap := make(map[int64]*mod.CategoryWithIngredients)
 
 	for rows.Next() {
 		var catID int64
