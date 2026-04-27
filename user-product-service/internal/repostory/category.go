@@ -42,3 +42,25 @@ func (r *categoryRepo) GetByID(id int64) (*models.Category, error) {
 
 	return &c, nil
 }
+
+func (r *categoryRepo) GetAll() ([]models.Category, error) {
+	query := `SELECT id, name, created_at FROM categories`
+
+	rows, err := r.db.Query(query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var res []models.Category
+
+	for rows.Next() {
+		var c models.Category
+		if err := rows.Scan(&c.ID, &c.Name, &c.CreatedAt); err != nil {
+			return nil, err
+		}
+		res = append(res, c)
+	}
+
+	return res, nil
+}
