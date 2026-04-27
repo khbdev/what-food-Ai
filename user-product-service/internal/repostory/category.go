@@ -124,7 +124,7 @@ func (r *categoryRepo) GetAllWithUserProducts(userID int64) ([]models.CategoryWi
 
 		// ingredient bor-yo‘qligini tekshiramiz
 		if ingID.Valid {
-			resultMap[catID].Items = append(resultMap[catID].Items, models.Ingredient{
+			resultMap[catID].Items = append(resultMap[catID].Items, models.IngredientC{
 				ID:       ingID.Int64,
 				Name:     ingName.String,
 				Quantity: ingQty.Float64,
