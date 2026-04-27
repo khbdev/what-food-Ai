@@ -1,5 +1,6 @@
 package domain
 
+import "notes-service/internal/models"
 
 type CategoryRepository interface {
 	Create(category *models.Category) error
@@ -8,6 +9,5 @@ type CategoryRepository interface {
 	Update(category *models.Category) error
 	Delete(id int64) error
 
-	// custom
 	GetAllWithUserProducts(userID int64) ([]CategoryWithIngredients, error)
 }
