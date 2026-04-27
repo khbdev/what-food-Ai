@@ -64,3 +64,11 @@ func (r *categoryRepo) GetAll() ([]models.Category, error) {
 
 	return res, nil
 }
+
+
+func (r *categoryRepo) Update(c *models.Category) error {
+	query := `UPDATE categories SET name=$1 WHERE id=$2`
+
+	_, err := r.db.Exec(query, c.Name, c.ID)
+	return err
+}
