@@ -73,3 +73,55 @@ func (r *categoryRepo) Update(c *models.Category) error {
 	return err
 }
 
+func (r *categoryRepo) Delete(id int64) error {
+	query := `DELETE FROM categories WHERE id=$1`
+
+	_, err := r.db.Exec(query, id)
+	return err
+}
+
+
+func (r *categoryRepo) GetAllWithUserProducts(userID int64) ([]domain.CategoryWithIngredients, error) {
+	query := `
+		SELECT c.id, c.name, i.id, i.name, i.quantity
+		FROM categories c
+		JOIN ingredients i ON i.category_id = c.id
+		WHERE i.user_id = $1
+		ORDER BY c.id
+	`
+
+	rows, err := r.db.Query(query, userID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	resultMap := make(map[int64]*domain.CategoryWithIngredients)
+
+	for rows.Next() {
+		var catID int64
+		var catName string
+		var ing domain.Ingredient
+
+		if err := rows.Scan(&catID, &catName, &ing.ID, &ing.Name, &ing.Quantity); err != nil {
+			return nil, err
+		}
+
+		if _, ok := resultMap[catID]; !ok {
+			resultMap[catID] = &domain.CategoryWithIngredients{
+				CategoryID: catID,
+				Name:       catName,
+				Items:      []domain.Ingredient{},
+			}
+		}
+
+		resultMap[catID].Items = append(resultMap[catID].Items, ing)
+	}
+
+	var result []domain.CategoryWithIngredients
+	for _, v := range resultMap {
+		result = append(result, *v)
+	}
+
+	return result, nil
+}
