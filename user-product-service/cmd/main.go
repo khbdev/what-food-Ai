@@ -1,7 +1,12 @@
 package main
 
+import "user-product-service/internal/config"
+
 
 
 func main(){
-	postgress, err := con
+	postgress, err := config.NewPostgresDB()
+	if err != nil {
+		
+	}
 }
