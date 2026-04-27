@@ -39,5 +39,5 @@ func main(){
 
 	_ = cacheCategory
 
-	srvCategory := usecase.
+	srvCategory := usecase.NewCategoryUsecase(repoCategory, )
 }
