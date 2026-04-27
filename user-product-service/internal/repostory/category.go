@@ -96,7 +96,7 @@ func (r *categoryRepo) GetAllWithUserProducts(userID int64) ([]models.CategoryWi
 	}
 	defer rows.Close()
 
-	resultMap := make(map[int64]*mod.CategoryWithIngredients)
+	resultMap := make(map[int64]*models.CategoryWithIngredients)
 
 	for rows.Next() {
 		var catID int64
