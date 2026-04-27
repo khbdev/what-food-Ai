@@ -3,14 +3,15 @@ package main
 import (
 	"log"
 	"user-product-service/internal/config"
+	"user-product-service/pkg/loadenv"
 )
 
 
 
 func main(){
 
+    loadenv.
 
-	
 	postgress, err := config.NewPostgresDB()
 	if err != nil {
 		log.Fatal(err)
