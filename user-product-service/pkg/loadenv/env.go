@@ -1,4 +1,4 @@
 package loadenv
 
 
-if
+func LoadEnv
