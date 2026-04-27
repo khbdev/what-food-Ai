@@ -101,7 +101,7 @@ func (r *categoryRepo) GetAllWithUserProducts(userID int64) ([]models.CategoryWi
 	for rows.Next() {
 		var catID int64
 		var catName string
-		var ing domain.Ingredient
+		var ing models.Ingredient
 
 		if err := rows.Scan(&catID, &catName, &ing.ID, &ing.Name, &ing.Quantity); err != nil {
 			return nil, err
