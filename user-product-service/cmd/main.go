@@ -19,5 +19,5 @@ func main(){
 
 	_ = postgress
 
-	redis, err
+	redis, err := con
 }
