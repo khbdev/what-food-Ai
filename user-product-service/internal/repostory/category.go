@@ -3,6 +3,7 @@ package repostory
 import (
 	"database/sql"
 	"user-product-service/internal/domain"
+	"user-product-service/internal/models"
 )
 
 
@@ -24,4 +25,20 @@ func (r *categoryRepo) Create(c *models.Category) error {
 
 	return r.db.QueryRow(query, c.Name).
 		Scan(&c.ID, &c.CreatedAt)
+}
+
+
+func (r *categoryRepo) GetByID(id int64) (*models.Category, error) {
+	query := `SELECT id, name, created_at FROM categories WHERE id = $1`
+
+	var c models.Category
+
+	err := r.db.QueryRow(query, id).
+		Scan(&c.ID, &c.Name, &c.CreatedAt)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &c, nil
 }
