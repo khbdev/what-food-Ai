@@ -111,14 +111,14 @@ func (r *categoryRepo) GetAllWithUserProducts(userID int64) ([]models.CategoryWi
 			resultMap[catID] = &models.CategoryWithIngredients{
 				CategoryID: catID,
 				Name:       catName,
-				Items:      []models.Ingredient{},
+				Items:      []models.Ingredient,
 			}
 		}
 
 		resultMap[catID].Items = append(resultMap[catID].Items, ing)
 	}
 
-	var result []mod.CategoryWithIngredients
+	var result []models.CategoryWithIngredients
 	for _, v := range resultMap {
 		result = append(result, *v)
 	}
