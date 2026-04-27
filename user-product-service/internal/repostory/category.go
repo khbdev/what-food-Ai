@@ -108,10 +108,10 @@ func (r *categoryRepo) GetAllWithUserProducts(userID int64) ([]models.CategoryWi
 		}
 
 		if _, ok := resultMap[catID]; !ok {
-			resultMap[catID] = &mod.CategoryWithIngredients{
+			resultMap[catID] = &models.CategoryWithIngredients{
 				CategoryID: catID,
 				Name:       catName,
-				Items:      []domain.Ingredient{},
+				Items:      []mod.Ingredient{},
 			}
 		}
 
