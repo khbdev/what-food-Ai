@@ -27,11 +27,9 @@ func (r *categoryRepo) Create(c *models.Category) error {
 }
 
 
-
 func (r *categoryRepo) GetByID(id int64) (*models.CategoryWithIngredients, error) {
-	// 1. category olish
 	queryCat := `
-		SELECT id, name, created_at
+		SELECT id, name
 		FROM categories
 		WHERE id = $1
 	`
@@ -41,14 +39,12 @@ func (r *categoryRepo) GetByID(id int64) (*models.CategoryWithIngredients, error
 	err := r.db.QueryRow(queryCat, id).Scan(
 		&cat.CategoryID,
 		&cat.Name,
-		&cat,
 	)
 
 	if err != nil {
 		return nil, err
 	}
 
-	// 2. product/ingredient olish
 	queryItems := `
 		SELECT id, name, quantity
 		FROM ingredients
@@ -60,8 +56,6 @@ func (r *categoryRepo) GetByID(id int64) (*models.CategoryWithIngredients, error
 		return nil, err
 	}
 	defer rows.Close()
-
-	cat.Items = []models.IngredientC{}
 
 	for rows.Next() {
 		var item models.IngredientC
@@ -76,6 +70,10 @@ func (r *categoryRepo) GetByID(id int64) (*models.CategoryWithIngredients, error
 		}
 
 		cat.Items = append(cat.Items, item)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
 	}
 
 	return &cat, nil
