@@ -32,4 +32,6 @@ func main(){
 
 	_ = repoCategory
 	_ = repoIncrideat
+
+	cac
 }
