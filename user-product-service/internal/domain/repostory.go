@@ -12,3 +12,12 @@ type CategoryRepository interface {
 
 	GetAllWithUserProducts(userID int64) ([]models.CategoryWithIngredients, error)
 }
+
+
+type IngredientRepository interface {
+	Create(ing *models.Ingredient) error
+	GetByID(id int64, userID int64) (*models.Ingredient, error)
+	GetAll(userID int64) ([]models.Ingredient, error)
+	Update(ing *models.Ingredient) error
+	Delete(id int64, userID int64) error
+}
