@@ -5,7 +5,7 @@ import "user-product-service/internal/models"
 
 type CategoryRepository interface {
 	Create(category *models.Category) error
-	GetByID(id int64) (*models.Category, error)
+	 GetByID(id int64) (*models.CategoryWithIngredients, error)
 	GetAll() ([]models.Category, error)
 	Update(category *models.Category) error
 	Delete(id int64) error
