@@ -28,6 +28,9 @@ func (r *categoryRepo) Create(c *models.Category) error {
 
 
 
+
+
+
 func (r *categoryRepo) GetAll() ([]models.Category, error) {
 	query := `SELECT id, name, created_at FROM categories`
 
