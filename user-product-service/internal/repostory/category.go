@@ -41,7 +41,7 @@ func (r *categoryRepo) GetByID(id int64) (*models.CategoryWithIngredients, error
 	err := r.db.QueryRow(queryCat, id).Scan(
 		&cat.CategoryID,
 		&cat.Name,
-		&cat.,
+		&cat,
 	)
 
 	if err != nil {
