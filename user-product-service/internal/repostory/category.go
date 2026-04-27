@@ -1,5 +1,4 @@
-package repostory
-
+package repository
 import (
 	"database/sql"
 	"user-product-service/internal/domain"
