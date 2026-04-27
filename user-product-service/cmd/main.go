@@ -10,6 +10,8 @@ import (
 func main(){
 	postgress, err := config.NewPostgresDB()
 	if err != nil {
-		log.Fatal()
+		log.Fatal(err)
 	}
+
+	
 }
