@@ -72,3 +72,4 @@ func (r *categoryRepo) Update(c *models.Category) error {
 	_, err := r.db.Exec(query, c.Name, c.ID)
 	return err
 }
+
