@@ -10,7 +10,7 @@ import (
 
 func main(){
 
-    loadenv.
+    loadenv.LoadEnv()
 
 	postgress, err := config.NewPostgresDB()
 	if err != nil {
