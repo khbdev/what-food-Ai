@@ -1,6 +1,7 @@
 package domain
 
-import "notes-service/internal/models"
+import "user-product-service/internal/models"
+
 
 type CategoryRepository interface {
 	Create(category *models.Category) error
