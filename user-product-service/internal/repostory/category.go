@@ -104,7 +104,7 @@ func (r *categoryRepo) GetAllWithUserProducts(userID int64) ([]domain.CategoryWi
 		var ing domain.Ingredient
 
 		if err := rows.Scan(&catID, &catName, &ing.ID, &ing.Name, &ing.Quantity); err != nil {
-			return nil, err
+			return nil, errundefined: domain.Ingredient
 		}
 
 		if _, ok := resultMap[catID]; !ok {
