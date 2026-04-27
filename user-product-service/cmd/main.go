@@ -34,5 +34,9 @@ func main(){
 	_ = repoCategory
 	_ = repoIncrideat
 
-	cacheCategory := cache.
+	cacheCategory := cache.NewCategoryCache(redis)
+
+	_ = cacheCategory
+
+	
 }
