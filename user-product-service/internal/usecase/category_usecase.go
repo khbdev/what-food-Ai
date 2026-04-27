@@ -23,25 +23,20 @@ func NewCategoryUsecase(repo domain.CategoryRepository, cache domain.CategoryCac
 	}
 }
 
-// CREATE
-func (u *CategoryUsecase) Create(ctx context.Context, req *models.Category) (*models.Category, error) {
+// CREATE (input: name)
+func (u *CategoryUsecase) Create(ctx context.Context, name string) (*models.Category, error) {
 	cat := &models.Category{
-		Name: req.Name,
+		Name: name,
 	}
 
 	if err := u.repo.Create(cat); err != nil {
 		return nil, fmt.Errorf("usecase.Create: %w", err)
 	}
 
-	_ = u.cache.Set(ctx, &models.CategoryWithIngredients{
-		CategoryID: cat.ID,
-		Name:       cat.Name,
-	}, categoryCacheTTL)
-
 	return cat, nil
 }
 
-// GET BY ID (READ THROUGH)
+// GET BY ID (READ THROUGH CACHE)
 func (u *CategoryUsecase) GetByID(ctx context.Context, id int64) (*models.CategoryWithIngredients, error) {
 	cached, err := u.cache.Get(ctx, id)
 	if err == nil && cached != nil {
@@ -78,20 +73,20 @@ func (u *CategoryUsecase) GetAllWithUserProducts(ctx context.Context, userID int
 	return res, nil
 }
 
-// UPDATE
-func (u *CategoryUsecase) Update(ctx context.Context, req *models.Category) error {
+// UPDATE (input: id + name)
+func (u *CategoryUsecase) Update(ctx context.Context, id int64, name string) error {
 	cat := &models.Category{
-		ID:   req.ID,
-		Name: req.Name,
+		ID:   id,
+		Name: name,
 	}
 
 	if err := u.repo.Update(cat); err != nil {
 		return fmt.Errorf("usecase.Update: %w", err)
 	}
 
-	_ = u.cache.Delete(ctx, cat.ID)
+	_ = u.cache.Delete(ctx, id)
 
-	updated, err := u.repo.GetByID(cat.ID)
+	updated, err := u.repo.GetByID(id)
 	if err == nil {
 		_ = u.cache.Set(ctx, updated, categoryCacheTTL)
 	}
