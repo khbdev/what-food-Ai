@@ -85,8 +85,9 @@ func (r *categoryRepo) GetAllWithUserProducts(userID int64) ([]models.CategoryWi
 	query := `
 		SELECT c.id, c.name, i.id, i.name, i.quantity
 		FROM categories c
-		JOIN ingredients i ON i.category_id = c.id
-		WHERE i.user_id = $1
+		LEFT JOIN ingredients i 
+			ON i.category_id = c.id
+			AND i.user_id = $1
 		ORDER BY c.id
 	`
 
@@ -99,11 +100,17 @@ func (r *categoryRepo) GetAllWithUserProducts(userID int64) ([]models.CategoryWi
 	resultMap := make(map[int64]*models.CategoryWithIngredients)
 
 	for rows.Next() {
-		var catID int64
-		var catName string
-		var ing models.Ingredient
+		var (
+			catID   int64
+			catName string
 
-		if err := rows.Scan(&catID, &catName, &ing.ID, &ing.Name, &ing.Quantity); err != nil {
+			ingID   sql.NullInt64
+			ingName sql.NullString
+			ingQty  sql.NullFloat64
+		)
+
+		err := rows.Scan(&catID, &catName, &ingID, &ingName, &ingQty)
+		if err != nil {
 			return nil, err
 		}
 
@@ -111,11 +118,18 @@ func (r *categoryRepo) GetAllWithUserProducts(userID int64) ([]models.CategoryWi
 			resultMap[catID] = &models.CategoryWithIngredients{
 				CategoryID: catID,
 				Name:       catName,
-				Items:      []models.Ingredient,
+				Items:      []models.Ingredient{},
 			}
 		}
 
-		resultMap[catID].Items = append(resultMap[catID].Items, ing)
+		// ingredient bor-yo‘qligini tekshiramiz
+		if ingID.Valid {
+			resultMap[catID].Items = append(resultMap[catID].Items, models.Ingredient{
+				ID:       ingID.Int64,
+				Name:     ingName.String,
+				Quantity: ingQty.Float64,
+			})
+		}
 	}
 
 	var result []models.CategoryWithIngredients
