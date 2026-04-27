@@ -30,5 +30,6 @@ func main(){
 	repoCategory := repository.NewCategoryRepository(postgress)
 	repoIncrideat := repository.NewCategoryRepository(postgress)
 
-	
+	_ = repoCategory
+	_
 }
