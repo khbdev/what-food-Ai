@@ -20,5 +20,7 @@ func main(){
 	_ = postgress
 
 	redis, err := config.NewRedisClient()
-	if
+		if err != nil {
+		log.Fatal(err)
+	}
 }
