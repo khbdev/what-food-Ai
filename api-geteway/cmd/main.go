@@ -75,13 +75,15 @@ userURL := os.Getenv("USER_URL")
 	authService := service.NewAuthService(authClient)
 	userService := service.NewUserService(userClinet)
 	userCategory := service.NewCategoryService(userProductClient)
-	userProduct := service.NewProductService(us)
+	userProduct := service.NewProductService(userProductClient)
+
 
 	// =========================
 	// HANDLER (HTTP)
 	// =========================
 	authHandler := handler.NewAuthHandler(authService)
 	userHander := handler.NewUserHandler(userService)
+	
 
 	// =========================
 	// ROUTER
