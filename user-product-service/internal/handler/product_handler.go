@@ -6,7 +6,8 @@ import (
 
 	"user-product-service/internal/usecase"
 	"user-product-service/internal/models"
-"
+
+	productspb ""
 )
 
 type ProductsHandler struct {
