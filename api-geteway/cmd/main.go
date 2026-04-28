@@ -60,7 +60,7 @@ userURL := os.Getenv("USER_URL")
 	defer authClient.Close()
 
 
-	userProductClient, err := client.NewUserProductClient(USERPRODUCT_URL)
+	userProductClient, err := client.NewUserProductClient(userProductUrl)
 
 	log.Println("✅ User client created")
 	// =========================
