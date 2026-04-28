@@ -26,7 +26,7 @@ userURL := os.Getenv("USER_URL")
 		log.Fatal("❌ AUTH_URL is empty")
 	}
 
-	userProductUrl := os.Getenv("USERPR_URL")
+	userProductUrl := os.Getenv("USERPRODUCT_URL")
 	if authURL == "" {
 		log.Fatal("❌ AUTH_URL is empty")
 	}
