@@ -8,7 +8,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	categorypb "github.com/khbdev/what-food-proto/proto/productsithub.com/khbdev/what-food-proto/proto/categorypb"
+	categorypb "github.com/khbdev/what-food-proto/proto/products"
 	ingredientpb "github.com/khbdev/what-food-proto/proto/incrideatspb"
 )
 
