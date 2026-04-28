@@ -2,53 +2,62 @@ package main
 
 import (
 	"log"
+	"net"
+	"os"
+
 	"user-product-service/internal/cache"
 	"user-product-service/internal/config"
 	"user-product-service/internal/handler"
 	repository "user-product-service/internal/repostory"
 	"user-product-service/internal/usecase"
 	"user-product-service/pkg/loadenv"
+
+	incrideatspb "github.com/khbdev/what-food-proto/proto/incrideats"
+	"google.golang.org/grpc"
 )
 
-
-
-func main(){
-
-    loadenv.LoadEnv()
+func main() {
+	loadenv.LoadEnv()
 
 	postgress, err := config.NewPostgresDB()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	_ = postgress
-
 	redis, err := config.NewRedisClient()
-		if err != nil {
+	if err != nil {
 		log.Fatal(err)
 	}
-
-	_ = redis
 
 	repoCategory := repository.NewCategoryRepository(postgress)
 	repoIncrideat := repository.NewIngredientRepository(postgress)
 
-	_ = repoCategory
-	_ = repoIncrideat
-
 	cacheCategory := cache.NewCategoryCache(redis)
 
-	_ = cacheCategory
-
 	srvCategory := usecase.NewCategoryUsecase(repoCategory, cacheCategory)
+	srvProduct := usecase.NewIngredientUsecase(repoIncrideat)
 
-	_ = srvCategory
+	handCategory := handler.NewCategoryHandler(srvCategory)
+	handProduct := handler.NewProductsHandler(srvProduct)
 
-	srcProduct := usecase.NewIngredientUsecase(repoIncrideat)
+	port := os.Getenv("GRPC_PORT")
+	if port == "" {
+		port = "50051"
+	}
 
+	lis, err := net.Listen("tcp", ":"+port)
+	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
+	}
 
-   _ = srcProduct
+	grpcServer := grpc.NewServer()
 
-   handCategory := handler.NewCategoryHandler(srvCategory)
-   handProduct := handler.NewCategoryHandler(srvCategory)
+	incrideatspb.RegisterIngredientServiceServer(grpcServer, handProduct)
+	incrideatspb.RegisterCategoryServiceServer(grpcServer, handCategory)
+
+	log.Printf("gRPC server started on port %s", port)
+
+	if err := grpcServer.Serve(lis); err != nil {
+		log.Fatalf("failed to serve: %v", err)
+	}
 }
