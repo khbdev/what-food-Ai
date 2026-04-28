@@ -43,7 +43,7 @@ func main(){
 
 	_ = srvCategory
 
-	srcProduct
+	srcProduct := usecase.NewIngredientUsecase()
 
 
 }
