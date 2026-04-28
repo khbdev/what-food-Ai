@@ -5,7 +5,7 @@ go 1.25.0
 require (
 	github.com/jackc/pgx/v5 v5.9.2
 	github.com/joho/godotenv v1.5.1
-	github.com/khbdev/what-food-proto v0.0.0-20260428120245-5948998a09af
+	github.com/khbdev/what-food-proto v0.0.0-20260428121134-0b83c87e404b
 	github.com/redis/go-redis/v9 v9.18.0
 )
 
