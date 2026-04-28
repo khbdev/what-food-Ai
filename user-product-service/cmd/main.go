@@ -43,7 +43,7 @@ func main() {
 
 	port := os.Getenv("GRPC_PORT")
 	if port == "" {
-		port = "50052"
+		port = "50053"
 	}
 
 	lis, err := net.Listen("tcp", ":"+port)
