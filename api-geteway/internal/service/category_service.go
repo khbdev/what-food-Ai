@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"api-geteway/internal/client"
-	categorypb "github.com/khbdev/what-food-proto/proto/categorypb"
+	categorypb "github.com/khbdev/what-food-proto/proto/products"
 )
 
 type CategoryService struct {
