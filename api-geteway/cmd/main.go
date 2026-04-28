@@ -25,6 +25,11 @@ userURL := os.Getenv("USER_URL")
 	if authURL == "" {
 		log.Fatal("❌ AUTH_URL is empty")
 	}
+
+	userURL := os.Getenv("USER_URL")
+	if authURL == "" {
+		log.Fatal("❌ AUTH_URL is empty")
+	}
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080" // default
