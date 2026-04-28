@@ -75,7 +75,7 @@ userURL := os.Getenv("USER_URL")
 	authService := service.NewAuthService(authClient)
 	userService := service.NewUserService(userClinet)
 	userCategory := service.NewCategoryService(userProductClient)
-	userProduct := ser
+	userProduct := service.Ne
 
 	// =========================
 	// HANDLER (HTTP)
