@@ -28,7 +28,7 @@ userURL := os.Getenv("USER_URL")
 
 	userProductUrl := os.Getenv("USERPRODUCT_URL")
 	if authURL == "" {
-		log.Fatal("❌ AUTH_URL is empty")
+		log.Fatal("❌ USERPRODUCT_URL is empty")
 	}
 	port := os.Getenv("PORT")
 	if port == "" {
