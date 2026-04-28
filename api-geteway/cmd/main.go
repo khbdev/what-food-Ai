@@ -55,6 +55,7 @@ userURL := os.Getenv("USER_URL")
 	defer authClient.Close()
 
 
+	
 
 	log.Println("✅ User client created")
 	// =========================
