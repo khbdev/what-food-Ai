@@ -9,7 +9,7 @@ import (
 	"api-geteway/internal/service"
 	"api-geteway/pkg/response"
 
-	categorypb "github.com/khbdev/what-food-proto/proto/"
+	categorypb "github.com/khbdev/what-food-proto/proto/products"
 
 	"github.com/gin-gonic/gin"
 )
