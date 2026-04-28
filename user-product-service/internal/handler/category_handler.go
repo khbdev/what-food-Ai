@@ -7,7 +7,7 @@ import (
 	"user-product-service/internal/usecase"
 	"user-product-service/internal/models"
 
-	categorypb "github.com/khbdev/what-food-proto/proto/categorypb"
+	categorypb "github.com/khbdev/what-food-proto/proto/"
 )
 
 type CategoryHandler struct {
