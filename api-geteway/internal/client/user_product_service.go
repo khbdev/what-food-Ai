@@ -9,11 +9,11 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 
 	categorypb "github.com/khbdev/what-food-proto/proto/products"
-	ingredientpb "github.com/khbdev/what-food-proto/proto/incrideats"
+	ingredientpb ""
 )
 
 // =========================
-// STRUCT
+// STRUCTgithub.com/khbdev/what-food-proto/proto/incrideats
 // =========================
 
 type UserProductClient struct {
