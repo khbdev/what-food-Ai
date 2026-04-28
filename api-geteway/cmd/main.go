@@ -83,7 +83,7 @@ userURL := os.Getenv("USER_URL")
 	// =========================
 	authHandler := handler.NewAuthHandler(authService)
 	userHander := handler.NewUserHandler(userService)
-	
+	user
 
 	// =========================
 	// ROUTER
