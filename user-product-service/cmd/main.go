@@ -49,5 +49,6 @@ func main(){
 
    _ = srcProduct
 
-   handCategory := handler.NewCategoryHandler(sr)
+   handCategory := handler.NewCategoryHandler(srvCategory)
+   hand := handler.NewCategoryHandler(srvCategory)
 }
