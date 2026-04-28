@@ -13,6 +13,7 @@ import (
 	"user-product-service/pkg/loadenv"
 
 	incrideatspb "github.com/khbdev/what-food-proto/proto/incrideats"
+	categorypb "github.com/khbdev/what-food-proto/proto/products"
 	"google.golang.org/grpc"
 )
 
