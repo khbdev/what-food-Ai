@@ -9,7 +9,7 @@ import (
 	"api-geteway/internal/service"
 	"api-geteway/pkg/response"
 
-	ingredientpb "github.com/khbdev/what-food-proto/proto/incrideats"
+	ingredientpb "github.com/khbdev/what-food-proto/proto/incrideatspb"
 
 	"github.com/gin-gonic/gin"
 )
@@ -27,12 +27,12 @@ func NewIngredientHandler(s *service.ProductService) *IngredientHandler {
 }
 
 // =========================
-// CREATE
+// CREATE INGREDIENT
 // =========================
 
 func (h *IngredientHandler) CreateIngredient(c *gin.Context) {
 
-	var req models.Ingredient
+	var req models.IngredientP
 
 	if err := c.ShouldBindJSON(&req); err != nil {
 		response.Fail(c, http.StatusBadRequest, err)
@@ -128,7 +128,7 @@ func (h *IngredientHandler) GetAllIngredients(c *gin.Context) {
 }
 
 // =========================
-// UPDATE
+// UPDATE INGREDIENT
 // =========================
 
 func (h *IngredientHandler) UpdateIngredient(c *gin.Context) {
@@ -145,7 +145,7 @@ func (h *IngredientHandler) UpdateIngredient(c *gin.Context) {
 		return
 	}
 
-	var req models.Ingredient
+	var req models.IngredientP
 
 	if err := c.ShouldBindJSON(&req); err != nil {
 		response.Fail(c, http.StatusBadRequest, err)
@@ -169,7 +169,7 @@ func (h *IngredientHandler) UpdateIngredient(c *gin.Context) {
 }
 
 // =========================
-// DELETE
+// DELETE INGREDIENT
 // =========================
 
 func (h *IngredientHandler) DeleteIngredient(c *gin.Context) {
