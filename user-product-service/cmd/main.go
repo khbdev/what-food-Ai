@@ -51,4 +51,5 @@ func main(){
 
    handCategory := handler.NewCategoryHandler(srvCategory)
    hand := handler.NewCategoryHandler(srvCategory)
+   hand := handler.NewCategoryHandler(srvCategory)
 }
