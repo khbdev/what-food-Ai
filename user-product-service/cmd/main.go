@@ -48,5 +48,5 @@ func main(){
 
    _ = srcProduct
 
-   
+   handCategory := 
 }
