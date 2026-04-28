@@ -46,5 +46,7 @@ func main(){
 	srcProduct := usecase.NewIngredientUsecase(repoIncrideat)
 
 
+   _ = srcProduct
+
    
 }
