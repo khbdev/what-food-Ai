@@ -7,7 +7,7 @@ import (
 	"user-product-service/internal/usecase"
 	"user-product-service/internal/models"
 
-	productspb "github.com/khbdev/what-food-proto/proto/incrideats"
+	import incrideatspb "github.com/khbdev/what-food-proto/proto/incrideatspb"
 )
 
 type ProductsHandler struct {
