@@ -65,7 +65,7 @@ userURL := os.Getenv("USER_URL")
 		if err != nil {
 		log.Fatal("❌ Failed to connect user service:", err)
 	}
-	defer authClient.Close()
+	defer userProductUrl.Close()
 
 
 	log.Println("✅ User client created")
