@@ -7,7 +7,7 @@ import (
 	"user-product-service/internal/usecase"
 	"user-product-service/internal/models"
 
-	 incrideatspb "github.com/khbdev/what-food-proto/proto/incrideats"
+	incrideatspb "github.com/khbdev/what-food-proto/proto/incrideats"
 )
 
 type ProductsHandler struct {
@@ -23,7 +23,7 @@ func NewProductsHandler(uc *usecase.IngredientUsecase) *ProductsHandler {
 
 // ===== CREATE =====
 
-func (h *ProductsHandler) Create(ctx context.Context, req *productspb.CreateIngredientRequest) (*productspb.IngredientResponse, error) {
+func (h *ProductsHandler) Create(ctx context.Context, req *incrideatspb.CreateIngredientRequest) (*incrideatspb.IngredientResponse, error) {
 	input := usecase.IngredientInput{
 		UserID:     req.GetUserId(),
 		Name:       req.GetName(),
@@ -36,46 +36,46 @@ func (h *ProductsHandler) Create(ctx context.Context, req *productspb.CreateIngr
 		return nil, err
 	}
 
-	return &productspb.IngredientResponse{
+	return &incrideatspb.IngredientResponse{
 		Ingredient: mapIngredient(res),
 	}, nil
 }
 
 // ===== GET BY ID =====
 
-func (h *ProductsHandler) GetByID(ctx context.Context, req *productspb.GetIngredientByIDRequest) (*productspb.IngredientResponse, error) {
+func (h *ProductsHandler) GetByID(ctx context.Context, req *incrideatspb.GetIngredientByIDRequest) (*incrideatspb.IngredientResponse, error) {
 	res, err := h.uc.GetByID(req.GetId(), req.GetUserId())
 	if err != nil {
 		return nil, err
 	}
 
-	return &productspb.IngredientResponse{
+	return &incrideatspb.IngredientResponse{
 		Ingredient: mapIngredient(res),
 	}, nil
 }
 
 // ===== GET ALL =====
 
-func (h *ProductsHandler) GetAll(ctx context.Context, req *productspb.GetAllIngredientsRequest) (*productspb.IngredientListResponse, error) {
+func (h *ProductsHandler) GetAll(ctx context.Context, req *incrideatspb.GetAllIngredientsRequest) (*incrideatspb.IngredientListResponse, error) {
 	res, err := h.uc.GetAll(req.GetUserId())
 	if err != nil {
 		return nil, err
 	}
 
-	var items []*productspb.Ingredient
+	var items []*incrideatspb.Ingredient
 	for _, i := range res {
 		ing := i
 		items = append(items, mapIngredient(&ing))
 	}
 
-	return &productspb.IngredientListResponse{
+	return &incrideatspb.IngredientListResponse{
 		Ingredients: items,
 	}, nil
 }
 
 // ===== UPDATE =====
 
-func (h *ProductsHandler) Update(ctx context.Context, req *productspb.UpdateIngredientRequest) (*productspb.IngredientResponse, error) {
+func (h *ProductsHandler) Update(ctx context.Context, req *incrideatspb.UpdateIngredientRequest) (*incrideatspb.IngredientResponse, error) {
 	input := usecase.IngredientInput{
 		ID:         req.GetId(),
 		UserID:     req.GetUserId(),
@@ -89,26 +89,26 @@ func (h *ProductsHandler) Update(ctx context.Context, req *productspb.UpdateIngr
 		return nil, err
 	}
 
-	return &productspb.IngredientResponse{
+	return &incrideatspb.IngredientResponse{
 		Ingredient: mapIngredient(res),
 	}, nil
 }
 
 // ===== DELETE =====
 
-func (h *ProductsHandler) Delete(ctx context.Context, req *productspb.DeleteIngredientRequest) (*productspb.Empty, error) {
+func (h *ProductsHandler) Delete(ctx context.Context, req *incrideatspb.DeleteIngredientRequest) (*incrideatspb.Empty, error) {
 	err := h.uc.Delete(req.GetId(), req.GetUserId())
 	if err != nil {
 		return nil, err
 	}
 
-	return &productspb.Empty{}, nil
+	return &incrideatspb.Empty{}, nil
 }
 
 // ===== MAPPER =====
 
-func mapIngredient(m *models.Ingredient) *productspb.Ingredient {
-	return &productspb.Ingredient{
+func mapIngredient(m *models.Ingredient) *incrideatspb.Ingredient {
+	return &incrideatspb.Ingredient{
 		Id:         m.ID,
 		UserId:     m.UserID,
 		Name:       m.Name,
