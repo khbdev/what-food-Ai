@@ -11,7 +11,7 @@ import (
 )
 
 type ProductsHandler struct {
-	productspb.UnimplementedIngredientServiceServer
+	incrideatspb.UnimplementedIngredientServiceServer
 	uc *usecase.IngredientUsecase
 }
 
