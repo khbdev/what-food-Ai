@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"api-geteway/internal/client"
-	ingredientpb "github.com/khbdev/what-food-proto/proto/incrideatspb"
+	ingredientpb "github.com/khbdev/what-food-proto/proto/incrideats"
 )
 
 type ProductService struct {
