@@ -30,7 +30,7 @@ func main(){
 	_ = redis
 
 	repoCategory := repository.NewCategoryRepository(postgress)
-	repoIncrideat := repository.NewCategoryRepository(postgress)
+	repoIncrideat := repository.(postgress)
 
 	_ = repoCategory
 	_ = repoIncrideat
@@ -43,7 +43,7 @@ func main(){
 
 	_ = srvCategory
 
-	srcProduct := usecase.NewIngredientUsecase(rep)
+	srcProduct := usecase.NewIngredientUsecase(repoIncrideat)
 
 
 }
