@@ -9,7 +9,7 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 
 	categorypb "github.com/khbdev/what-food-proto/proto/products"
-	ingredientpb ""
+	ingredientpb "github.com/khbdev/what-food-proto/proto/incrideats"
 )
 
 // =========================
