@@ -43,7 +43,7 @@ func main() {
 
 	port := os.Getenv("GRPC_PORT")
 	if port == "" {
-		port = "50051"
+		port = "50052"
 	}
 
 	lis, err := net.Listen("tcp", ":"+port)
@@ -54,7 +54,7 @@ func main() {
 	grpcServer := grpc.NewServer()
 
 	incrideatspb.RegisterIngredientServiceServer(grpcServer, handProduct)
-	incrideatspb.RegisterCategoryServiceServer(grpcServer, handCategory)
+	categorypb.RegisterCategoryServiceServer(grpcServer, handCategory)
 
 	log.Printf("gRPC server started on port %s", port)
 
