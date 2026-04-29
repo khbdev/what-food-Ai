@@ -63,7 +63,7 @@ userURL := os.Getenv("USER_URL")
 	userProductClient, err := client.NewUserProductClient(userProductUrl)
 
 		if err != nil {
-		log.Fatal("❌ Failed to connect user prod service:", err)
+		log.Fatal("❌ Failed to connect user product service:", err)
 	}
 	defer userProductClient.Close()
 
