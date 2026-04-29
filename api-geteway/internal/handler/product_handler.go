@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"strconv"
 
-	"api-geteway/internal/models"
 	"api-geteway/internal/service"
 	"api-geteway/pkg/response"
 
@@ -18,21 +17,40 @@ type IngredientHandler struct {
 	svc *service.ProductService
 }
 
-// =========================
-// INIT
-// =========================
-
 func NewIngredientHandler(s *service.ProductService) *IngredientHandler {
 	return &IngredientHandler{svc: s}
 }
 
+// tokendan user_id olish uchun helper
+func getUserID(c *gin.Context) (int64, error) {
+	val, exists := c.Get("user_id")
+	if !exists {
+		return 0, errors.New("unauthorized")
+	}
+	uid, ok := val.(uint64)
+	if !ok || uid == 0 {
+		return 0, errors.New("invalid user_id")
+	}
+	return int64(uid), nil
+}
+
 // =========================
-// CREATE INGREDIENT
+// CREATE
 // =========================
 
 func (h *IngredientHandler) CreateIngredient(c *gin.Context) {
 
-	var req models.IngredientP
+	userID, err := getUserID(c)
+	if err != nil {
+		response.Fail(c, http.StatusUnauthorized, err)
+		return
+	}
+
+	var req struct {
+		Name       string  `json:"name"`
+		Quantity   float64 `json:"quantity"`
+		CategoryID int64   `json:"category_id"`
+	}
 
 	if err := c.ShouldBindJSON(&req); err != nil {
 		response.Fail(c, http.StatusBadRequest, err)
@@ -40,12 +58,11 @@ func (h *IngredientHandler) CreateIngredient(c *gin.Context) {
 	}
 
 	res, err := h.svc.CreateIngredient(c.Request.Context(), &ingredientpb.CreateIngredientRequest{
-		UserId:     req.UserID,
+		UserId:     userID,
 		Name:       req.Name,
 		Quantity:   req.Quantity,
 		CategoryId: req.CategoryID,
 	})
-
 	if err != nil {
 		response.Fail(c, http.StatusBadRequest, err)
 		return
@@ -60,27 +77,15 @@ func (h *IngredientHandler) CreateIngredient(c *gin.Context) {
 
 func (h *IngredientHandler) GetIngredientByID(c *gin.Context) {
 
-	idStr := c.Param("id")
-	if idStr == "" {
-		response.Fail(c, http.StatusBadRequest, errors.New("id is required"))
+	userID, err := getUserID(c)
+	if err != nil {
+		response.Fail(c, http.StatusUnauthorized, err)
 		return
 	}
 
-	id, err := strconv.ParseInt(idStr, 10, 64)
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
 		response.Fail(c, http.StatusBadRequest, errors.New("invalid id"))
-		return
-	}
-
-	userIDStr := c.Query("user_id")
-	if userIDStr == "" {
-		response.Fail(c, http.StatusBadRequest, errors.New("user_id is required"))
-		return
-	}
-
-	userID, err := strconv.ParseInt(userIDStr, 10, 64)
-	if err != nil {
-		response.Fail(c, http.StatusBadRequest, errors.New("invalid user_id"))
 		return
 	}
 
@@ -88,7 +93,6 @@ func (h *IngredientHandler) GetIngredientByID(c *gin.Context) {
 		Id:     id,
 		UserId: userID,
 	})
-
 	if err != nil {
 		response.Fail(c, http.StatusBadRequest, err)
 		return
@@ -103,22 +107,15 @@ func (h *IngredientHandler) GetIngredientByID(c *gin.Context) {
 
 func (h *IngredientHandler) GetAllIngredients(c *gin.Context) {
 
-	userIDStr := c.Query("user_id")
-	if userIDStr == "" {
-		response.Fail(c, http.StatusBadRequest, errors.New("user_id is required"))
-		return
-	}
-
-	userID, err := strconv.ParseInt(userIDStr, 10, 64)
+	userID, err := getUserID(c)
 	if err != nil {
-		response.Fail(c, http.StatusBadRequest, errors.New("invalid user_id"))
+		response.Fail(c, http.StatusUnauthorized, err)
 		return
 	}
 
 	res, err := h.svc.GetAllIngredients(c.Request.Context(), &ingredientpb.GetAllIngredientsRequest{
 		UserId: userID,
 	})
-
 	if err != nil {
 		response.Fail(c, http.StatusBadRequest, err)
 		return
@@ -128,24 +125,28 @@ func (h *IngredientHandler) GetAllIngredients(c *gin.Context) {
 }
 
 // =========================
-// UPDATE INGREDIENT
+// UPDATE
 // =========================
 
 func (h *IngredientHandler) UpdateIngredient(c *gin.Context) {
 
-	idStr := c.Param("id")
-	if idStr == "" {
-		response.Fail(c, http.StatusBadRequest, errors.New("id is required"))
+	userID, err := getUserID(c)
+	if err != nil {
+		response.Fail(c, http.StatusUnauthorized, err)
 		return
 	}
 
-	id, err := strconv.ParseInt(idStr, 10, 64)
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
 		response.Fail(c, http.StatusBadRequest, errors.New("invalid id"))
 		return
 	}
 
-	var req models.IngredientP
+	var req struct {
+		Name       string  `json:"name"`
+		Quantity   float64 `json:"quantity"`
+		CategoryID int64   `json:"category_id"`
+	}
 
 	if err := c.ShouldBindJSON(&req); err != nil {
 		response.Fail(c, http.StatusBadRequest, err)
@@ -154,12 +155,11 @@ func (h *IngredientHandler) UpdateIngredient(c *gin.Context) {
 
 	res, err := h.svc.UpdateIngredient(c.Request.Context(), &ingredientpb.UpdateIngredientRequest{
 		Id:         id,
-		UserId:     req.UserID,
+		UserId:     userID,
 		Name:       req.Name,
 		Quantity:   req.Quantity,
 		CategoryId: req.CategoryID,
 	})
-
 	if err != nil {
 		response.Fail(c, http.StatusBadRequest, err)
 		return
@@ -169,32 +169,20 @@ func (h *IngredientHandler) UpdateIngredient(c *gin.Context) {
 }
 
 // =========================
-// DELETE INGREDIENT
+// DELETE
 // =========================
 
 func (h *IngredientHandler) DeleteIngredient(c *gin.Context) {
 
-	idStr := c.Param("id")
-	if idStr == "" {
-		response.Fail(c, http.StatusBadRequest, errors.New("id is required"))
+	userID, err := getUserID(c)
+	if err != nil {
+		response.Fail(c, http.StatusUnauthorized, err)
 		return
 	}
 
-	id, err := strconv.ParseInt(idStr, 10, 64)
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
 		response.Fail(c, http.StatusBadRequest, errors.New("invalid id"))
-		return
-	}
-
-	userIDStr := c.Query("user_id")
-	if userIDStr == "" {
-		response.Fail(c, http.StatusBadRequest, errors.New("user_id is required"))
-		return
-	}
-
-	userID, err := strconv.ParseInt(userIDStr, 10, 64)
-	if err != nil {
-		response.Fail(c, http.StatusBadRequest, errors.New("invalid user_id"))
 		return
 	}
 
@@ -202,7 +190,6 @@ func (h *IngredientHandler) DeleteIngredient(c *gin.Context) {
 		Id:     id,
 		UserId: userID,
 	})
-
 	if err != nil {
 		response.Fail(c, http.StatusBadRequest, err)
 		return
