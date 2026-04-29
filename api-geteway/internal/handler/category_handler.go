@@ -169,26 +169,23 @@ func (h *CategoryHandler) DeleteCategory(c *gin.Context) {
 
 func (h *CategoryHandler) GetAllWithUserProducts(c *gin.Context) {
 
-	userIDStr := c.Query("user_id")
-	if userIDStr == "" {
-		response.Fail(c, http.StatusBadRequest, errors.New("user_id is required"))
-		return
-	}
+    userID := c.GetInt64("user_id")
+    if userID == 0 {
+        response.Fail(c, http.StatusUnauthorized, errors.New("unauthorized"))
+        return
+    }
 
-	userID, err := strconv.ParseInt(userIDStr, 10, 64)
-	if err != nil {
-		response.Fail(c, http.StatusBadRequest, errors.New("invalid user_id"))
-		return
-	}
+    res, err := h.svc.GetAllWithUserProducts(
+        c.Request.Context(),
+        &categorypb.GetAllWithUserProductsRequest{
+            UserId: userID,
+        },
+    )
 
-	res, err := h.svc.GetAllWithUserProducts(c.Request.Context(), &categorypb.GetAllWithUserProductsRequest{
-		UserId: userID,
-	})
+    if err != nil {
+        response.Fail(c, http.StatusBadRequest, err)
+        return
+    }
 
-	if err != nil {
-		response.Fail(c, http.StatusBadRequest, err)
-		return
-	}
-
-	response.OK(c, res)
+    response.OK(c, res)
 }
