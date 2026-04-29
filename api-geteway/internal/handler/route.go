@@ -44,10 +44,10 @@ func SetupRouter(
 	category.Use(middleware.AuthMiddleware())
 	{
 		// READ (USER + ADMIN)
-		category.GET("", categoryHandler.GetAllCategories)
-		category.GET("/:id", categoryHandler.GetCategoryByID)
-		category.GET("/with-products", categoryHandler.GetAllWithUserProducts)
+	category.GET("/with-products", categoryHandler.GetAllWithUserProducts)
 
+category.GET("", categoryHandler.GetAllCategories)
+category.GET("/:id", categoryHandler.GetCategoryByID)
 		// WRITE (ADMIN ONLY)
 		adminCat := category.Group("")
 		adminCat.Use(middleware.AdminMiddleware())
