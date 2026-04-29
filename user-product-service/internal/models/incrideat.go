@@ -9,4 +9,4 @@ type Ingredient struct {
     Quantity   float64   `db:"quantity"`
     CategoryID int64     `db:"category_id"`
     CreatedAt  time.Time `db:"created_at"`
-}
+}``
