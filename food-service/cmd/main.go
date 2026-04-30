@@ -39,4 +39,6 @@ func main(){
 
 
    filterRepo := repository.NewFoodFilterRepository(postgres)
+
+   _ = filterRepo
 }
