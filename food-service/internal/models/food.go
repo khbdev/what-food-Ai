@@ -3,10 +3,11 @@ package models
 import "time"
 
 type Recipe struct {
-	ID          int64     `json:"id"`
-	resiped int64 `json:"resipe_id"`
-	Name        string    `json:"name"`
-	Description string    `json:"description"`
+	ID          int64  `json:"id"`
+	RestaurantID int64  `json:"restaurant_id"`
+
+	Name        string `json:"name"`
+	Description string `json:"description"`
 
 	ImageURL string `json:"image_url"`
 	VideoURL string `json:"video_url"`
