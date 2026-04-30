@@ -51,7 +51,7 @@ func main(){
 
 
 
-      := usecase.NewRecipeUsecase(resipeRepo)
+     resipeUSC := usecase.NewRecipeUsecase(resipeRepo)
 
 	 saladUSC := usecase.NewSaladUsecase(saladRepo)
 
@@ -60,7 +60,7 @@ func main(){
 	 restaranUSC := usecase.NewRestaurantUsecase(restaranRepo)
 
 
-	 hand := handler.NewFoodHandler()
+	 hand := handler.NewFoodHandler(resipeUSC, )
 
 
 
