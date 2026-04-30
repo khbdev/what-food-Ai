@@ -38,3 +38,29 @@ func (r *restaurantRepository) Create(ctx context.Context, rest *models.Restaura
 
 	return id, nil
 }
+
+
+
+func (r *restaurantRepository) GetByID(ctx context.Context, id int64) (*models.Restaurant, error) {
+	query := `
+		SELECT id, restaurant_name, description, image_url, created_at
+		FROM restaurants
+		WHERE id = ?
+	`
+
+	var rest models.Restaurant
+
+	err := r.db.QueryRowContext(ctx, query, id).Scan(
+		&rest.ID,
+		&rest.RestaurantName,
+		&rest.Description,
+		&rest.ImageURL,
+		&rest.CreatedAt,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &rest, nil
+}
