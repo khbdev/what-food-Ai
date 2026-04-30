@@ -50,7 +50,9 @@ func main(){
 
 
 
-     resipeUSC := usecase.NewRecipeUsecase(ri)
+     resipeUSC := usecase.NewRecipeUsecase(resipeRepo)
+
+	 
 
 
 
