@@ -4,7 +4,7 @@ import "time"
 
 type Recipe struct {
 	ID          int64     `json:"id"`
-	resipe_id
+	resipe_id int64 
 	Name        string    `json:"name"`
 	Description string    `json:"description"`
 
