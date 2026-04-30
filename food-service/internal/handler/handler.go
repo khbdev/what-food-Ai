@@ -3,7 +3,7 @@ package handler
 import (
 	"context"
 
-	"food-service/genproto/food"
+
 	"food-service/internal/domain"
 	"food-service/internal/models"
 )
