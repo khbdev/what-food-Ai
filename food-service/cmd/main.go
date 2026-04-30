@@ -3,6 +3,7 @@ package main
 import (
 	"food-service/internal/config"
 	"food-service/pkg/env"
+	"log"
 )
 
 
@@ -13,8 +14,8 @@ func main(){
 
 
 	postgres, err := config.NewPostgresDB()
-	if err !=  {
-		
+	if err != nil {
+		log.Fatal()
 	}
 
 }
