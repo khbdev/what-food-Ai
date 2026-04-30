@@ -43,7 +43,7 @@ func main(){
    _ = filterRepo
 
 
-   restaran := repository.NewRestaurantRepository(postgres)
+   restaranRepo := repository.NewRestaurantRepository(postgres)
 
-   _ = 
+   _ = redis
 }
