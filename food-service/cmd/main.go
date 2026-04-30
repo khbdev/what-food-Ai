@@ -20,6 +20,6 @@ func main(){
 
 	_ = postgres
 
-	redis, err := 
+	redis, err := cofi
 
 }
