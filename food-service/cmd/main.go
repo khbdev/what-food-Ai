@@ -54,7 +54,9 @@ func main(){
 
 	 saladUSC := usecase.NewSaladUsecase(saladRepo)
 
-	 filterUSC := usecase.NewFoodFilterUsecase()
+	 filterUSC := usecase.NewFoodFilterUsecase(filterRepo)
+
+	 
 
 
 
