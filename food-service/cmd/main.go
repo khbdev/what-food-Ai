@@ -29,8 +29,8 @@ func main(){
    _ = redis
 
 
-   resipeRpo := repository.NewRecipeRepository(postgres)
+   resipeRepo := repository.NewRecipeRepository(postgres)
 
-   _ = resipe_salad
+   _ = resipe
 
 }
