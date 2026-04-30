@@ -63,7 +63,7 @@ func main() {
 	foodpb.RegisterFoodFilterServiceServer(grpcServer, hand)
 
 	// port from env
-	port :=  os.Gete("GRPC_PORT", "50051")
+	port :=  os.G("GRPC_PORT", "50051")
 
 	lis, err := net.Listen("tcp", ":"+port)
 	if err != nil {
