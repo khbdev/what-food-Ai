@@ -9,6 +9,6 @@ func main(){
 	env.LoadEnv()  
 
 
-	postgr
+	postgres, err := 
 
 }
