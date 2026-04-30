@@ -8,4 +8,4 @@ type Restaurant struct {
 	Description    string    `json:"description"`
 	ImageURL       string    `json:"image_url"`
 	CreatedAt      time.Time `json:"created_at"`
-}
+}a
