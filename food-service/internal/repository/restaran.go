@@ -99,3 +99,20 @@ func (r *restaurantRepository) GetAll(ctx context.Context) ([]*models.Restaurant
 
 	return restaurants, nil
 }
+
+func (r *restaurantRepository) Update(ctx context.Context, rest *models.Restaurant) error {
+	query := `
+		UPDATE restaurants
+		SET restaurant_name = ?, description = ?, image_url = ?
+		WHERE id = ?
+	`
+
+	_, err := r.db.ExecContext(ctx, query,
+		rest.RestaurantName,
+		rest.Description,
+		rest.ImageURL,
+		rest.ID,
+	)
+
+	return err
+}
