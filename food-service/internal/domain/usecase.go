@@ -32,3 +32,16 @@ type RestaurantUsecase interface {
 	Update(ctx context.Context, r *models.Restaurant) error
 	Delete(ctx context.Context, id int64) error
 }
+
+
+
+package domain
+
+import (
+	"context"
+	"food-service/internal/models"
+)
+
+type FoodFilterUsecase interface {
+	Filter(ctx context.Context, filter models.RecipeFilter) ([]models.FoodItemResponse, error)
+}
