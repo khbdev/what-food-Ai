@@ -8,6 +8,6 @@ import (
 
 func LoadEnv(){
 	if err := godotenv.Load(); err != nil {
-		log.Fatal("Xatolik")
+		log.Fatal("Xatolik", err)
 	}
 }
