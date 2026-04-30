@@ -28,5 +28,5 @@ func main(){
    _ = redis
 
 
-   resipe
+   resipe_salad := rep
 }
