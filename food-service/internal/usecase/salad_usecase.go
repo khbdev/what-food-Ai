@@ -14,7 +14,7 @@ type saladUsecase struct {
 }
 
 // DI (Dependency Injection)
-func NewSaladUsecase(repo domain.SaladRepository) SaladUsecase {
+func NewSaladUsecase(repo domain.SaladRepository) dom {
 	return &saladUsecase{
 		repo: repo,
 	}
