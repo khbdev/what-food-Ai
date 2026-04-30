@@ -9,14 +9,6 @@ import (
 	"food-service/internal/models"
 )
 
-type RestaurantUsecase interface {
-	Create(ctx context.Context, r *models.Restaurant) (int64, error)
-	GetByID(ctx context.Context, id int64) (*models.Restaurant, error)
-	GetAll(ctx context.Context) ([]*models.Restaurant, error)
-	Update(ctx context.Context, r *models.Restaurant) error
-	Delete(ctx context.Context, id int64) error
-}
-
 type restaurantUsecase struct {
 	repo domain.RestaurantRepository
 }
