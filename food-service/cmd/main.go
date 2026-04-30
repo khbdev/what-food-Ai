@@ -1,6 +1,9 @@
 package main
 
-import "food-service/pkg/env"
+import (
+	"food-service/internal/config"
+	"food-service/pkg/env"
+)
 
 
 
@@ -9,6 +12,6 @@ func main(){
 	env.LoadEnv()  
 
 
-	postgres, err := 
+	postgres, err := config.NewPostgresDB()
 
 }
