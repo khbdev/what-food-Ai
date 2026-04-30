@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net"
+	"os"
 
 	"food-service/internal/config"
 	"food-service/internal/handler"
@@ -63,7 +64,7 @@ func main() {
 	foodpb.RegisterFoodFilterServiceServer(grpcServer, hand)
 
 	// port from env
-	port :=  os.Getenv("GRPC_PORT", "50051")
+	port :=  os.Getenv("GRPC_PORT", )
 
 	lis, err := net.Listen("tcp", ":"+port)
 	if err != nil {
