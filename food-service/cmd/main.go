@@ -59,7 +59,7 @@ func main(){
 	 restaranUSC := usecase.NewRestaurantUsecase(restaranRepo)
 
 
-	 hand := 
+	 hand := hand
 
 
 
