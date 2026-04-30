@@ -14,7 +14,7 @@ type recipeUsecase struct {
 	repo domain.RecipeRepository
 }
 
-func NewRecipeUsecase(repo domain.RecipeRepository) dom {
+func NewRecipeUsecase(repo domain.RecipeRepository) domain.RecipeUsecase {
 	return &recipeUsecase{repo: repo}
 }
 
