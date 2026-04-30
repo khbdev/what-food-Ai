@@ -14,7 +14,7 @@ type restaurantUsecase struct {
 }
 
 // DI (Dependency Injection)
-func NewRestaurantUsecase(repo domain.RestaurantRepository) RestaurantUsecase {
+func NewRestaurantUsecase(repo domain.RestaurantRepository)  {
 	return &restaurantUsecase{
 		repo: repo,
 	}
