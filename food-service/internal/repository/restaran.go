@@ -64,3 +64,38 @@ func (r *restaurantRepository) GetByID(ctx context.Context, id int64) (*models.R
 
 	return &rest, nil
 }
+
+func (r *restaurantRepository) GetAll(ctx context.Context) ([]*models.Restaurant, error) {
+	query := `
+		SELECT id, restaurant_name, description, image_url, created_at
+		FROM restaurants
+		ORDER BY id DESC
+	`
+
+	rows, err := r.db.QueryContext(ctx, query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var restaurants []*models.Restaurant
+
+	for rows.Next() {
+		var rest models.Restaurant
+
+		err := rows.Scan(
+			&rest.ID,
+			&rest.RestaurantName,
+			&rest.Description,
+			&rest.ImageURL,
+			&rest.CreatedAt,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		restaurants = append(restaurants, &rest)
+	}
+
+	return restaurants, nil
+}
