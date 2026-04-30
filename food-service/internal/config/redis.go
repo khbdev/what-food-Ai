@@ -55,4 +55,4 @@ func NewPostgresDB() (*gorm.DB, error) {
 	log.Println("PostgreSQL connected (GORM) & AutoMigrate done")
 
 	return db, nil
-}
+}a
