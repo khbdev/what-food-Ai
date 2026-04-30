@@ -1,70 +1,78 @@
 package main
 
 import (
+	"log"
+	"net"
+
 	"food-service/internal/config"
 	"food-service/internal/handler"
 	"food-service/internal/repository"
 	"food-service/internal/usecase"
 	"food-service/pkg/env"
-	"log"
+
+	foodpb "github.com/khbdev/what-food-proto/proto/food"
+	"google.golang.org/grpc"
 )
 
+func main() {
 
+	// load env
+	env.LoadEnv()
 
-func main(){
-
-	env.LoadEnv()  
-
-
+	// db
 	postgres, err := config.NewPostgresDB()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	_ = postgres
-
+	// redis
 	redis, err := config.NewRedisClient()
-
 	if err != nil {
 		log.Fatal(err)
 	}
-   _ = redis
 
+	_ = redis
 
-   resipeRepo := repository.NewRecipeRepository(postgres)
+	// repositories
+	recipeRepo := repository.NewRecipeRepository(postgres)
+	saladRepo := repository.NewSaladRepository(postgres)
+	filterRepo := repository.NewFoodFilterRepository(postgres)
+	restaurantRepo := repository.NewRestaurantRepository(postgres)
 
-   _ = resipeRepo
+	// usecases
+	recipeUC := usecase.NewRecipeUsecase(recipeRepo)
+	saladUC := usecase.NewSaladUsecase(saladRepo)
+	filterUC := usecase.NewFoodFilterUsecase(filterRepo)
+	restaurantUC := usecase.NewRestaurantUsecase(restaurantRepo)
 
-   saladRepo := repository.NewSaladRepository(postgres)
+	// handler
+	hand := handler.NewFoodHandler(
+		recipeUC,
+		saladUC,
+		restaurantUC,
+		filterUC,
+	)
 
-   _ = saladRepo
+	// grpc server
+	grpcServer := grpc.NewServer()
 
+	// register services
+	foodpb.RegisterRecipeServiceServer(grpcServer, hand)
+	foodpb.RegisterSaladServiceServer(grpcServer, hand)
+	foodpb.RegisterRestaurantServiceServer(grpcServer, hand)
+	foodpb.RegisterFoodFilterServiceServer(grpcServer, hand)
 
-   filterRepo := repository.NewFoodFilterRepository(postgres)
+	// port from env
+	port := env.Get("GRPC_PORT", "50051")
 
-   _ = filterRepo
+	lis, err := net.Listen("tcp", ":"+port)
+	if err != nil {
+		log.Fatal(err)
+	}
 
+	log.Println("🚀 gRPC server running on port:", port)
 
-   restaranRepo := repository.NewRestaurantRepository(postgres)
-
-   _ = restaranRepo
-
-
-
-     resipeUSC := usecase.NewRecipeUsecase(resipeRepo)
-
-	 saladUSC := usecase.NewSaladUsecase(saladRepo)
-
-	 filterUSC := usecase.NewFoodFilterUsecase(filterRepo)
-
-	 restaranUSC := usecase.NewRestaurantUsecase(restaranRepo)
-
-hand := handler.NewFoodHandler(
-	resipeUSC,
-	saladUSC,
-	restaranUSC,
-	filterUSC,
-)
-
-
+	if err := grpcServer.Serve(lis); err != nil {
+		log.Fatal(err)
+	}
 }
