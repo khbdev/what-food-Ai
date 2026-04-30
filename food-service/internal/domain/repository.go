@@ -12,7 +12,7 @@ type RecipeRepository interface {
 
 	GetAll(ctx context.Context) ([]*models.Recipe, error)
 
-	Filter(ctx context.Context, filter models.RecipeFilter) ([]*models.Recipe, error)
+
 
 	Update(ctx context.Context, recipe *models.Recipe) error
 
