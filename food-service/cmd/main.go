@@ -31,6 +31,8 @@ func main(){
 
    resipeRepo := repository.NewRecipeRepository(postgres)
 
-   _ = resipe
+   _ = resipeRepo
+
+   
 
 }
