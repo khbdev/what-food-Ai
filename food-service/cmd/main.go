@@ -18,6 +18,6 @@ func main(){
 		log.Fatal(err)
 	}
 
-	
+	_ = postgres
 
 }
