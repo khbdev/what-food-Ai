@@ -11,6 +11,6 @@ type restaurantRepository struct {
 	db *sql.DB
 }
 
-func NewRestaurantRepository(db *sql.DB) domain. {
+func NewRestaurantRepository(db *sql.DB) domain.RestaurantRepository {
 	return &restaurantRepository{db: db}
-}
+}RestaurantRepository
