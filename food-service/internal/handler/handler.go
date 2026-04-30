@@ -3,66 +3,67 @@ package handler
 import (
 	"context"
 
-
 	"food-service/internal/domain"
 	"food-service/internal/models"
+
+	foodpb "food-service/genproto/food"
 )
 
-type GRPCHandler struct {
-	food.UnimplementedRecipeServiceServer
-	food.UnimplementedSaladServiceServer
-	food.UnimplementedRestaurantServiceServer
+type FoodHandler struct {
+	foodpb.UnimplementedRecipeServiceServer
+	foodpb.UnimplementedSaladServiceServer
+	foodpb.UnimplementedRestaurantServiceServer
 
 	recipeUC     domain.RecipeUsecase
 	saladUC      domain.SaladUsecase
 	restaurantUC domain.RestaurantUsecase
 }
 
-func NewGRPCHandler(
+func NewFoodHandler(
 	r domain.RecipeUsecase,
 	s domain.SaladUsecase,
 	res domain.RestaurantUsecase,
-) *GRPCHandler {
-	return &GRPCHandler{
+) *FoodHandler {
+	return &FoodHandler{
 		recipeUC:     r,
 		saladUC:      s,
 		restaurantUC: res,
 	}
 }
 
-// ================= RECIPE =================
+// ===== RECIPE =====
 
-func (h *GRPCHandler) CreateRecipe(ctx context.Context, req *food.CreateRecipeRequest) (*food.Empty, error) {
-	r := req.GetRecipe()
+func (h *FoodHandler) CreateRecipe(ctx context.Context, req *foodpb.CreateRecipeRequest) (*foodpb.Empty, error) {
+	r := req.Recipe
 
-	model := &models.Recipe{
-		RestaurantID: r.GetRestaurantId(),
-		Name:         r.GetName(),
-		Description:  r.GetDescription(),
-		ImageURL:     r.GetImageUrl(),
-		VideoURL:     r.GetVideoUrl(),
-		Country:      r.GetCountry(),
-		MealTime:     r.GetMealTime(),
-		Kcal:         int(r.GetKcal()),
-		Protein:      r.GetProtein(),
-		Fat:          r.GetFat(),
-		Carbs:        r.GetCarbs(),
-	}
-
-	if err := h.recipeUC.Create(ctx, model); err != nil {
-		return nil, err
-	}
-	return &food.Empty{}, nil
-}
-
-func (h *GRPCHandler) GetRecipeByID(ctx context.Context, req *food.GetByIDRequest) (*food.RecipeResponse, error) {
-	res, err := h.recipeUC.GetByID(ctx, req.GetId())
+	err := h.recipeUC.Create(ctx, &models.Recipe{
+		RestaurantID: r.RestaurantId,
+		Name:         r.Name,
+		Description:  r.Description,
+		ImageURL:     r.ImageUrl,
+		VideoURL:     r.VideoUrl,
+		Country:      r.Country,
+		MealTime:     r.MealTime,
+		Kcal:         int(r.Kcal),
+		Protein:      r.Protein,
+		Fat:          r.Fat,
+		Carbs:        r.Carbs,
+	})
 	if err != nil {
 		return nil, err
 	}
 
-	return &food.RecipeResponse{
-		Recipe: &food.Recipe{
+	return &foodpb.Empty{}, nil
+}
+
+func (h *FoodHandler) GetRecipeByID(ctx context.Context, req *foodpb.GetByIDRequest) (*foodpb.RecipeResponse, error) {
+	res, err := h.recipeUC.GetByID(ctx, req.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	return &foodpb.RecipeResponse{
+		Recipe: &foodpb.Recipe{
 			Id:           res.ID,
 			RestaurantId: res.RestaurantID,
 			Name:         res.Name,
@@ -79,15 +80,15 @@ func (h *GRPCHandler) GetRecipeByID(ctx context.Context, req *food.GetByIDReques
 	}, nil
 }
 
-func (h *GRPCHandler) GetAllRecipes(ctx context.Context, _ *food.Empty) (*food.RecipeListResponse, error) {
+func (h *FoodHandler) GetAllRecipes(ctx context.Context, _ *foodpb.Empty) (*foodpb.RecipeListResponse, error) {
 	list, err := h.recipeUC.GetAll(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	var out []*food.Recipe
+	var out []*foodpb.Recipe
 	for _, r := range list {
-		out = append(out, &food.Recipe{
+		out = append(out, &foodpb.Recipe{
 			Id:           r.ID,
 			RestaurantId: r.RestaurantID,
 			Name:         r.Name,
@@ -103,73 +104,73 @@ func (h *GRPCHandler) GetAllRecipes(ctx context.Context, _ *food.Empty) (*food.R
 		})
 	}
 
-	return &food.RecipeListResponse{Recipes: out}, nil
+	return &foodpb.RecipeListResponse{Recipes: out}, nil
 }
 
-func (h *GRPCHandler) UpdateRecipe(ctx context.Context, req *food.UpdateRecipeRequest) (*food.Empty, error) {
-	r := req.GetRecipe()
+func (h *FoodHandler) UpdateRecipe(ctx context.Context, req *foodpb.UpdateRecipeRequest) (*foodpb.Empty, error) {
+	r := req.Recipe
 
-	model := &models.Recipe{
-		ID:           r.GetId(),
-		RestaurantID: r.GetRestaurantId(),
-		Name:         r.GetName(),
-		Description:  r.GetDescription(),
-		ImageURL:     r.GetImageUrl(),
-		VideoURL:     r.GetVideoUrl(),
-		Country:      r.GetCountry(),
-		MealTime:     r.GetMealTime(),
-		Kcal:         int(r.GetKcal()),
-		Protein:      r.GetProtein(),
-		Fat:          r.GetFat(),
-		Carbs:        r.GetCarbs(),
-	}
-
-	if err := h.recipeUC.Update(ctx, model); err != nil {
-		return nil, err
-	}
-	return &food.Empty{}, nil
-}
-
-func (h *GRPCHandler) DeleteRecipe(ctx context.Context, req *food.GetByIDRequest) (*food.Empty, error) {
-	if err := h.recipeUC.Delete(ctx, req.GetId()); err != nil {
-		return nil, err
-	}
-	return &food.Empty{}, nil
-}
-
-// ================= SALAD =================
-
-func (h *GRPCHandler) CreateSalad(ctx context.Context, req *food.CreateSaladRequest) (*food.Empty, error) {
-	s := req.GetSalad()
-
-	model := &models.Salad{
-		RestaurantID: s.GetRestaurantId(),
-		Name:         s.GetName(),
-		Description:  s.GetDescription(),
-		ImageURL:     s.GetImageUrl(),
-		VideoURL:     s.GetVideoUrl(),
-		Country:      s.GetCountry(),
-		MealTime:     s.GetMealTime(),
-		Kcal:         int(s.GetKcal()),
-		Protein:      s.GetProtein(),
-		Fat:          s.GetFat(),
-		Carbs:        s.GetCarbs(),
-	}
-
-	if err := h.saladUC.Create(ctx, model); err != nil {
-		return nil, err
-	}
-	return &food.Empty{}, nil
-}
-
-func (h *GRPCHandler) GetSaladByID(ctx context.Context, req *food.GetByIDRequest) (*food.SaladResponse, error) {
-	res, err := h.saladUC.GetByID(ctx, req.GetId())
+	err := h.recipeUC.Update(ctx, &models.Recipe{
+		ID:           r.Id,
+		RestaurantID: r.RestaurantId,
+		Name:         r.Name,
+		Description:  r.Description,
+		ImageURL:     r.ImageUrl,
+		VideoURL:     r.VideoUrl,
+		Country:      r.Country,
+		MealTime:     r.MealTime,
+		Kcal:         int(r.Kcal),
+		Protein:      r.Protein,
+		Fat:          r.Fat,
+		Carbs:        r.Carbs,
+	})
 	if err != nil {
 		return nil, err
 	}
 
-	return &food.SaladResponse{
-		Salad: &food.Salad{
+	return &foodpb.Empty{}, nil
+}
+
+func (h *FoodHandler) DeleteRecipe(ctx context.Context, req *foodpb.GetByIDRequest) (*foodpb.Empty, error) {
+	if err := h.recipeUC.Delete(ctx, req.Id); err != nil {
+		return nil, err
+	}
+	return &foodpb.Empty{}, nil
+}
+
+// ===== SALAD =====
+
+func (h *FoodHandler) CreateSalad(ctx context.Context, req *foodpb.CreateSaladRequest) (*foodpb.Empty, error) {
+	s := req.Salad
+
+	err := h.saladUC.Create(ctx, &models.Salad{
+		RestaurantID: s.RestaurantId,
+		Name:         s.Name,
+		Description:  s.Description,
+		ImageURL:     s.ImageUrl,
+		VideoURL:     s.VideoUrl,
+		Country:      s.Country,
+		MealTime:     s.MealTime,
+		Kcal:         int(s.Kcal),
+		Protein:      s.Protein,
+		Fat:          s.Fat,
+		Carbs:        s.Carbs,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return &foodpb.Empty{}, nil
+}
+
+func (h *FoodHandler) GetSaladByID(ctx context.Context, req *foodpb.GetByIDRequest) (*foodpb.SaladResponse, error) {
+	res, err := h.saladUC.GetByID(ctx, req.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	return &foodpb.SaladResponse{
+		Salad: &foodpb.Salad{
 			Id:           res.ID,
 			RestaurantId: res.RestaurantID,
 			Name:         res.Name,
@@ -186,15 +187,15 @@ func (h *GRPCHandler) GetSaladByID(ctx context.Context, req *food.GetByIDRequest
 	}, nil
 }
 
-func (h *GRPCHandler) GetAllSalads(ctx context.Context, _ *food.Empty) (*food.SaladListResponse, error) {
+func (h *FoodHandler) GetAllSalads(ctx context.Context, _ *foodpb.Empty) (*foodpb.SaladListResponse, error) {
 	list, err := h.saladUC.GetAll(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	var out []*food.Salad
+	var out []*foodpb.Salad
 	for _, s := range list {
-		out = append(out, &food.Salad{
+		out = append(out, &foodpb.Salad{
 			Id:           s.ID,
 			RestaurantId: s.RestaurantID,
 			Name:         s.Name,
@@ -210,63 +211,63 @@ func (h *GRPCHandler) GetAllSalads(ctx context.Context, _ *food.Empty) (*food.Sa
 		})
 	}
 
-	return &food.SaladListResponse{Salads: out}, nil
+	return &foodpb.SaladListResponse{Salads: out}, nil
 }
 
-func (h *GRPCHandler) UpdateSalad(ctx context.Context, req *food.UpdateSaladRequest) (*food.Empty, error) {
-	s := req.GetSalad()
+func (h *FoodHandler) UpdateSalad(ctx context.Context, req *foodpb.UpdateSaladRequest) (*foodpb.Empty, error) {
+	s := req.Salad
 
-	model := &models.Salad{
-		ID:           s.GetId(),
-		RestaurantID: s.GetRestaurantId(),
-		Name:         s.GetName(),
-		Description:  s.GetDescription(),
-		ImageURL:     s.GetImageUrl(),
-		VideoURL:     s.GetVideoUrl(),
-		Country:      s.GetCountry(),
-		MealTime:     s.GetMealTime(),
-		Kcal:         int(s.GetKcal()),
-		Protein:      s.GetProtein(),
-		Fat:          s.GetFat(),
-		Carbs:        s.GetCarbs(),
-	}
-
-	if err := h.saladUC.Update(ctx, model); err != nil {
-		return nil, err
-	}
-	return &food.Empty{}, nil
-}
-
-func (h *GRPCHandler) DeleteSalad(ctx context.Context, req *food.GetByIDRequest) (*food.Empty, error) {
-	if err := h.saladUC.Delete(ctx, req.GetId()); err != nil {
-		return nil, err
-	}
-	return &food.Empty{}, nil
-}
-
-// ================= RESTAURANT =================
-
-func (h *GRPCHandler) CreateRestaurant(ctx context.Context, req *food.CreateRestaurantRequest) (*food.CreateRestaurantResponse, error) {
-	id, err := h.restaurantUC.Create(ctx, &models.Restaurant{
-		RestaurantName: req.GetRestaurantName(),
-		Description:    req.GetDescription(),
-		ImageURL:       req.GetImageUrl(),
+	err := h.saladUC.Update(ctx, &models.Salad{
+		ID:           s.Id,
+		RestaurantID: s.RestaurantId,
+		Name:         s.Name,
+		Description:  s.Description,
+		ImageURL:     s.ImageUrl,
+		VideoURL:     s.VideoUrl,
+		Country:      s.Country,
+		MealTime:     s.MealTime,
+		Kcal:         int(s.Kcal),
+		Protein:      s.Protein,
+		Fat:          s.Fat,
+		Carbs:        s.Carbs,
 	})
 	if err != nil {
 		return nil, err
 	}
 
-	return &food.CreateRestaurantResponse{Id: id}, nil
+	return &foodpb.Empty{}, nil
 }
 
-func (h *GRPCHandler) GetRestaurantByID(ctx context.Context, req *food.GetByIDRequest) (*food.RestaurantResponse, error) {
-	res, err := h.restaurantUC.GetByID(ctx, req.GetId())
+func (h *FoodHandler) DeleteSalad(ctx context.Context, req *foodpb.GetByIDRequest) (*foodpb.Empty, error) {
+	if err := h.saladUC.Delete(ctx, req.Id); err != nil {
+		return nil, err
+	}
+	return &foodpb.Empty{}, nil
+}
+
+// ===== RESTAURANT =====
+
+func (h *FoodHandler) CreateRestaurant(ctx context.Context, req *foodpb.CreateRestaurantRequest) (*foodpb.CreateRestaurantResponse, error) {
+	id, err := h.restaurantUC.Create(ctx, &models.Restaurant{
+		RestaurantName: req.RestaurantName,
+		Description:    req.Description,
+		ImageURL:       req.ImageUrl,
+	})
 	if err != nil {
 		return nil, err
 	}
 
-	return &food.RestaurantResponse{
-		Restaurant: &food.Restaurant{
+	return &foodpb.CreateRestaurantResponse{Id: id}, nil
+}
+
+func (h *FoodHandler) GetRestaurantByID(ctx context.Context, req *foodpb.GetByIDRequest) (*foodpb.RestaurantResponse, error) {
+	res, err := h.restaurantUC.GetByID(ctx, req.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	return &foodpb.RestaurantResponse{
+		Restaurant: &foodpb.Restaurant{
 			Id:             res.ID,
 			RestaurantName: res.RestaurantName,
 			Description:    res.Description,
@@ -275,15 +276,15 @@ func (h *GRPCHandler) GetRestaurantByID(ctx context.Context, req *food.GetByIDRe
 	}, nil
 }
 
-func (h *GRPCHandler) GetAllRestaurants(ctx context.Context, _ *food.Empty) (*food.RestaurantListResponse, error) {
+func (h *FoodHandler) GetAllRestaurants(ctx context.Context, _ *foodpb.Empty) (*foodpb.RestaurantListResponse, error) {
 	list, err := h.restaurantUC.GetAll(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	var out []*food.Restaurant
+	var out []*foodpb.Restaurant
 	for _, r := range list {
-		out = append(out, &food.Restaurant{
+		out = append(out, &foodpb.Restaurant{
 			Id:             r.ID,
 			RestaurantName: r.RestaurantName,
 			Description:    r.Description,
@@ -291,28 +292,28 @@ func (h *GRPCHandler) GetAllRestaurants(ctx context.Context, _ *food.Empty) (*fo
 		})
 	}
 
-	return &food.RestaurantListResponse{Restaurants: out}, nil
+	return &foodpb.RestaurantListResponse{Restaurants: out}, nil
 }
 
-func (h *GRPCHandler) UpdateRestaurant(ctx context.Context, req *food.UpdateRestaurantRequest) (*food.Empty, error) {
-	r := req.GetRestaurant()
+func (h *FoodHandler) UpdateRestaurant(ctx context.Context, req *foodpb.UpdateRestaurantRequest) (*foodpb.Empty, error) {
+	r := req.Restaurant
 
-	model := &models.Restaurant{
-		ID:             r.GetId(),
-		RestaurantName: r.GetRestaurantName(),
-		Description:    r.GetDescription(),
-		ImageURL:       r.GetImageUrl(),
-	}
-
-	if err := h.restaurantUC.Update(ctx, model); err != nil {
+	err := h.restaurantUC.Update(ctx, &models.Restaurant{
+		ID:             r.Id,
+		RestaurantName: r.RestaurantName,
+		Description:    r.Description,
+		ImageURL:       r.ImageUrl,
+	})
+	if err != nil {
 		return nil, err
 	}
-	return &food.Empty{}, nil
+
+	return &foodpb.Empty{}, nil
 }
 
-func (h *GRPCHandler) DeleteRestaurant(ctx context.Context, req *food.GetByIDRequest) (*food.Empty, error) {
-	if err := h.restaurantUC.Delete(ctx, req.GetId()); err != nil {
+func (h *FoodHandler) DeleteRestaurant(ctx context.Context, req *foodpb.GetByIDRequest) (*foodpb.Empty, error) {
+	if err := h.restaurantUC.Delete(ctx, req.Id); err != nil {
 		return nil, err
 	}
-	return &food.Empty{}, nil
+	return &foodpb.Empty{}, nil
 }
