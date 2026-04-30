@@ -1,9 +1,11 @@
 package domain
 
+import "food-service/internal/models"
+
 
 
 type RecipeUsecase interface {
-	Create(ctx context.Context, recipe *models.Recipe) error
+	Create(ctx con.Context, recipe *models.Recipe) error
 	GetByID(ctx context.Context, id int64) (*models.Recipe, error)
 	GetAll(ctx context.Context) ([]*models.Recipe, error)
 	Update(ctx context.Context, recipe *models.Recipe) error
