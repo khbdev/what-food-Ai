@@ -3,6 +3,7 @@ package main
 import (
 	"food-service/internal/config"
 	"food-service/internal/repository"
+	"food-service/internal/usecase"
 	"food-service/pkg/env"
 	"log"
 )
@@ -49,7 +50,7 @@ func main(){
 
 
 
-     resipeUSC := use
+     resipeUSC := usecase.
 
 
 
