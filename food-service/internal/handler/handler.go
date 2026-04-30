@@ -324,3 +324,41 @@ func (h *FoodHandler) DeleteRestaurant(ctx context.Context, req *foodpb.GetByIDR
 }
 
 
+// ================= FILTER =================
+
+func (h *FoodHandler) FilterFood(ctx context.Context, req *foodpb.FoodFilterRequest) (*foodpb.FoodListResponse, error) {
+
+	list, err := h.filterUC.Filter(ctx, models.RecipeFilter{
+		Country:       req.Country,
+		MealTime:      req.MealTime,
+		MaxKcal:       int(req.MaxKcal),
+		IncludeSalads: req.IncludeSalads,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	res := make([]*foodpb.FoodItem, 0, len(list))
+
+	for _, f := range list {
+		res = append(res, &foodpb.FoodItem{
+			Id:           f.ID,
+			Type:         f.Type,
+			RestaurantId: f.RestaurantID,
+			Name:         f.Name,
+			Description:  f.Description,
+			ImageUrl:     f.ImageURL,
+			VideoUrl:     f.VideoURL,
+			Country:      f.Country,
+			MealTime:     f.MealTime,
+			Kcal:         int32(f.Kcal),
+			Protein:      f.Protein,
+			Fat:          f.Fat,
+			Carbs:        f.Carbs,
+		})
+	}
+
+	return &foodpb.FoodListResponse{
+		Items: res,
+	}, nil
+}
