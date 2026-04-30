@@ -1,3 +1,7 @@
 package env
 
-func LoadEnv
+func LoadEnv(){
+	if err :=  {
+		
+	}
+}
