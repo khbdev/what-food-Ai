@@ -322,3 +322,5 @@ func (h *FoodHandler) DeleteRestaurant(ctx context.Context, req *foodpb.GetByIDR
 	}
 	return &foodpb.Empty{}, nil
 }
+
+
