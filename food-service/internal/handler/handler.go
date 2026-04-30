@@ -13,23 +13,28 @@ type FoodHandler struct {
 	foodpb.UnimplementedRecipeServiceServer
 	foodpb.UnimplementedSaladServiceServer
 	foodpb.UnimplementedRestaurantServiceServer
+	foodpb.UnimplementedFoodFilterServiceServer
 
 	recipeUC     domain.RecipeUsecase
 	saladUC      domain.SaladUsecase
 	restaurantUC domain.RestaurantUsecase
+	filterUC     domain.FoodFilterUsecase
 }
 
 func NewFoodHandler(
 	r domain.RecipeUsecase,
 	s domain.SaladUsecase,
 	res domain.RestaurantUsecase,
+	f domain.FoodFilterUsecase,
 ) *FoodHandler {
 	return &FoodHandler{
 		recipeUC:     r,
 		saladUC:      s,
 		restaurantUC: res,
+		filterUC:     f,
 	}
 }
+
 
 // ===== RECIPE =====
 
