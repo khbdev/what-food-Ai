@@ -31,6 +31,6 @@ func main(){
 
    resipe_salad := repository.NewRecipeRepository(postgres)
 
-   _ 
+   _ = resipe_salad
 
 }
