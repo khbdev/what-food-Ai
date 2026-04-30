@@ -1,17 +1,16 @@
 package config
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 	"os"
 	"time"
 
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
+	_ "github.com/lib/pq"
 )
 
-func NewPostgresDB() (*gorm.DB, error) {
+func NewPostgresDB() (*sql.DB, error) {
 	host := os.Getenv("DB_HOST")
 	port := os.Getenv("DB_PORT")
 	user := os.Getenv("DB_USER")
@@ -28,31 +27,22 @@ func NewPostgresDB() (*gorm.DB, error) {
 		host, port, user, password, dbname, sslmode,
 	)
 
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
-		Logger: logger.Default.LogMode(logger.Warn), 
-	})
+	db, err := sql.Open("postgres", dsn)
 	if err != nil {
 		return nil, err
 	}
 
-	
-	sqlDB, err := db.DB()
-	if err != nil {
+	// Ping qilib tekshiramiz
+	if err := db.Ping(); err != nil {
 		return nil, err
 	}
 
-	sqlDB.SetMaxOpenConns(25)
-	sqlDB.SetMaxIdleConns(10)
-	sqlDB.SetConnMaxLifetime(time.Hour)
+	// Pool settings
+	db.SetMaxOpenConns(25)
+	db.SetMaxIdleConns(10)
+	db.SetConnMaxLifetime(time.Hour)
 
-	
-	if err := db.AutoMigrate(
-		&models.User{},
-	); err != nil {
-		return nil, err
-	}
-
-	log.Println("PostgreSQL connected (GORM) & AutoMigrate done")
+	log.Println("PostgreSQL connected (database/sql)")
 
 	return db, nil
-}a
+}
