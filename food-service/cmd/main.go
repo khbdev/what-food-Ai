@@ -33,6 +33,6 @@ func main(){
 
    _ = resipeRepo
 
-   saladRepo := repository.NewSaladRepository()
+   saladRepo := repository.NewSaladRepository(postgres)
 
 }
