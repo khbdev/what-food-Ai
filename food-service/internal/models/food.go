@@ -15,7 +15,7 @@ type Recipe struct {
 	Country  string `json:"country"`
 	MealTime string `json:"meal_time"`
 
-	IsSalad bool `json:"is_salad"`
+
 
 	Kcal    int     `json:"kcal"`
 	Protein float64 `json:"protein"`
