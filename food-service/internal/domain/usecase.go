@@ -35,13 +35,6 @@ type RestaurantUsecase interface {
 
 
 
-package domain
-
-import (
-	"context"
-	"food-service/internal/models"
-)
-
 type FoodFilterUsecase interface {
 	Filter(ctx context.Context, filter models.RecipeFilter) ([]models.FoodItemResponse, error)
 }
