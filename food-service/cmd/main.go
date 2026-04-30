@@ -6,7 +6,9 @@ import "food-service/pkg/env"
 
 func main(){
 
-	env.LoadEnv()
-  
+	env.LoadEnv()  
+
+
+	postgr
 
 }
