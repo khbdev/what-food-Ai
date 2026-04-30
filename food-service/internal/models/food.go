@@ -2,8 +2,8 @@ package models
 
 import "time"
 
-type Salad struct {
-	ID           int64  `json:"id"`
+type Recipe struct {
+	ID          int64  `json:"id"`
 	RestaurantID int64  `json:"restaurant_id"`
 
 	Name        string `json:"name"`
@@ -14,6 +14,7 @@ type Salad struct {
 
 	Country  string `json:"country"`
 	MealTime string `json:"meal_time"`
+
 
 	Kcal    int     `json:"kcal"`
 	Protein float64 `json:"protein"`
