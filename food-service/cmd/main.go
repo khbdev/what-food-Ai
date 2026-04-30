@@ -56,7 +56,10 @@ func main(){
 
 	 filterUSC := usecase.NewFoodFilterUsecase(filterRepo)
 
-	 restaranUSC := usecase.NewRestaurantUsecase(re)
+	 restaranUSC := usecase.NewRestaurantUsecase(restaranRepo)
+
+
+	 hand := 
 
 
 
