@@ -1,5 +1,10 @@
 package main
 
+import "food-service/pkg/env"
 
 
-func main
+
+func main(){
+
+	env
+}
