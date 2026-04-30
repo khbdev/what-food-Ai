@@ -52,7 +52,7 @@ func main(){
 
      resipeUSC := usecase.NewRecipeUsecase(resipeRepo)
 
-	 saladUSC := usecase.N
+	 saladUSC := usecase.NewSaladUsecase()
 
 
 
