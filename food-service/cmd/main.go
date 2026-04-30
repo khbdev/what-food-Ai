@@ -20,6 +20,10 @@ func main(){
 
 	_ = postgres
 
-	redis, err := cofi
+	redis, err := config.NewRedisClient()
+
+	if err ! {
+		
+	}
 
 }
