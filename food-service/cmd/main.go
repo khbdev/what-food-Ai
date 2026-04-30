@@ -64,7 +64,7 @@ func main() {
 	foodpb.RegisterFoodFilterServiceServer(grpcServer, hand)
 
 	// port from env
-	port :=  os.Getenv("GRPC_PORT", )
+	port :=  os.Getenv("GRPC_PORT")
 
 	lis, err := net.Listen("tcp", ":"+port)
 	if err != nil {
