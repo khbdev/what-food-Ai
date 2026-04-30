@@ -50,7 +50,7 @@ func main(){
 
 
 
-     resipeUSC := usecase.
+     resipeUSC := usecase.NewRecipeUsecase()
 
 
 
