@@ -34,5 +34,6 @@ func main(){
    _ = resipeRepo
 
    saladRepo := repository.NewSaladRepository(postgres)
+   _ = a
 
 }
