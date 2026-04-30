@@ -2,7 +2,7 @@ package domain
 
 import (
 	"context"
-	"food-service/internal/models"
+	
 )
 
 type FoodFilterRepository interface {
