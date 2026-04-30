@@ -6,7 +6,7 @@ import (
 	"food-service/internal/domain"
 	"food-service/internal/models"
 
-	foodpb "github.com/khbdev/what-food-proto/proto/auth"
+	foodpb "github.com/khbdev/what-food-proto/proto/food"
 )
 
 type FoodHandler struct {
