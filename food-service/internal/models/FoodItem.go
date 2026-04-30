@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type FoodItemResponse struct {
 	ID           int64   `json:"id"`
 	Type         string  `json:"type"` // "recipe" | "salad"
