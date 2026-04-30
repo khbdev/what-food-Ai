@@ -38,5 +38,5 @@ func main(){
    _ = saladRepo
 
 
-   filterRepo := 
+   filterRepo := repository.NewFoodFilterRepository()
 }
