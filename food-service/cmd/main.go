@@ -56,7 +56,7 @@ func main(){
 
 	 filterUSC := usecase.NewFoodFilterUsecase(filterRepo)
 
-	 restaranRepo
+	 restaranUSC := us
 
 
 
