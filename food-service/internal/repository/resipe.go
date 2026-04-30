@@ -40,7 +40,7 @@ func (r *recipeRepository) Create(ctx context.Context, recipe *models.Recipe) er
 		recipe.VideoURL,
 		recipe.Country,
 		recipe.MealTime,
-		recipe.
+		recipe.i
 		recipe.Kcal,
 		recipe.Protien,
 		recipe.Fat,
