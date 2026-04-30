@@ -2,6 +2,7 @@ package main
 
 import (
 	"food-service/internal/config"
+	"food-service/internal/repository"
 	"food-service/pkg/env"
 	"log"
 )
@@ -28,5 +29,5 @@ func main(){
    _ = redis
 
 
-   resipe_salad := rep
+   resipe_salad := repository.NewRecipeRepository()
 }
