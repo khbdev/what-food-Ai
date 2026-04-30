@@ -16,7 +16,6 @@ type Recipe struct {
 	MealTime string `json:"meal_time"`
 
 
-
 	Kcal    int     `json:"kcal"`
 	Protein float64 `json:"protein"`
 	Fat     float64 `json:"fat"`
