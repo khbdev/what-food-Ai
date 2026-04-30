@@ -2,6 +2,7 @@ package main
 
 import (
 	"food-service/internal/config"
+	"food-service/internal/handler"
 	"food-service/internal/repository"
 	"food-service/internal/usecase"
 	"food-service/pkg/env"
@@ -59,7 +60,7 @@ func main(){
 	 restaranUSC := usecase.NewRestaurantUsecase(restaranRepo)
 
 
-	 hand := hand
+	 hand := handler.NewFoodHandler()
 
 
 
