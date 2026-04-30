@@ -116,3 +116,9 @@ func (r *restaurantRepository) Update(ctx context.Context, rest *models.Restaura
 
 	return err
 }
+func (r *restaurantRepository) Delete(ctx context.Context, id int64) error {
+	query := `DELETE FROM restaurants WHERE id = ?`
+
+	_, err := r.db.ExecContext(ctx, query, id)
+	return err
+}
