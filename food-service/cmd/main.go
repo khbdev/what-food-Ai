@@ -45,5 +45,5 @@ func main(){
 
    restaranRepo := repository.NewRestaurantRepository(postgres)
 
-   _ = redis
+   _ = restaranRepo
 }
