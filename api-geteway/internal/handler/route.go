@@ -1,8 +1,9 @@
 package handler
 
 import (
-	"github.com/gin-gonic/gin"
 	"api-geteway/internal/middleware"
+
+	"github.com/gin-gonic/gin"
 )
 
 func SetupRouter(
@@ -10,6 +11,7 @@ func SetupRouter(
 	userHandler *UserHandler,
 	categoryHandler *CategoryHandler,
 	ingredientHandler *IngredientHandler,
+	foodHandler *FoodHandler,
 ) *gin.Engine {
 
 	r := gin.Default()
@@ -25,50 +27,67 @@ func SetupRouter(
 	}
 
 	// =========================
-	// ADMIN ROUTES (ONLY ADMIN)
+	// ADMIN ROUTES
 	// =========================
 	admin := r.Group("/admin")
 	admin.Use(middleware.AuthMiddleware(), middleware.AdminMiddleware())
 	{
-		admin.POST("/user", userHandler.CreateUser)
-		admin.GET("/user/all", userHandler.GetAllUsers)
-		admin.GET("/user/:id", userHandler.GetUserByID)
-		admin.PUT("/user/:id", userHandler.UpdateUser)
-		admin.DELETE("/user/:id", userHandler.DeleteUser)
+		// Users
+		admin.POST("/users", userHandler.CreateUser)
+		admin.GET("/users", userHandler.GetAllUsers)
+		admin.GET("/users/:id", userHandler.GetUserByID)
+		admin.PUT("/users/:id", userHandler.UpdateUser)
+		admin.DELETE("/users/:id", userHandler.DeleteUser)
+
+		// Categories
+		admin.POST("/categories", categoryHandler.CreateCategory)
+		admin.GET("/categories", categoryHandler.GetAllCategories)
+		admin.GET("/categories/:id", categoryHandler.GetCategoryByID)
+		admin.PUT("/categories/:id", categoryHandler.UpdateCategory)
+		admin.DELETE("/categories/:id", categoryHandler.DeleteCategory)
+
+		// Restaurants
+		admin.POST("/restaurants", foodHandler.CreateRestaurant)
+		admin.GET("/restaurants", foodHandler.GetAllRestaurants)
+		admin.GET("/restaurants/:id", foodHandler.GetRestaurantByID)
+		admin.PUT("/restaurants/:id", foodHandler.UpdateRestaurant)
+		admin.DELETE("/restaurants/:id", foodHandler.DeleteRestaurant)
+
+		// Recipes
+		admin.POST("/recipes", foodHandler.CreateRecipe)
+		admin.GET("/recipes", foodHandler.GetAllRecipes)
+		admin.GET("/recipes/:id", foodHandler.GetRecipeByID)
+		admin.PUT("/recipes/:id", foodHandler.UpdateRecipe)
+		admin.DELETE("/recipes/:id", foodHandler.DeleteRecipe)
+
+		// Salads
+admin.POST("/salads", foodHandler.CreateSalad)
+admin.GET("/salads", foodHandler.GetAllSalads)       // ← qo'shildi
+admin.GET("/salads/:id", foodHandler.GetSaladByID)
+admin.PUT("/salads/:id", foodHandler.UpdateSalad)    // ← qo'shildi
+admin.DELETE("/salads/:id", foodHandler.DeleteSalad) // ← qo'shildi
 	}
 
 	// =========================
-	// CATEGORY ROUTES
+	// USER ROUTES
 	// =========================
-	category := r.Group("/categories")
-	category.Use(middleware.AuthMiddleware())
+	user := r.Group("")
+	user.Use(middleware.AuthMiddleware())
 	{
-		// READ (USER + ADMIN)
-	category.GET("/with-products", categoryHandler.GetAllWithUserProducts)
+		// Categories (read only)
+		user.GET("/categories", categoryHandler.GetAllCategories)
+		user.GET("/categories/:id", categoryHandler.GetCategoryByID)
+		user.GET("/categories/with-products", categoryHandler.GetAllWithUserProducts)
 
-category.GET("", categoryHandler.GetAllCategories)
-category.GET("/:id", categoryHandler.GetCategoryByID)
-		// WRITE (ADMIN ONLY)
-		adminCat := category.Group("")
-		adminCat.Use(middleware.AdminMiddleware())
-		{
-			adminCat.POST("", categoryHandler.CreateCategory)
-			adminCat.PUT("/:id", categoryHandler.UpdateCategory)
-			adminCat.DELETE("/:id", categoryHandler.DeleteCategory)
-		}
-	}
+		// Ingredients (full CRUD)
+		user.POST("/ingredients", ingredientHandler.CreateIngredient)
+		user.GET("/ingredients", ingredientHandler.GetAllIngredients)
+		user.GET("/ingredients/:id", ingredientHandler.GetIngredientByID)
+		user.PUT("/ingredients/:id", ingredientHandler.UpdateIngredient)
+		user.DELETE("/ingredients/:id", ingredientHandler.DeleteIngredient)
 
-	// =========================
-	// INGREDIENT ROUTES (USER ONLY)
-	// =========================
-	ingredients := r.Group("/ingredients")
-	ingredients.Use(middleware.AuthMiddleware())
-	{
-		ingredients.POST("", ingredientHandler.CreateIngredient)
-		ingredients.GET("", ingredientHandler.GetAllIngredients)
-		ingredients.GET("/:id", ingredientHandler.GetIngredientByID)
-		ingredients.PUT("/:id", ingredientHandler.UpdateIngredient)
-		ingredients.DELETE("/:id", ingredientHandler.DeleteIngredient)
+		// Food filter
+		user.POST("/food/filter", foodHandler.FilterFood)
 	}
 
 	return r

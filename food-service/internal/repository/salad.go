@@ -16,9 +16,17 @@ func NewSaladRepository(db *sql.DB) domain.SaladRepository {
 	return &saladRepository{db: db}
 }
 
+// =======================
+// CREATE
+// =======================
 func (r *saladRepository) Create(ctx context.Context, salad *models.Salad) error {
-	query := `INSERT INTO salads (restaurant_id, name, description, image_url, video_url, country, meal_time, kcal, protein, fat, carbs, created_at)
-	          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+	query := `
+		INSERT INTO salads (
+			restaurant_id, name, description, image_url, video_url,
+			country, meal_time, kcal, protein, fat, carbs, created_at
+		)
+		VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
+	`
 
 	salad.CreatedAt = time.Now()
 
@@ -40,9 +48,16 @@ func (r *saladRepository) Create(ctx context.Context, salad *models.Salad) error
 	return err
 }
 
+// =======================
+// GET BY ID
+// =======================
 func (r *saladRepository) GetByID(ctx context.Context, id int64) (*models.Salad, error) {
-	query := `SELECT id, restaurant_id, name, description, image_url, video_url, country, meal_time, kcal, protein, fat, carbs, created_at
-	          FROM salads WHERE id = ?`
+	query := `
+		SELECT id, restaurant_id, name, description, image_url, video_url,
+		       country, meal_time, kcal, protein, fat, carbs, created_at
+		FROM salads
+		WHERE id = $1
+	`
 
 	var salad models.Salad
 
@@ -69,8 +84,15 @@ func (r *saladRepository) GetByID(ctx context.Context, id int64) (*models.Salad,
 	return &salad, nil
 }
 
+// =======================
+// GET ALL
+// =======================
 func (r *saladRepository) GetAll(ctx context.Context) ([]*models.Salad, error) {
-	query := `SELECT id, restaurant_id, name, description, image_url, video_url, country, meal_time, kcal, protein, fat, carbs, created_at FROM salads`
+	query := `
+		SELECT id, restaurant_id, name, description, image_url, video_url,
+		       country, meal_time, kcal, protein, fat, carbs, created_at
+		FROM salads
+	`
 
 	rows, err := r.db.QueryContext(ctx, query)
 	if err != nil {
@@ -104,11 +126,23 @@ func (r *saladRepository) GetAll(ctx context.Context) ([]*models.Salad, error) {
 		salads = append(salads, &s)
 	}
 
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
 	return salads, nil
 }
 
+// =======================
+// UPDATE
+// =======================
 func (r *saladRepository) Update(ctx context.Context, salad *models.Salad) error {
-	query := `UPDATE salads SET name=?, description=?, image_url=?, video_url=?, country=?, meal_time=?, kcal=?, protein=?, fat=?, carbs=? WHERE id=?`
+	query := `
+		UPDATE salads
+		SET name=$1, description=$2, image_url=$3, video_url=$4,
+		    country=$5, meal_time=$6, kcal=$7, protein=$8, fat=$9, carbs=$10
+		WHERE id=$11
+	`
 
 	_, err := r.db.ExecContext(ctx, query,
 		salad.Name,
@@ -127,8 +161,11 @@ func (r *saladRepository) Update(ctx context.Context, salad *models.Salad) error
 	return err
 }
 
+// =======================
+// DELETE
+// =======================
 func (r *saladRepository) Delete(ctx context.Context, id int64) error {
-	query := `DELETE FROM salads WHERE id=?`
+	query := `DELETE FROM salads WHERE id=$1`
 
 	_, err := r.db.ExecContext(ctx, query, id)
 	return err

@@ -30,13 +30,18 @@ userURL := os.Getenv("USER_URL")
 	if authURL == "" {
 		log.Fatal("❌ USERPRODUCT_URL is empty")
 	}
+	foodUrl := os.Getenv("FOOD_URL")
+	if foodUrl == "" {
+			log.Fatal("❌ FOOD_URL is empty")
+	}
+
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080" // default
 	}
 
-	log.Println("AUTH_URL =", authURL)
-	log.Println("PORT =", port)
+
 
 	// =========================
 	// CLIENT (gRPC)
@@ -58,17 +63,25 @@ userURL := os.Getenv("USER_URL")
 		log.Fatal("❌ Failed to connect user service:", err)
 	}
 	defer authClient.Close()
-
+log.Println("✅ User client created")
 
 	userProductClient, err := client.NewUserProductClient(userProductUrl)
 
 		if err != nil {
-		log.Fatal("❌ Failed to connect user product service:", err)
+		log.Fatal("❌ Failed to connect user product	 service:", err)
 	}
 	defer userProductClient.Close()
+  log.Println("✅ user Product client created")
+		
 
+	foodClient, err := client.NewFoodClient(foodUrl)
+	if err != nil {
+			log.Fatal("❌ Failed to connect food service:", err)
+	}
 
-	log.Println("✅ User client created")
+	_ = foodClient
+log.Println("✅ Food client created")
+
 	// =========================
 	// SERVICE (usecase)
 	// =========================
@@ -76,6 +89,7 @@ userURL := os.Getenv("USER_URL")
 	userService := service.NewUserService(userClinet)
 	userCategory := service.NewCategoryService(userProductClient)
 	userProduct := service.NewProductService(userProductClient)
+	foodService := service.NewFoodService(foodClient)
 
 
 	// =========================
@@ -85,12 +99,13 @@ userURL := os.Getenv("USER_URL")
 	userHander := handler.NewUserHandler(userService)
 	categoryHandler := handler.NewCategoryHandler(userCategory)
 	productHandler := handler.NewIngredientHandler(userProduct)
+	foodHandler := handler.NewFoodHandler(foodService)
 
 
 	// =========================
 	// ROUTER
 	// =========================
-	router := handler.SetupRouter(authHandler, userHander, categoryHandler, productHandler)
+	router := handler.SetupRouter(authHandler, userHander, categoryHandler, productHandler, foodHandler)
 
 	log.Println("🚀 API Gateway running on :" + port)
 

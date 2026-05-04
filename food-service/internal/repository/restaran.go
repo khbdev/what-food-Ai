@@ -15,23 +15,25 @@ func NewRestaurantRepository(db *sql.DB) domain.RestaurantRepository {
 	return &restaurantRepository{db: db}
 }
 
+// =======================
+// CREATE
+// =======================
 func (r *restaurantRepository) Create(ctx context.Context, rest *models.Restaurant) (int64, error) {
 	query := `
 		INSERT INTO restaurants (restaurant_name, description, image_url, created_at)
-		VALUES (?, ?, ?, ?)
+		VALUES ($1, $2, $3, $4)
+		RETURNING id
 	`
 
-	res, err := r.db.ExecContext(ctx, query,
+	var id int64
+
+	err := r.db.QueryRowContext(ctx, query,
 		rest.RestaurantName,
 		rest.Description,
 		rest.ImageURL,
 		rest.CreatedAt,
-	)
-	if err != nil {
-		return 0, err
-	}
+	).Scan(&id)
 
-	id, err := res.LastInsertId()
 	if err != nil {
 		return 0, err
 	}
@@ -39,13 +41,18 @@ func (r *restaurantRepository) Create(ctx context.Context, rest *models.Restaura
 	return id, nil
 }
 
-
-
+// =======================
+// GET BY ID
+// =======================
 func (r *restaurantRepository) GetByID(ctx context.Context, id int64) (*models.Restaurant, error) {
+	if id <= 0 {
+		return nil, sql.ErrNoRows
+	}
+
 	query := `
 		SELECT id, restaurant_name, description, image_url, created_at
 		FROM restaurants
-		WHERE id = ?
+		WHERE id = $1
 	`
 
 	var rest models.Restaurant
@@ -65,6 +72,9 @@ func (r *restaurantRepository) GetByID(ctx context.Context, id int64) (*models.R
 	return &rest, nil
 }
 
+// =======================
+// GET ALL
+// =======================
 func (r *restaurantRepository) GetAll(ctx context.Context) ([]*models.Restaurant, error) {
 	query := `
 		SELECT id, restaurant_name, description, image_url, created_at
@@ -97,14 +107,25 @@ func (r *restaurantRepository) GetAll(ctx context.Context) ([]*models.Restaurant
 		restaurants = append(restaurants, &rest)
 	}
 
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
 	return restaurants, nil
 }
 
+// =======================
+// UPDATE
+// =======================
 func (r *restaurantRepository) Update(ctx context.Context, rest *models.Restaurant) error {
+	if rest.ID <= 0 {
+		return sql.ErrNoRows
+	}
+
 	query := `
 		UPDATE restaurants
-		SET restaurant_name = ?, description = ?, image_url = ?
-		WHERE id = ?
+		SET restaurant_name = $1, description = $2, image_url = $3
+		WHERE id = $4
 	`
 
 	_, err := r.db.ExecContext(ctx, query,
@@ -116,8 +137,16 @@ func (r *restaurantRepository) Update(ctx context.Context, rest *models.Restaura
 
 	return err
 }
+
+// =======================
+// DELETE
+// =======================
 func (r *restaurantRepository) Delete(ctx context.Context, id int64) error {
-	query := `DELETE FROM restaurants WHERE id = ?`
+	if id <= 0 {
+		return sql.ErrNoRows
+	}
+
+	query := `DELETE FROM restaurants WHERE id = $1`
 
 	_, err := r.db.ExecContext(ctx, query, id)
 	return err
