@@ -19,5 +19,5 @@ func main() {
 
 	aiUse := usecase.NewAIUsecase(groqAi)
 
-	hand
+	aiHand := hand
 }
