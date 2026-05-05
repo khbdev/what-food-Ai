@@ -32,5 +32,8 @@ reqModel := models.MealRequest{
 
 
 
-	res, err := groqAi.AnalyzeMeal(ctx, )
+	res, err := groqAi.AnalyzeMeal(ctx, reqModel)
+	if err != i {
+		
+	}
 }
