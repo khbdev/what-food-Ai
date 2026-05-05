@@ -10,7 +10,5 @@ func main(){
 	env.LoadEnv()
 
 	groqAi := aimodel.NewGroqClient()
-	if err != ni {
-		
-	}
+	
 }
