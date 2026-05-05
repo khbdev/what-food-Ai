@@ -15,7 +15,7 @@ func main(){
 	
 	_ = groqAi
 
-	ctx, cencel := context.WithTimeout()
+	ctx, cencel := context.WithTimeout(context.Background(), 5 * tom)
 
 reqModel := models.MealRequest{
     Name:        "Chicken Burger",
