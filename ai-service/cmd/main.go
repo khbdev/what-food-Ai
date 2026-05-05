@@ -2,6 +2,7 @@ package main
 
 import (
 	aimodel "ai-service/internal/ai-model"
+	"ai-service/internal/models"
 	"ai-service/pkg/env"
 )
 
@@ -14,5 +15,5 @@ func main(){
 	_ = groqAi
 
 
-	res, err := groqAi.a
+	res, err := groqAi.AnalyzeMeal(models.)
 }
