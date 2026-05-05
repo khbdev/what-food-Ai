@@ -18,7 +18,7 @@ func main(){
 	
 	_ = groqAi
 
-	ctx, cencel := context.WithTimeout(context.Background(), 5 * time.Second)
+	ctx, cencel := context.WithTimeout(context.Background(), 10 * time.Second)
 	defer cencel()
 
 reqModel := models.MealRequest{
