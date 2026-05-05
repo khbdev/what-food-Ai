@@ -5,7 +5,7 @@ import (
 	"ai-service/internal/handler"
 	"ai-service/internal/usecase"
 	"ai-service/pkg/env"
-	pb "ai-service/proto"
+	pb "github.com/khbdev/what-food-proto/proto/ai"
 	"log"
 	"net"
 	"os"
