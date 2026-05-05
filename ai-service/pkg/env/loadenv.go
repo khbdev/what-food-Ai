@@ -8,7 +8,7 @@ import (
 
 
 func  LoadEnv(){
-	if err != godotenv.Lo {
+	if err != godotenv.Load(); err != ni {
 		
 	}
 }
