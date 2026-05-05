@@ -17,5 +17,7 @@ func main() {
 
 	groqAi := aimodel.NewGroqClient()
 
-	aiUse := usecase.NewAIUsecase()
+	aiUse := usecase.NewAIUsecase(groqAi)
+
+	hand
 }
