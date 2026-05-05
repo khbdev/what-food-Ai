@@ -14,6 +14,8 @@ func main(){
 	
 	_ = groqAi
 
+	ctx, cen
+
 reqModel := models.MealRequest{
     Name:        "Chicken Burger",
     Description: "Juicy grilled chicken burger",
