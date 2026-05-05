@@ -15,5 +15,7 @@ func main(){
 	_ = groqAi
 
 
-	res, err := groqAi.AnalyzeMeal(models.)
+	res, err := groqAi.AnalyzeMeal(models.MealRequest{
+		
+	})
 }
