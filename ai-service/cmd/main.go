@@ -6,10 +6,7 @@ import (
 
 	"ai-service/internal/usecase"
 	"ai-service/pkg/env"
-	"context"
-	"fmt"
-	"log"
-	"time"
+
 )
 
 
