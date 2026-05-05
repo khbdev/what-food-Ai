@@ -25,26 +25,19 @@ func NewGroqClient() *GroqClient {
 
 func (g *GroqClient) AnalyzeMeal(ctx context.Context, req models.MealRequest) (*models.MealResponse, error) {
 	prompt := fmt.Sprintf(`You are a cooking assistant.
-Respond ONLY in this exact JSON format, no extra text, no markdown, no backticks:
+Return ONLY a raw JSON object with these fields:
+- portion: %d
+- total_kcal: %.0f
+- cooking_time_minutes: integer
+- ingredients: array of {name, amount}
+- steps: array of strings
 
-{
-  "portion": %d,
-  "total_kcal": %.0f,
-  "cooking_time_minutes": 0,
-  "ingredients": [{"name": "...", "amount": "..."}],
-  "steps": ["1. ...", "2. ..."]
-}
-
-Meal: %s
-Description: %s
-Country: %s
-Meal time: %s
-1 portion: %.0f kcal, %.0fg protein, %.0fg fat, %.0fg carbs
-Portion count: %d`,
+Meal: %s, %s, %s, %s
+Nutrition per portion: %.0f kcal, %.0fg protein, %.0fg fat, %.0fg carbs`,
 		req.Portion,
 		req.Kcal*float32(req.Portion),
 		req.Name, req.Description, req.Country, req.MealTime,
-		req.Kcal, req.Protein, req.Fat, req.Carbs, req.Portion)
+		req.Kcal, req.Protein, req.Fat, req.Carbs)
 
 	resp, err := g.client.Chat.Completions.New(ctx, openai.ChatCompletionNewParams{
 		Model: "llama-3.3-70b-versatile",
@@ -56,8 +49,11 @@ Portion count: %d`,
 		return nil, err
 	}
 
+	raw := resp.Choices[0].Message.Content
+	log.Println("RAW:", raw)
+
 	var result models.MealResponse
-	if err := json.Unmarshal([]byte(resp.Choices[0].Message.Content), &result); err != nil {
+	if err := json.Unmarshal([]byte(raw), &result); err != nil {
 		return nil, err
 	}
 
