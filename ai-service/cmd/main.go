@@ -32,5 +32,5 @@ reqModel := models.MealRequest{
 
 
 
-	res, err := groqAi.AnalyzeMeal()
+	res, err := groqAi.AnalyzeMeal(ctx, )
 }
