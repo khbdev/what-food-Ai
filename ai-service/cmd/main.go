@@ -4,6 +4,7 @@ import (
 	aimodel "ai-service/internal/ai-model"
 	"ai-service/internal/models"
 	"ai-service/pkg/env"
+	"context"
 )
 
 
@@ -14,7 +15,7 @@ func main(){
 	
 	_ = groqAi
 
-	ctx, cen
+	ctx, cencel := context.
 
 reqModel := models.MealRequest{
     Name:        "Chicken Burger",
