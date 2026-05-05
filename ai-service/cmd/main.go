@@ -11,5 +11,8 @@ func main(){
 
 	groqAi := aimodel.NewGroqClient()
 	
-	_ 
+	_ = groqAi
+
+
+	
 }
