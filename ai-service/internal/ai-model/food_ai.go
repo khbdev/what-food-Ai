@@ -1,6 +1,7 @@
 package aimodel
 
 import (
+	"ai-service/internal/models"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -11,7 +12,7 @@ import (
 )
 
 type GroqClient struct {
-	client *openai.Client
+	client openai.Client
 }
 
 func NewGroqClient() *GroqClient {
@@ -22,7 +23,7 @@ func NewGroqClient() *GroqClient {
 	return &GroqClient{client: client}
 }
 
-func (g *GroqClient) AnalyzeMeal(ctx context.Context, req mod.MealRequest) (*models.MealResponse, error) {
+func (g *GroqClient) AnalyzeMeal(ctx context.Context, req models.MealRequest) (*models.MealResponse, error) {
 	prompt := fmt.Sprintf(`You are a cooking assistant.
 Respond ONLY in this exact JSON format, no extra text, no markdown, no backticks:
 
