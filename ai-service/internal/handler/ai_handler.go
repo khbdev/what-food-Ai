@@ -2,7 +2,7 @@ package handler
 
 import (
 	"ai-service/internal/usecase"
-	pb ""
+	pb "github.com/khbdev/what-food-proto/proto/ai"
 	"context"
 )
 
