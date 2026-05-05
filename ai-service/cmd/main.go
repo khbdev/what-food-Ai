@@ -26,5 +26,5 @@ reqModel := models.MealRequest{
     Portion:     12,
 }
 
-	res, err := groqAi.AnalyzeMeal()
+	res, err := groqAi.AnalyzeMeal(reqModel)
 }
