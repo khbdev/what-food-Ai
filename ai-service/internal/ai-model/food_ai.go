@@ -33,6 +33,8 @@ Return ONLY a raw JSON object with these fields:
 - ingredients: array of {name, amount}
 - steps: array of strings
 
+All text values must be in Uzbek language.
+
 Meal: %s, %s, %s, %s
 Nutrition per portion: %.0f kcal, %.0fg protein, %.0fg fat, %.0fg carbs`,
 		req.Portion,
