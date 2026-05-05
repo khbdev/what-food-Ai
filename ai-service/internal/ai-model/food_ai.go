@@ -22,7 +22,7 @@ func NewGroqClient() *GroqClient {
 	return &GroqClient{client: client}
 }
 
-func (g *GroqClient) AnalyzeMeal(ctx context.Context, req models.MealRequest) (*models.MealResponse, error) {
+func (g *GroqClient) AnalyzeMeal(ctx context.Context, req openai.ModelService.MealRequest) (*models.MealResponse, error) {
 	prompt := fmt.Sprintf(`You are a cooking assistant.
 Respond ONLY in this exact JSON format, no extra text, no markdown, no backticks:
 
