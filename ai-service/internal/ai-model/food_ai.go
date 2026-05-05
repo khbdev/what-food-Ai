@@ -64,12 +64,13 @@ Nutrition per portion: %.0f kcal, %.0fg protein, %.0fg fat, %.0fg carbs`,
 
 	return &result, nil
 }
-
 func (g *GroqClient) AnalyzeNutrition(ctx context.Context, req models.NutritionRequest) (*models.NutritionResponse, error) {
 	prompt := fmt.Sprintf(`You are a nutrition analyst.
 Return ONLY a raw JSON object with these fields:
 - feedback: string (analysis of nutrition)
 - level: string (only one of: danger, bad, normal, good)
+
+All text values must be in Uzbek language.
 
 Period: %s
 Avg kcal: %.0f
