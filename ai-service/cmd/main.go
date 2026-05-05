@@ -1,6 +1,9 @@
 package main
 
+import "ai-service/pkg/env"
+
 
 func main(){
-	en
+	env.LoadEnv()
+	
 }
