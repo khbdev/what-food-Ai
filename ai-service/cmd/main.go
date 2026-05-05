@@ -14,8 +14,17 @@ func main(){
 	
 	_ = groqAi
 
-
-  reqModel := models.
+reqModel := models.MealRequest{
+    Name:        "Chicken Burger",
+    Description: "Juicy grilled chicken burger",
+    Country:     "USA",
+    MealTime:    "lunch",
+    Kcal:        550,
+    Protein:     35,
+    Fat:         20.5,
+    Carbs:       60.2,
+    Portion:     12,
+}
 
 	res, err := groqAi.AnalyzeMeal()
 }
