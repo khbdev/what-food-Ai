@@ -2,7 +2,6 @@ package env
 
 import (
 	"log"
-	"math/big"
 
 	"github.com/joho/godotenv"
 )
