@@ -1,4 +1,4 @@
-package aimodel
+package do
 
 import (
 	"ai-service/internal/models"
