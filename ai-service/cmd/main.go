@@ -5,6 +5,7 @@ import (
 	"ai-service/internal/models"
 	"ai-service/pkg/env"
 	"context"
+	"fmt"
 	"log"
 	"time"
 )
@@ -38,5 +39,5 @@ reqModel := models.MealRequest{
 		log.Fatal(err)
 	}
 
-	fmt.Pri
+	fmt.Println(re)
 }
