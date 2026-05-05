@@ -65,12 +65,9 @@ Nutrition per portion: %.0f kcal, %.0fg protein, %.0fg fat, %.0fg carbs`,
 
 func (g *GroqClient) AnalyzeNutrition(ctx context.Context, req models.NutritionRequest) (*models.NutritionResponse, error) {
 	prompt := fmt.Sprintf(`You are a nutrition analyst.
-Respond ONLY in this exact JSON format, no extra text, no markdown, no backticks:
-
-{
-  "feedback": "...",
-  "level": "danger/bad/normal/good"
-}
+Return ONLY a raw JSON object with these fields:
+- feedback: string (analysis of nutrition)
+- level: string (only one of: danger, bad, normal, good)
 
 Period: %s
 Avg kcal: %.0f
@@ -89,8 +86,13 @@ Avg carbs: %.0fg`,
 		return nil, err
 	}
 
+	raw := resp.Choices[0].Message.Content
+	raw = strings.ReplaceAll(raw, "```json", "")
+	raw = strings.ReplaceAll(raw, "```", "")
+	raw = strings.TrimSpace(raw)
+
 	var result models.NutritionResponse
-	if err := json.Unmarshal([]byte(resp.Choices[0].Message.Content), &result); err != nil {
+	if err := json.Unmarshal([]byte(raw), &result); err != nil {
 		return nil, err
 	}
 
