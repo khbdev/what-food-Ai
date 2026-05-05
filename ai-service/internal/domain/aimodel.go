@@ -1,4 +1,4 @@
-package aimodel
+package domain
 
 import (
 	"ai-service/internal/models"
