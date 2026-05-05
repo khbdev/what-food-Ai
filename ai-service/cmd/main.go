@@ -5,6 +5,7 @@ import (
 	"ai-service/internal/models"
 	"ai-service/pkg/env"
 	"context"
+	"time"
 )
 
 
@@ -15,7 +16,7 @@ func main(){
 	
 	_ = groqAi
 
-	ctx, cencel := context.WithTimeout(context.Background(), 5 * tom)
+	ctx, cencel := context.WithTimeout(context.Background(), 5 * time.Second)
 
 reqModel := models.MealRequest{
     Name:        "Chicken Burger",
