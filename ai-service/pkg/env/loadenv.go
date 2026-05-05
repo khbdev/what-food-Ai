@@ -1,10 +1,14 @@
 package env
 
-import "math/big"
+import (
+	"math/big"
+
+	"github.com/joho/godotenv"
+)
 
 
 func  LoadEnv(){
-	if err != big {
+	if err != godotenv.Lo {
 		
 	}
 }
