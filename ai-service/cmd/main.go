@@ -37,4 +37,6 @@ reqModel := models.MealRequest{
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	fmt.Pri
 }
