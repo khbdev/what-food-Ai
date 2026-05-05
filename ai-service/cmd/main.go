@@ -3,7 +3,7 @@ package main
 import (
 	aimodel "ai-service/internal/ai-model"
 	"ai-service/internal/handler"
-	"ai-service/internal/models"
+
 	"ai-service/internal/usecase"
 	"ai-service/pkg/env"
 	"context"
@@ -20,5 +20,7 @@ func main() {
 
 	aiUse := usecase.NewAIUsecase(groqAi)
 
-	aiHand := handler.NewAIHandler(ai)
+	aiHand := handler.NewAIHandler(aiUse)
+
+
 }
