@@ -1,6 +1,7 @@
 package env
 
 import (
+	"log"
 	"math/big"
 
 	"github.com/joho/godotenv"
@@ -8,7 +9,7 @@ import (
 
 
 func  LoadEnv(){
-	if err = godotenv.Load(); err != nil {
-		
+	if err := godotenv.Load(); err != nil {
+		log.Fatal()
 	}
 }
