@@ -19,6 +19,7 @@ func main(){
 	_ = groqAi
 
 	ctx, cencel := context.WithTimeout(context.Background(), 5 * time.Second)
+	defer cencel()
 
 reqModel := models.MealRequest{
     Name:        "Chicken Burger",
@@ -39,5 +40,5 @@ reqModel := models.MealRequest{
 		log.Fatal(err)
 	}
 
-	fmt.Println(re)
+	fmt.Println(res)
 }
