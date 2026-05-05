@@ -25,7 +25,7 @@ func main() {
 		AvgProtein: 65,
 		AvgFat:     80,
 		AvgCarbs:   250,
-	}
+	}auth   
 
 	res, err := groqAi.AnalyzeNutrition(ctx, reqModel)
 	if err != nil {
