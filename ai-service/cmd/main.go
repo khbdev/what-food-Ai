@@ -16,5 +16,5 @@ func main() {
 
 	groqAi := aimodel.NewGroqClient()
 
-	
+	aiUse 
 }
