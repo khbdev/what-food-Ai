@@ -1,7 +1,7 @@
 package main
 
 import (
-	pb "ai-service/proto"
+	pb "github.com/khbdev/what-food-proto/proto/ai"
 	"context"
 	"fmt"
 	"log"
