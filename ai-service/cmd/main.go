@@ -3,6 +3,7 @@ package main
 import (
 	aimodel "ai-service/internal/ai-model"
 	"ai-service/internal/models"
+	"ai-service/internal/usecase"
 	"ai-service/pkg/env"
 	"context"
 	"fmt"
@@ -16,5 +17,5 @@ func main() {
 
 	groqAi := aimodel.NewGroqClient()
 
-	aiUse 
+	aiUse := usecase.NewAIUsecase()
 }
