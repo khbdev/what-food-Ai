@@ -5,6 +5,7 @@ import (
 	"ai-service/internal/models"
 	"ai-service/pkg/env"
 	"context"
+	"log"
 	"time"
 )
 
@@ -33,7 +34,7 @@ reqModel := models.MealRequest{
 
 
 	res, err := groqAi.AnalyzeMeal(ctx, reqModel)
-	if err != i {
-		
+	if err != nil {
+		log.Fatal(err)
 	}
 }
