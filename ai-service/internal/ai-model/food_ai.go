@@ -6,8 +6,7 @@ import (
 	"fmt"
 	"os"
 
-	"ai-service/models"
-	"github.com/openai/openai-go"
+	"ai-service/models"	"github.com/openai/openai-go"
 	"github.com/openai/openai-go/option"
 )
 
