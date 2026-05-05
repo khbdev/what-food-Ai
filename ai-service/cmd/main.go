@@ -14,5 +14,5 @@ func main(){
 	_ = groqAi
 
 
-	res, err := groqAi.
+	res, err := groqAi.a
 }
