@@ -40,5 +40,15 @@ reqModel := models.MealRequest{
 		log.Fatal(err)
 	}
 
-	fmt.Println(res)
+fmt.Printf("Portion: %d\n", res.Portion)
+fmt.Printf("Total Kcal: %.0f\n", res.TotalKcal)
+fmt.Printf("Cooking Time: %d min\n", res.CookingTimeMinutes)
+fmt.Println("Ingredients:")
+for _, ing := range res.Ingredients {
+    fmt.Printf("  - %s: %s\n", ing.Name, ing.Amount)
+}
+fmt.Println("Steps:")
+for _, step := range res.Steps {
+    fmt.Printf("  %s\n", step)
+}
 }
