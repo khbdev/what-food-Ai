@@ -1,4 +1,10 @@
 package env
 
+import "math/big"
 
-func  LoadEnv()
+
+func  LoadEnv(){
+	if err != big {
+		
+	}
+}
