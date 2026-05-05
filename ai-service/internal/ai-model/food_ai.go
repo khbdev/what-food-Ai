@@ -23,7 +23,6 @@ func NewGroqClient() *GroqClient {
 	)
 	return &GroqClient{client: client}
 }
-
 func (g *GroqClient) AnalyzeMeal(ctx context.Context, req models.MealRequest) (*models.MealResponse, error) {
 	prompt := fmt.Sprintf(`You are a cooking assistant.
 Return ONLY a raw JSON object with these fields:
@@ -51,7 +50,9 @@ Nutrition per portion: %.0f kcal, %.0fg protein, %.0fg fat, %.0fg carbs`,
 	}
 
 	raw := resp.Choices[0].Message.Content
-	log.Println("RAW:", raw)
+	raw = strings.ReplaceAll(raw, "```json", "")
+	raw = strings.ReplaceAll(raw, "```", "")
+	raw = strings.TrimSpace(raw)
 
 	var result models.MealResponse
 	if err := json.Unmarshal([]byte(raw), &result); err != nil {
