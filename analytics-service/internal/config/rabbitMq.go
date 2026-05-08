@@ -92,7 +92,7 @@ func setup(ch *amqp.Channel, exchange, routingKey, retryKey string) error {
 	}
 
 	_, err = ch.QueueDeclare(
-		"auth_success_queue",
+		"statik_success_queue",
 		true,
 		false,
 		false,
