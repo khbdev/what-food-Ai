@@ -6,6 +6,7 @@ import (
 	repository "analytics-service/internal/repostory"
 	"analytics-service/internal/usecase"
 	loadenv "analytics-service/pkg/load_env"
+	"context"
 	"log"
 )
 
@@ -27,7 +28,7 @@ func main(){
 
 	_ = repoCreate
 
-	ctx, cancel := con
+	ctx, cancel := context.WithTimeout()
 	get, err := 
 
 	useCreate := usecase.NewMealUsecase(repoCreate)
