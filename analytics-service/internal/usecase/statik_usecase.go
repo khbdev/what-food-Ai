@@ -47,9 +47,6 @@ func (u *MealUsecase) Create(meal *models.Meal) error {
 
 
 
-	if !validMealTimes[strings.ToLower(meal.MealTime)] {
-		return errors.New("invalid meal_time")
-	}
 
 	// nutrition validation
 	if meal.Kcal < 0 {
@@ -67,10 +64,6 @@ func (u *MealUsecase) Create(meal *models.Meal) error {
 	if meal.Carbs < 0 {
 		return errors.New("carbs cannot be negative")
 	}
-
-	// =====================
-	// SAVE
-	// =====================
 
 	return u.repo.Create(meal)
 }
