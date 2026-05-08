@@ -1,10 +1,9 @@
 package usecase
 
 import (
+	repository "analytics-service/internal/repostory"
 	"errors"
 	"strings"
-
-
 )
 
 type MealUsecase struct {
