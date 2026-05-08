@@ -8,6 +8,7 @@ import (
 	loadenv "analytics-service/pkg/load_env"
 	"context"
 	"log"
+	"time"
 )
 
 
@@ -28,7 +29,8 @@ func main(){
 
 	_ = repoCreate
 
-	ctx, cancel := context.WithTimeout(context.Background(), 3)
+	ctx, cancel := context.WithTimeout(context.Background(), 3 * time.Second)
+	de
 	get, err := 
 
 	useCreate := usecase.NewMealUsecase(repoCreate)
