@@ -2,9 +2,10 @@ package handler
 
 import (
 	"context"
+	"errors"
 
-	pb "nutrition/proto"
 	"analytics-service/internal/usecase"
+	pb "nutrition/proto"
 )
 
 type NutritionHandler struct {
