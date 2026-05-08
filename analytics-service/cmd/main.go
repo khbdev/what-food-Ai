@@ -26,5 +26,7 @@ func main(){
 
 	_ = repoCreate
 
-	useCreate := usecase.NewMealUsecase()
+	useCreate := usecase.NewMealUsecase(repoCreate)
+
+	hand
 }
