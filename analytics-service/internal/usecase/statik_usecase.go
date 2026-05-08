@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"analytics-service/internal/models"
 	repository "analytics-service/internal/repostory"
 	"errors"
 	"strings"
@@ -44,13 +45,7 @@ func (u *MealUsecase) Create(meal *models.Meal) error {
 		return errors.New("meal_time is required")
 	}
 
-	// meal time check
-	validMealTimes := map[string]bool{
-		"breakfast": true,
-		"lunch":     true,
-		"dinner":    true,
-		"snack":     true,
-	}
+
 
 	if !validMealTimes[strings.ToLower(meal.MealTime)] {
 		return errors.New("invalid meal_time")
