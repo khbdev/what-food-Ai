@@ -30,14 +30,7 @@ func main(){
 
 	_ = repoCreate
 
-	ctx, cancel := context.WithTimeout(context.Background(), 3 * time.Second)
-	defer cancel()
-	get, err := repoCreate.GetWeeklyNutrition(ctx, 1)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(get)
-
+	
 	useCreate := usecase.NewMealUsecase(repoCreate)
 
 	handCreeate := handler.NewHandlerConsumer(rabbitMq.Channel, useCreate)
