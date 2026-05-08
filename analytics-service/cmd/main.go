@@ -32,6 +32,7 @@ func main(){
 	handCreeate := handler.NewHandlerConsumer(rabbitMq.Channel, useCreate)
 
 
+	
 	handCreeate.Start()
 
 }
