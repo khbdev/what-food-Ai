@@ -13,7 +13,7 @@ import (
 	"analytics-service/internal/usecase"
 	loadenv "analytics-service/pkg/load_env"
 
-	pb "nutrition/proto"
+pb  "github.com/khbdev/what-food-proto/proto/statik"
 )
 
 func main() {
