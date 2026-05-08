@@ -5,7 +5,7 @@ import (
 	"errors"
 
 	"analytics-service/internal/usecase"
-	pb  "github.com/khbdev/what-food-proto/proto/"
+	pb  "github.com/khbdev/what-food-proto/proto/statik"
 )
 
 type NutritionHandler struct {
