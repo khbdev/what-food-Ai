@@ -30,7 +30,28 @@ func main(){
 
 	_ = repoCreate
 
-	
+	get, err := repoCreate.GetWeeklyNutrition(ctx, 1)
+if err != nil {
+    log.Fatal(err)
+}
+
+fmt.Println("╔══════════════════════════════════════════════════╗")
+fmt.Println("║           7-KUNLIK HAFTALIK STATISTIKA           ║")
+fmt.Println("╠══════════════════════════════════════════════════╣")
+fmt.Printf("║ %-12s %-10s %-10s %-10s %-6s║\n", "Kun", "Kcal", "Protein", "Fat", "Carbs")
+fmt.Println("╠══════════════════════════════════════════════════╣")
+
+for _, d := range get {
+    fmt.Printf("║ %-12s %-10.1f %-10.1f %-10.1f %-6.1f║\n",
+        str.TrimSpace(d.Day),
+        d.Kcal,
+        d.Protein,
+        d.Fat,
+        d.Carbs,
+    )
+}
+
+fmt.Println("╚══════════════════════════════════════════════════╝")
 
 	useCreate := usecase.NewMealUsecase(repoCreate)
 
