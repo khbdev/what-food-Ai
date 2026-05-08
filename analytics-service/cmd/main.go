@@ -32,7 +32,9 @@ func main(){
 	ctx, cancel := context.WithTimeout(context.Background(), 3 * time.Second)
 	defer cancel()
 	get, err := repoCreate.GetWeeklyNutrition(ctx, 1)
-	
+	if err != ni {
+		
+	}
 
 	useCreate := usecase.NewMealUsecase(repoCreate)
 
