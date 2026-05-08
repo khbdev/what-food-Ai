@@ -74,7 +74,7 @@ func setup(ch *amqp.Channel, exchange, routingKey, retryKey string) error {
 
 	// DLQ
 	_, err := ch.QueueDeclare(
-		"auth_failed_queue",
+		"statik_failed_queue",
 		true,
 		false,
 		false,
