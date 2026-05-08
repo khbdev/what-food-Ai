@@ -2,6 +2,7 @@ package main
 
 import (
 	"analytics-service/internal/config"
+	"analytics-service/internal/handler"
 	repository "analytics-service/internal/repostory"
 	"analytics-service/internal/usecase"
 	loadenv "analytics-service/pkg/load_env"
@@ -28,5 +29,5 @@ func main(){
 
 	useCreate := usecase.NewMealUsecase(repoCreate)
 
-	handCreeate := hand
+	handCreeate := handler.NewHandlerConsumer(useCreate)
 }
