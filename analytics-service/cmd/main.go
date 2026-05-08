@@ -37,7 +37,7 @@ func main(){
 
 
 
-hand
+hand := hand
 	handCreeate.Start()
 
 }
