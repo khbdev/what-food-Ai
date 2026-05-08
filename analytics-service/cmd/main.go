@@ -45,7 +45,7 @@ fmt.Println("╠═════════════════════�
 
 for _, d := range get {
     fmt.Printf("║ %-12s %-10.1f %-10.1f %-10.1f %-6.1f║\n",
-        strings.TrimSpace(d.Day),
+        str.TrimSpace(d.Day),
         d.Kcal,
         d.Protein,
         d.Fat,
