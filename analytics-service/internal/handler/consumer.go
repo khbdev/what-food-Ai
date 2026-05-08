@@ -5,8 +5,7 @@ import (
 	"log"
 	"os"
 
-	"your_project/models"
-	"your_project/usecase"
+	
 
 	amqp "github.com/rabbitmq/amqp091-go"
 )
@@ -15,7 +14,7 @@ type Handler struct {
 	ch        *amqp.Channel
 	queueName string
 	workers   int
-	uc        *usecase.MealUsecase
+	uc        *use.MealUsecase
 }
 
 // DI constructor
