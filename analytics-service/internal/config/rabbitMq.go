@@ -20,8 +20,8 @@ type Rabbit struct {
 func NewRabbit() *Rabbit {
 	url := os.Getenv("RABBITMQ_URL")
 	exchange := os.Getenv("RABBITMQ_EXCHANGE")
-	routingKey := os.Getenv("S_ROUTING_KEY")
-	retryKey := os.Getenv("AUTH_RETRY_ROUTING_KEY")
+	routingKey := os.Getenv("STATIK_ROUTING_KEY")
+	retryKey := os.Getenv("STATIK_RETRY_ROUTING_KEY")
 
 	conn, err := amqp.Dial(url)
 	if err != nil {
