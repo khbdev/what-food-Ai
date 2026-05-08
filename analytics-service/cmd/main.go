@@ -8,8 +8,12 @@ import (
 
 func main(){
 	loadenv.LoadEnv()
-	
+
 	rabbitMq := config.NewRabbit()
 
 	_ = rabbitMq
+	db, err := config.NewPostgresDB()
+	if err != nil {
+		log.Fatal(err)
+	}
 }
