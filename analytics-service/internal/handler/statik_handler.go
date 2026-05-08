@@ -5,7 +5,7 @@ import (
 	"errors"
 
 	"analytics-service/internal/usecase"
-	pb "nutrition/proto"
+	pb ""
 )
 
 type NutritionHandler struct {
