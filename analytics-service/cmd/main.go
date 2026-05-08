@@ -3,6 +3,7 @@ package main
 import (
 	"analytics-service/internal/config"
 	repository "analytics-service/internal/repostory"
+	"analytics-service/internal/usecase"
 	loadenv "analytics-service/pkg/load_env"
 	"log"
 )
@@ -25,5 +26,5 @@ func main(){
 
 	_ = repoCreate
 
-	useCreate := u
+	useCreate := usecase.NewMealUsecase()
 }
