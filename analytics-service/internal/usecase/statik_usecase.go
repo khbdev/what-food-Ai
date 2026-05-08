@@ -3,6 +3,7 @@ package usecase
 import (
 	"analytics-service/internal/models"
 	repository "analytics-service/internal/repostory"
+	"context"
 	"errors"
 	"strings"
 )
