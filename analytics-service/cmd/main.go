@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net"
+	"os"
 
 	"google.golang.org/grpc"
 
@@ -21,6 +22,14 @@ func main() {
 	// LOAD ENV
 	// =====================
 	loadenv.LoadEnv()
+
+	// =====================
+	// PORT (DIRECT ENV)
+	// =====================
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = ":50051"
+	}
 
 	// =====================
 	// DB
@@ -56,8 +65,8 @@ func main() {
 
 	// =====================
 	// gRPC SERVER
-	// =====================a
-	lis, err := net.Listen("tcp", config.GRPCPort())
+	// =====================
+	lis, err := net.Listen("tcp", port)
 	if err != nil {
 		log.Fatal("failed to listen:", err)
 	}
@@ -67,7 +76,7 @@ func main() {
 	// register service
 	pb.RegisterNutritionServiceServer(grpcServer, nutritionHandler)
 
-	log.Println("🚀 server running on", config.GRPCPort())
+	log.Println("🚀 gRPC server running on", port)
 
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatal(err)
