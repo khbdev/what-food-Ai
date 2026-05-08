@@ -63,3 +63,18 @@ func (u *MealUsecase) Create(meal *models.Meal) error {
 
 	return u.repo.Create(meal)
 }
+
+
+func (u *MealUsecase) GetWeeklyNutrition(ctx context.Context, userID uint) ([]repository.DailyNutrition, error) {
+
+	// =====================
+	// VALIDATION
+	// =====================
+
+	if userID == 0 {
+		return nil, errors.New("user_id is required")
+	}
+
+	// repository call
+	return u.repo.GetWeeklyNutrition(ctx, userID)
+}
