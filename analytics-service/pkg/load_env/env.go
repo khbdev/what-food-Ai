@@ -2,4 +2,8 @@ package loadenv
 
 
 
-func LoadNev
+func LoadEnv(){
+	if err !=  {
+		
+	}
+}
