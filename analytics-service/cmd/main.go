@@ -6,8 +6,7 @@ import (
 	repository "analytics-service/internal/repostory"
 	"analytics-service/internal/usecase"
 	loadenv "analytics-service/pkg/load_env"
-	"context"
-	"fmt"
+	
 	"log"
 
 )
