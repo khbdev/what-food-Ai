@@ -30,6 +30,8 @@ func main(){
 
 	_ = repoCreate
 
+	ctx, cancel := context.WithTimeout(context.Background(), 3 * time.Second)
+	defer cancel()
 	get, err := repoCreate.GetWeeklyNutrition(ctx, 1)
 if err != nil {
     log.Fatal(err)
@@ -43,7 +45,7 @@ fmt.Println("╠═════════════════════�
 
 for _, d := range get {
     fmt.Printf("║ %-12s %-10.1f %-10.1f %-10.1f %-6.1f║\n",
-        str.TrimSpace(d.Day),
+        strings.TrimSpace(d.Day),
         d.Kcal,
         d.Protein,
         d.Fat,
