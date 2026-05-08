@@ -2,6 +2,7 @@ package main
 
 import (
 	"analytics-service/internal/config"
+	repository "analytics-service/internal/repostory"
 	loadenv "analytics-service/pkg/load_env"
 	"log"
 )
@@ -20,5 +21,5 @@ func main(){
 
 	_ = db
 
-	repoCreate := repo
+	repoCreate := repository.NewMealRepository()
 }
