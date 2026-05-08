@@ -25,5 +25,5 @@ func main(){
 
 	_ = repoCreate
 
-	use
+	useCreate := u
 }
