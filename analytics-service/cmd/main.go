@@ -27,7 +27,7 @@ func main(){
 
 	_ = repoCreate
 
-	
+	get
 
 	useCreate := usecase.NewMealUsecase(repoCreate)
 
