@@ -56,7 +56,7 @@ func main() {
 
 	// =====================
 	// gRPC SERVER
-	// =====================
+	// =====================a
 	lis, err := net.Listen("tcp", config.GRPCPort())
 	if err != nil {
 		log.Fatal("failed to listen:", err)
