@@ -1,11 +1,10 @@
 package handler
 
 import (
+	"analytics-service/internal/usecase"
 	"encoding/json"
 	"log"
 	"os"
-
-	
 
 	amqp "github.com/rabbitmq/amqp091-go"
 )
@@ -14,7 +13,7 @@ type Handler struct {
 	ch        *amqp.Channel
 	queueName string
 	workers   int
-	uc        *use.MealUsecase
+	uc        *usecase.MealUsecase
 }
 
 // DI constructor
@@ -63,7 +62,7 @@ func (h *Handler) worker(
 
 	for msg := range msgs {
 
-		var meal models.Meal
+		var meal .Meal
 
 		// json parse
 		err := json.Unmarshal(msg.Body, &meal)
