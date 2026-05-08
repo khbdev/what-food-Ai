@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"analytics-service/internal/models"
 	"analytics-service/internal/usecase"
 	"encoding/json"
 	"log"
@@ -62,7 +63,7 @@ func (h *Handler) worker(
 
 	for msg := range msgs {
 
-		var meal .Meal
+		var meal models.Meal
 
 		// json parse
 		err := json.Unmarshal(msg.Body, &meal)
