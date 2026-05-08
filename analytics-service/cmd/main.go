@@ -37,7 +37,7 @@ func main(){
 
 
 
-hand := hand
+hand := handler.NewNutritionHandler()
 	handCreeate.Start()
 
 }
