@@ -29,5 +29,5 @@ func main(){
 
 	useCreate := usecase.NewMealUsecase(repoCreate)
 
-	handCreeate := handler.NewHandlerConsumer(useCreate, rabbitMq.)
+	handCreeate := handler.NewHandlerConsumer(useCreate, rabbitMnel)
 }
