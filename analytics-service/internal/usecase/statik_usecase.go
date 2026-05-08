@@ -41,10 +41,6 @@ func (u *MealUsecase) Create(meal *models.Meal) error {
 		return errors.New("country is required")
 	}
 
-	if strings.TrimSpace(meal.MealTime) == "" {
-		return errors.New("meal_time is required")
-	}
-
 
 
 
