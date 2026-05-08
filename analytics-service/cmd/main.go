@@ -1,5 +1,7 @@
 package main
 
+import "analytics-service/internal/config"
+
 func main(){
-	rabbitMq := con
+	rabbitMq := config
 }
