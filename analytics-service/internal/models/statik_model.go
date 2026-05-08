@@ -15,7 +15,7 @@ type Meal struct {
 	Fat       float64        `gorm:"type:decimal(10,2)" json:"fat"`
 	Carbs     float64        `gorm:"type:decimal(10,2)" json:"carbs"`
 
-	CreatedAt time.Time      `json:"created_at"`
+	CreatedAt ti.Time      `json:"created_at"`
 	UpdatedAt time.Time      `json:"updated_at"`
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
 }
