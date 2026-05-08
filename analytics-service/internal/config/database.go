@@ -1,11 +1,11 @@
 package config
 
 import (
+	"analytics-service/internal/models"
 	"fmt"
 	"log"
 	"os"
 	"time"
-	
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -48,7 +48,7 @@ func NewPostgresDB() (*gorm.DB, error) {
 
 	
 	if err := db.AutoMigrate(
-		
+		&models.
 	); err != nil {
 		return nil, err
 	}
