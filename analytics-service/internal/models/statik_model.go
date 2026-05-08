@@ -14,7 +14,7 @@ type Meal struct {
 
 	Name      string         `gorm:"type:varchar(255);not null" json:"name"`
 	Country   string         `gorm:"type:varchar(100)" json:"country"`
-	MealTime  string         `gorm:"type:varchar(50)" json:"meal_time"`
+MealTime time.Time `gorm:"not null" json:"meal_time"`
 
 	Kcal      float64        `gorm:"type:decimal(10,2)" json:"kcal"`
 	Protein   float64        `gorm:"type:decimal(10,2)" json:"protein"`
