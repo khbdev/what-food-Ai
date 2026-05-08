@@ -105,7 +105,7 @@ func setup(ch *amqp.Channel, exchange, routingKey, retryKey string) error {
 
 	// Bind main
 	if err := ch.QueueBind(
-		"auth_success_queue",
+		"statik_success_queue",
 		routingKey,
 		exchange,
 		false,
