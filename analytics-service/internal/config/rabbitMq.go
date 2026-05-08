@@ -116,7 +116,7 @@ func setup(ch *amqp.Channel, exchange, routingKey, retryKey string) error {
 
 	// Bind DLQ
 	if err := ch.QueueBind(
-		"auth_failed_queue",
+		"statik_failed_queue",
 		"failed",
 		exchange,
 		false,
