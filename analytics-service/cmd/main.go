@@ -7,6 +7,7 @@ import (
 	"analytics-service/internal/usecase"
 	loadenv "analytics-service/pkg/load_env"
 	"context"
+	"fmt"
 	"log"
 	"time"
 )
@@ -29,13 +30,7 @@ func main(){
 
 	_ = repoCreate
 
-	ctx, cancel := context.WithTimeout(context.Background(), 3 * time.Second)
-	defer cancel()
-	get, err := repoCreate.GetWeeklyNutrition(ctx, 1)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Pri
+	
 
 	useCreate := usecase.NewMealUsecase(repoCreate)
 
