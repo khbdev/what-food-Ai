@@ -1,43 +1,75 @@
 package main
 
 import (
+	"log"
+	"net"
+
+	"google.golang.org/grpc"
+
 	"analytics-service/internal/config"
 	"analytics-service/internal/handler"
 	repository "analytics-service/internal/repostory"
 	"analytics-service/internal/usecase"
 	loadenv "analytics-service/pkg/load_env"
-	
-	"log"
 
+	pb "nutrition/proto"
 )
 
+func main() {
 
-func main(){
+	// =====================
+	// LOAD ENV
+	// =====================
 	loadenv.LoadEnv()
 
-	rabbitMq := config.NewRabbit()
-
-	_ = rabbitMq
+	// =====================
+	// DB
+	// =====================
 	db, err := config.NewPostgresDB()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	_ = db
+	// =====================
+	// RABBITMQ
+	// =====================
+	rabbit := config.NewRabbit()
 
-	repoCreate := repository.NewMealRepository(db)
+	// =====================
+	// REPOSITORY
+	// =====================
+	repo := repository.NewMealRepository(db)
 
-	_ = repoCreate
+	// =====================
+	// USECASE
+	// =====================
+	use := usecase.NewMealUsecase(repo)
 
-	
-	useCreate := usecase.NewMealUsecase(repoCreate)
+	// =====================
+	// HANDLERS
+	// =====================
+	consumerHandler := handler.NewHandlerConsumer(rabbit.Channel, use)
+	nutritionHandler := handler.NewNutritionHandler(use)
 
-	handCreeate := handler.NewHandlerConsumer(rabbitMq.Channel, useCreate)
+	// background consumer
+	go consumerHandler.Start()
 
+	// =====================
+	// gRPC SERVER
+	// =====================
+	lis, err := net.Listen("tcp", config.GRPCPort())
+	if err != nil {
+		log.Fatal("failed to listen:", err)
+	}
 
+	grpcServer := grpc.NewServer()
 
+	// register service
+	pb.RegisterNutritionServiceServer(grpcServer, nutritionHandler)
 
-hand := handler.NewNutritionHandler(useCreate)
-	handCreeate.Start()
+	log.Println("🚀 server running on", config.GRPCPort())
 
+	if err := grpcServer.Serve(lis); err != nil {
+		log.Fatal(err)
+	}
 }
