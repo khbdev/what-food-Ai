@@ -27,12 +27,16 @@ func main(){
 
 	_ = repoCreate
 
+	
+
 	useCreate := usecase.NewMealUsecase(repoCreate)
 
 	handCreeate := handler.NewHandlerConsumer(rabbitMq.Channel, useCreate)
 
 
-	
+
+
+
 	handCreeate.Start()
 
 }
