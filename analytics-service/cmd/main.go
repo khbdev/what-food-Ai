@@ -28,7 +28,7 @@ func main(){
 
 	_ = repoCreate
 
-	ctx, cancel := context.WithTimeout()
+	ctx, cancel := context.WithTimeout(context.)
 	get, err := 
 
 	useCreate := usecase.NewMealUsecase(repoCreate)
