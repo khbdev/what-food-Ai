@@ -28,5 +28,5 @@ func main(){
 
 	useCreate := usecase.NewMealUsecase(repoCreate)
 
-	handCreeate := 
+	handCreeate := hand
 }
