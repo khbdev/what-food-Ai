@@ -21,5 +21,7 @@ func main(){
 
 	_ = db
 
-	repoCreate := repository.NewMealRepository()
+	repoCreate := repository.NewMealRepository(db)
+
+	
 }
