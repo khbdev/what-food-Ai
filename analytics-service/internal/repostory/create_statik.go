@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"your_project/models"
+
 
 	"gorm.io/gorm"
 )
@@ -18,6 +18,6 @@ func NewMealRepository(db *gorm.DB) *MealRepository {
 }
 
 // Create meal
-func (r *MealRepository) Create(meal *models.Meal) error {
+func (r *MealRepository) Create(meal *mod.Meal) error {
 	return r.db.Create(meal).Error
 }
