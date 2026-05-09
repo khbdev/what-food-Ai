@@ -27,3 +27,45 @@ func NewFoodUsecase(f *client.FoodClient, ai *client.AiClient) *FoodUsecase {
 	}
 }
 
+
+type FilterResult struct {
+	Portion int32
+	Items   []*foodpb.FoodItem
+}
+
+func (u *FoodUsecase) FilterFood(req *foodpb.FoodFilterRequest) (*FilterResult, error) {
+
+	// =========================
+	// VALIDATION
+	// =========================
+
+	if req.Country == "" {
+		return nil, errors.New("country is required")
+	}
+
+	if req.MealTime == "" {
+		return nil, errors.New("meal_time is required")
+	}
+
+	if req.MaxKcal <= 0 {
+		return nil, errors.New("max_kcal is invalid")
+	}
+
+	// =========================
+	// CALL CLIENT
+	// =========================
+
+	items, err := u.foodClient.FilterFood(req)
+	if err != nil {
+		return nil, err
+	}
+
+	// =========================
+	// RETURN CONTEXT (portion saqlanadi)
+	// =========================
+
+	return &FilterResult{
+		Portion: req.Portion,
+		Items:   items,
+	}, nil
+}
