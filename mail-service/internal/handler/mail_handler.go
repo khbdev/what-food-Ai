@@ -105,12 +105,24 @@ func (h *FoodHandler) GetFoodDetail(
 		return nil, err
 	}
 
+	// ingredients convert
+	var ingredients []*asosiyPB.Ingredient
+	for _, ing := range res.Ingredients {
+		ingredients = append(ingredients, &asosiyPB.Ingredient{
+			Name:   ing.Name,
+			Amount: ing.Amount,
+		})
+	}
+
 	if req.Type == "recipe" {
 		return &asosiyPB.FoodDetailResponse{
 			Data: &asosiyPB.FoodDetailResponse_Recipe{
 				Recipe: &asosiyPB.Recipe{
-					Name:        "AI recipe result",
-					Description: res.Steps[0],
+					Portion:            res.Portion,
+					TotalKcal:          res.TotalKcal,
+					CookingTimeMinutes: res.CookingTimeMinutes,
+					Ingredients:        ingredients,
+					Steps:              res.Steps,
 				},
 			},
 		}, nil
@@ -119,8 +131,11 @@ func (h *FoodHandler) GetFoodDetail(
 	return &asosiyPB.FoodDetailResponse{
 		Data: &asosiyPB.FoodDetailResponse_Salad{
 			Salad: &asosiyPB.Salad{
-				Name:        "AI salad result",
-				Description: res.Steps[0],
+				Portion:            res.Portion,
+				TotalKcal:          res.TotalKcal,
+				CookingTimeMinutes: res.CookingTimeMinutes,
+				Ingredients:        ingredients,
+				Steps:              res.Steps,
 			},
 		},
 	}, nil
