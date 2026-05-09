@@ -8,7 +8,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	nutritionpb ""
+	nutritionpb "github.com/khbdev/what-food-proto/proto/statik"
 )
 
 type NutritionClient struct {
