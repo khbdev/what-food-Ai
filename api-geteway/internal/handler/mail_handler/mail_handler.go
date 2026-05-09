@@ -1,11 +1,9 @@
 package mailhandler
 
 import (
+	"api-geteway/internal/service/mail"
 	"net/http"
 	"strconv"
-
-	
-	
 
 	"github.com/gin-gonic/gin"
 
@@ -63,7 +61,7 @@ func (h *FoodHandler) FilterFood(c *gin.Context) {
 		return
 	}
 
-	foods := make([]mailmodels.FoodItem, 0)
+	foods := make([]mail.FoodItem, 0)
 
 	for _, item := range res.Items {
 
