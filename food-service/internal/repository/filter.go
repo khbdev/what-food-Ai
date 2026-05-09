@@ -3,9 +3,9 @@ package repository
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"food-service/internal/domain"
 	"food-service/internal/models"
-	"fmt"
 	"strings"
 )
 
@@ -27,7 +27,7 @@ func (r *foodFilterRepository) Filter(
 ) ([]models.FoodItemResponse, error) {
 
 	// =========================
-	// RECIPES QUERY
+	// BASE QUERY (RECIPES)
 	// =========================
 
 	recipeWhere, recipeArgs := buildWhere(filter, 1)
@@ -42,7 +42,7 @@ func (r *foodFilterRepository) Filter(
 	args := recipeArgs
 
 	// =========================
-	// SALADS (OPTIONAL)
+	// OPTIONAL SALADS
 	// =========================
 
 	if filter.IncludeSalads {
@@ -66,9 +66,9 @@ func (r *foodFilterRepository) Filter(
 
 	query += ` ORDER BY created_at DESC`
 
-	// =========================
-	// EXECUTE
-	// =========================
+	// DEBUG (MUHIM)
+	// log.Println("SQL:", query)
+	// log.Println("ARGS:", args)
 
 	rows, err := r.db.QueryContext(ctx, query, args...)
 	if err != nil {
@@ -79,6 +79,7 @@ func (r *foodFilterRepository) Filter(
 	var results []models.FoodItemResponse
 
 	for rows.Next() {
+
 		var item models.FoodItemResponse
 
 		err := rows.Scan(
@@ -109,7 +110,7 @@ func (r *foodFilterRepository) Filter(
 }
 
 // =========================
-// SAFE WHERE BUILDER (POSTGRES)
+// SAFE POSTGRES WHERE BUILDER
 // =========================
 
 func buildWhere(filter models.RecipeFilter, start int) (string, []any) {
@@ -118,26 +119,30 @@ func buildWhere(filter models.RecipeFilter, start int) (string, []any) {
 	var args []any
 	i := start
 
+	// country
 	if filter.Country != "" {
 		i++
 		conditions = append(conditions, fmt.Sprintf("country = $%d", i))
 		args = append(args, filter.Country)
 	}
 
+	// meal_time
 	if filter.MealTime != "" {
 		i++
 		conditions = append(conditions, fmt.Sprintf("meal_time = $%d", i))
 		args = append(args, filter.MealTime)
 	}
 
+	// kcal
 	if filter.MaxKcal > 0 {
 		i++
 		conditions = append(conditions, fmt.Sprintf("kcal <= $%d", i))
 		args = append(args, filter.MaxKcal)
 	}
 
+	// ❗ MUHIM FIX: agar hech narsa bo‘lmasa WHERE YO‘Q
 	if len(conditions) == 0 {
-		return "", args
+		return "", []any{}
 	}
 
 	return " WHERE " + strings.Join(conditions, " AND "), args
