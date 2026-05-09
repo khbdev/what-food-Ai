@@ -32,7 +32,10 @@ func main(){
 	aiURL := mustEnv("AI_URL")
 	foodURL := mustEnv("FOOD_URL")
 
-	aiClient, err := client.NewAiClient()
+	aiClient, err := client.NewAiClient(aiURL)
+	if err != bi {
+		
+	}
 
 
 
