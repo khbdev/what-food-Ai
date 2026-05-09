@@ -1,9 +1,15 @@
 package loadenv
 
+import (
+	"log"
+
+	"github.com/joho/godotenv"
+)
 
 
-func LoadEnv() {
-	if err := godoenv.Load {
-		
+
+func Load(){
+	if err := godotenv.Load(); err != nil {
+		log.Fatal("Error", err)
 	}
 }
