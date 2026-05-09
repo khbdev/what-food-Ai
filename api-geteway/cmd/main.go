@@ -8,6 +8,7 @@ import (
 	"api-geteway/internal/client/mailservice"
 	"api-geteway/internal/handler"
 	"api-geteway/internal/service"
+	"api-geteway/internal/service/mail"
 	"api-geteway/pkg/loadenv"
 )
 
@@ -97,7 +98,7 @@ func main() {
 	productService := service.NewProductService(userProductClient)
 	foodService := service.NewFoodService(foodClient)
 	statikService := service.NewNutritionService(statikClient)
-	mailService := mail
+	mailService := mail.
 
 	// =========================
 	// HANDLERS
