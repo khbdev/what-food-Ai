@@ -1,4 +1,4 @@
-package na
+package ma
 
 import (
 	"api-geteway/internal/client/mailservice"
