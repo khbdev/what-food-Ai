@@ -34,7 +34,7 @@ func main(){
 
 	aiClient, err := client.NewAiClient(aiURL)
 	if err != nil {
-		log.DFa
+		log.Fatal(err)
 	}
 
 
