@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 
 	"google.golang.org/grpc"
@@ -33,7 +34,9 @@ func initClient() {
 
 func testFilterFood() {
 
-	res, err := client.FilterFood(nil, &asosiypb.FoodFilterRequest{
+	ctx := context.Background()
+
+	res, err := client.FilterFood(ctx, &asosiypb.FoodFilterRequest{
 		Country:   "uzbekistan",
 		MealTime:  "lunch",
 		HasSalad:  true,
@@ -53,7 +56,9 @@ func testFilterFood() {
 
 func testFoodDetail() {
 
-	res, err := client.GetFoodDetail(nil, &asosiypb.FoodDetailRequest{
+	ctx := context.Background()
+
+	res, err := client.GetFoodDetail(ctx, &asosiypb.FoodDetailRequest{
 		Id:      1,
 		Type:    "recipe",
 		Portion: 2,
@@ -72,8 +77,6 @@ func testFoodDetail() {
 
 func main() {
 	initClient()
-
-	// 👉 Qaysini xohlasang chaqirasan:
 
 	testFilterFood()
 	// testFoodDetail()
