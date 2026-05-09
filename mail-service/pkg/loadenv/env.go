@@ -3,7 +3,7 @@ package loadenv
 
 
 func LoadEnv() {
-	if err := godo {
+	if err := godoenv.Load {
 		
 	}
 }
