@@ -12,7 +12,7 @@ func SetupRouter(
 	categoryHandler *CategoryHandler,
 	ingredientHandler *IngredientHandler,
 	foodHandler *FoodHandler,
-	nutritionHandler *NutritionHandler,
+	nutritionHandler *,
 ) *gin.Engine {
 
 	r := gin.Default()
