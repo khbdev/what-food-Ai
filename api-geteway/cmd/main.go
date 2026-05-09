@@ -78,7 +78,8 @@ func main() {
 	}
 	defer statikClient.Close()
 
-	mailClient, err := mailservice.NewFoodClient(ma)
+	mailClient, err := mailservice.NewFoodClient(mailURL)
+	
 
 	log.Println("✅ All gRPC clients connected")
 
