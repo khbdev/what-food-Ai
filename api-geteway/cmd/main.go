@@ -119,7 +119,7 @@ func main() {
 
 	log.Println("🚀 API Gateway running on :" + port)
 
-	if err := router.Run(":" + port); err != nil {``
+	if err := router.Run(":" + port); err != nil {
 		log.Fatal(err)
 	}
 }
