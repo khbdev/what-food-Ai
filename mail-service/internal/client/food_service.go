@@ -87,21 +87,7 @@ func (c *FoodClient) GetAllRecipes() ([]*foodpb.Recipe, error) {
 	return res.Recipes, nil
 }
 
-func (c *FoodClient) UpdateRecipe(req *foodpb.UpdateRecipeRequest) error {
-	ctx, cancel := c.ctx()
-	defer cancel()
 
-	_, err := c.Recipe.UpdateRecipe(ctx, req)
-	return err
-}
-
-func (c *FoodClient) DeleteRecipe(id int64) error {
-	ctx, cancel := c.ctx()
-	defer cancel()
-
-	_, err := c.Recipe.DeleteRecipe(ctx, &foodpb.GetByIDRequest{Id: id})
-	return err
-}
 
 // ================== SALAD ==================
 
