@@ -10,122 +10,116 @@ import (
 	"api-geteway/pkg/loadenv"
 )
 
+func mustEnv(key string) string {
+	v := os.Getenv(key)
+
+	if v == "" {
+		log.Fatalf("❌ %s is empty", key)
+	}
+
+	return v
+}
+
 func main() {
 
 	// =========================
 	// LOAD ENV
 	// =========================
+
 	loadenv.Load()
-
-	authURL := os.Getenv("AUTH_URL")
-	if authURL == "" {
-		log.Fatal("❌ AUTH_URL is empty")
-	}
-userURL := os.Getenv("USER_URL")
-	if authURL == "" {
-		log.Fatal("❌ AUTH_URL is empty")
-	}
-
-	userProductUrl := os.Getenv("USERPRODUCT_URL")
-	if authURL == "" {
-		log.Fatal("❌ USERPRODUCT_URL is empty")
-	}
-	foodUrl := os.Getenv("FOOD_URL")
-	if foodUrl == "" {
-			log.Fatal("❌ FOOD_URL is empty")
-	}
-	statikUrl := os.Getenv("STATIK_URL")
-if statikUrl == "" {
-	log.Fatal("Statik not fount")
-}
-
 
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080" // default
+		port = "8080"
 	}
 
+	// =========================
+	// ENV
+	// =========================
 
+	authURL := mustEnv("AUTH_URL")
+	userURL := mustEnv("USER_URL")
+	userProductURL := mustEnv("USERPRODUCT_URL")
+	foodURL := mustEnv("FOOD_URL")
+	statikURL := mustEnv("STATIK_URL")
 
 	// =========================
-	// CLIENT (gRPC)
+	// gRPC CLIENTS
 	// =========================
+
 	authClient, err := client.NewAuthClient(authURL)
-	
 	if err != nil {
-		log.Fatal("❌ Failed to connect auth service:", err)
+		log.Fatal(err)
 	}
 	defer authClient.Close()
 
-
-
-	log.Println("✅ Auth client created")
-
-	userClinet, err := client.NewUserClient(userURL)
-
-		if err != nil {
-		log.Fatal("❌ Failed to connect user service:", err)
+	userClient, err := client.NewUserClient(userURL)
+	if err != nil {
+		log.Fatal(err)
 	}
-	defer authClient.Close()
-log.Println("✅ User client created")
+	defer userClient.Close()
 
-	userProductClient, err := client.NewUserProductClient(userProductUrl)
-
-		if err != nil {
-		log.Fatal("❌ Failed to connect user product	 service:", err)
+	userProductClient, err := client.NewUserProductClient(userProductURL)
+	if err != nil {
+		log.Fatal(err)
 	}
 	defer userProductClient.Close()
-  log.Println("✅ user Product client created")
-		
 
-	foodClient, err := client.NewFoodClient(foodUrl)
+	foodClient, err := client.NewFoodClient(foodURL)
 	if err != nil {
-			log.Fatal("❌ Failed to connect food service:", err)
+		log.Fatal(err)
 	}
 
-	_ = foodClient
-log.Println("✅ Food client created")
+	statikClient, err := client.NewNutritionClient(statikURL)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer statikClient.Close()
 
-statikClient, err := client.NewNutritionClient(statikUrl)
-if  err != nil {
-	log.Fatal("Failed to connect statik service")
-}
-
+	log.Println("✅ All gRPC clients connected")
 
 	// =========================
-	// SERVICE (usecase)
+	// SERVICES
 	// =========================
+
 	authService := service.NewAuthService(authClient)
-	userService := service.NewUserService(userClinet)
-	userCategory := service.NewCategoryService(userProductClient)
-	userProduct := service.NewProductService(userProductClient)
+	userService := service.NewUserService(userClient)
+	categoryService := service.NewCategoryService(userProductClient)
+	productService := service.NewProductService(userProductClient)
 	foodService := service.NewFoodService(foodClient)
 	statikService := service.NewNutritionService(statikClient)
 
-
-
 	// =========================
-	// HANDLER (HTTP)
+	// HANDLERS
 	// =========================
+
 	authHandler := handler.NewAuthHandler(authService)
-	userHander := handler.NewUserHandler(userService)
-	categoryHandler := handler.NewCategoryHandler(userCategory)
-	productHandler := handler.NewIngredientHandler(userProduct)
+	userHandler := handler.NewUserHandler(userService)
+	categoryHandler := handler.NewCategoryHandler(categoryService)
+	productHandler := handler.NewIngredientHandler(productService)
 	foodHandler := handler.NewFoodHandler(foodService)
 	statikHandler := handler.NewNutritionHandler(statikService)
-
 
 	// =========================
 	// ROUTER
 	// =========================
-	router := handler.SetupRouter(authHandler, userHander, categoryHandler, productHandler, foodHandler, st)
 
-	log.Println("🚀 API Gateway running on :" + port)
+	router := handler.SetupRouter(
+		authHandler,
+		userHandler,
+		categoryHandler,
+		productHandler,
+		foodHandler,
+		statikHandler,
+	)
 
 	// =========================
 	// START SERVER
 	// =========================
+
+	log.Println("🚀 API Gateway running on :" + port)
+
 	if err := router.Run(":" + port); err != nil {
-		log.Fatal("❌ failed to start server:", err)
+		log.Fatal(err)
 	}
 }
