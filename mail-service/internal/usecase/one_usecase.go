@@ -66,7 +66,7 @@ func (u *FoodUsecase) FilterFood(req *foodpb.FoodFilterRequest) (*FilterResult, 
 	// =========================
 
 	return &FilterResult{
-		Portion: req.Poron,
+		Portion: req.Pat,
 		Items:   items,
 	}, nil
 }
