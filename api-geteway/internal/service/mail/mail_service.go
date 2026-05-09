@@ -1,4 +1,4 @@
-package service
+package na
 
 import (
 	"api-geteway/internal/client/mailservice"
@@ -17,7 +17,7 @@ type FoodService struct {
 // INIT
 // =========================
 
-func NewFoodService(c *mai.FoodClient) *FoodService {
+func NewFoodService(c *mailservice.FoodClient) *FoodService {
 	return &FoodService{
 		foodClient: c,
 	}
