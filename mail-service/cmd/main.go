@@ -29,7 +29,7 @@ func main(){
 	}
 
 	aiURL := mustEnv("AI_URL")
-	foodURL := mustEnv("AI_URL")
+	foodURL := mustEnv("FOOD_URL")
 
 
 
