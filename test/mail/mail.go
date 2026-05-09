@@ -70,6 +70,15 @@ func testFoodDetail() {
 		log.Fatal("detail error:", err)
 	}
 
+	log.Println("=== FOOD INFO ===")
+	log.Printf("ID: %d\n", res.Id)
+	log.Printf("Type: %s\n", res.Type)
+	log.Printf("Name: %s\n", res.Name)
+	log.Printf("Description: %s\n", res.Description)
+	log.Printf("Country: %s | MealTime: %s\n", res.Country, res.MealTime)
+	log.Printf("Kcal: %d | Protein: %.1f | Fat: %.1f | Carbs: %.1f\n", res.Kcal, res.Protein, res.Fat, res.Carbs)
+
+	log.Println("=== AI ANALYSIS ===")
 	log.Printf("Portion: %d\n", res.Portion)
 	log.Printf("TotalKcal: %.0f\n", res.TotalKcal)
 	log.Printf("CookingTime: %d min\n", res.CookingTimeMinutes)
