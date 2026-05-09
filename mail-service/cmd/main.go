@@ -29,6 +29,8 @@ func main(){
 	}
 
 	aiURL := mustEnv("AI_URL")
+	aiURL := mustEnv("AI_URL")
+
 
 
 
