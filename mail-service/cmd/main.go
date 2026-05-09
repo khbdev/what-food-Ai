@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"mail-service/pkg/loadenv"
 	"os"
 )
 
@@ -19,7 +20,13 @@ func mustEnv(key string) string {
 
 
 func main(){
-	lo
+	loadenv.Load()
+
+
+		port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
 
 
 
