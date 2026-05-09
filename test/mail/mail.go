@@ -64,7 +64,7 @@ func testFoodDetail() {
 	res, err := client.GetFoodDetail(ctx, &asosiypb.FoodDetailRequest{
 		Id:      3,
 		Type:    "recipe",
-		Portion: ,
+		Portion: 23,
 	})
 
 	if err != nil {
@@ -81,6 +81,6 @@ func testFoodDetail() {
 func main() {
 	initClient()
 
-	testFilterFood()
+	// testFilterFood()
 	// testFoodDetail()
 }
