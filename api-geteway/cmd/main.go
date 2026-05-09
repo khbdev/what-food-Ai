@@ -7,6 +7,7 @@ import (
 	"api-geteway/internal/client"
 	"api-geteway/internal/client/mailservice"
 	"api-geteway/internal/handler"
+	mailhandler "api-geteway/internal/handler/mail_handler"
 	"api-geteway/internal/service"
 	"api-geteway/internal/service/mail"
 	"api-geteway/pkg/loadenv"
@@ -110,7 +111,7 @@ func main() {
 	productHandler := handler.NewIngredientHandler(productService)
 	foodHandler := handler.NewFoodHandler(foodService)
 	statikHandler := handler.NewNutritionHandler(statikService)
-	mailHand := mail
+	mailHand := mailhandler.NewFoodHandler()
 
 	// =========================
 	// ROUTER
