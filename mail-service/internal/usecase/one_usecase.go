@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"errors"
+
 	"mail-service/internal/client"
 
 	aipb "github.com/khbdev/what-food-proto/proto/ai"
@@ -17,10 +18,6 @@ type FoodUsecase struct {
 	aiClient   *client.AiClient
 }
 
-// =========================
-// INIT
-// =========================
-
 func NewFoodUsecase(f *client.FoodClient, ai *client.AiClient) *FoodUsecase {
 	return &FoodUsecase{
 		foodClient: f,
@@ -28,17 +25,19 @@ func NewFoodUsecase(f *client.FoodClient, ai *client.AiClient) *FoodUsecase {
 	}
 }
 
+// =========================
+// FILTER RESULT WRAPPER
+// =========================
 
 type FilterResult struct {
-	Portion int32
-	Items   []*foodpb.FoodItem
+	Items []*foodpb.FoodItem
 }
 
-func (u *FoodUsecase) FilterFood(req *foodpb.FoodFilterRequest) (*FilterResult, error) {
+// =========================
+// 1. FILTER FOOD (FOOD SERVICE)
+// =========================
 
-	// =========================
-	// VALIDATION
-	// =========================
+func (u *FoodUsecase) FilterFood(req *foodpb.FoodFilterRequest) (*FilterResult, error) {
 
 	if req.Country == "" {
 		return nil, errors.New("country is required")
@@ -52,35 +51,25 @@ func (u *FoodUsecase) FilterFood(req *foodpb.FoodFilterRequest) (*FilterResult, 
 		return nil, errors.New("max_kcal is invalid")
 	}
 
-	// =========================
-	// CALL CLIENT
-	// =========================
-
 	items, err := u.foodClient.FilterFood(req)
 	if err != nil {
 		return nil, err
 	}
 
-	// =========================
-	// RETURN CONTEXT (portion saqlanadi)
-	// =========================
-
 	return &FilterResult{
-		Portion: req.Portion,
-		Items:   items,
+		Items: items,
 	}, nil
 }
 
+// =========================
+// 2. DETAIL + AI ANALYZE
+// =========================
 
 func (u *FoodUsecase) GetFoodDetailAndAnalyze(
 	id int64,
 	foodType string,
 	portion int32,
 ) (*aipb.MealResponse, error) {
-
-	// =========================
-	// VALIDATION
-	// =========================
 
 	if id == 0 {
 		return nil, errors.New("id is required")
@@ -90,14 +79,14 @@ func (u *FoodUsecase) GetFoodDetailAndAnalyze(
 		return nil, errors.New("invalid type")
 	}
 
-	// =========================
-	// FETCH FOOD
-	// =========================
-
 	var (
 		name, desc, country, mealTime string
 		kcal, protein, fat, carbs      float64
 	)
+
+	// =========================
+	// GET FOOD BY TYPE
+	// =========================
 
 	if foodType == "recipe" {
 
@@ -146,19 +135,8 @@ func (u *FoodUsecase) GetFoodDetailAndAnalyze(
 		Protein:     float32(protein),
 		Fat:         float32(fat),
 		Carbs:       float32(carbs),
-
-		// 🔥 SHU YERDA PORTION YO‘QOLMAYDI
-		Portion: portion,
+		Portion:     portion,
 	}
 
-	// =========================
-	// CALL AI
-	// =========================
-
-	res, err := u.aiClient.AnalyzeMeal(aiReq)
-	if err != nil {
-		return nil, err
-	}
-
-	return res, nil
+	return u.aiClient.AnalyzeMeal(aiReq)
 }
