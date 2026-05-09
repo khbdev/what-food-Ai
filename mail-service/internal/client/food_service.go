@@ -57,13 +57,7 @@ func (c *FoodClient) ctx() (context.Context, context.CancelFunc) {
 
 // ================== RECIPE ==================
 
-func (c *FoodClient) CreateRecipe(req *foodpb.CreateRecipeRequest) error {
-	ctx, cancel := c.ctx()
-	defer cancel()
 
-	_, err := c.Recipe.CreateRecipe(ctx, req)
-	return err
-}
 
 func (c *FoodClient) GetRecipeByID(id int64) (*foodpb.Recipe, error) {
 	ctx, cancel := c.ctx()
