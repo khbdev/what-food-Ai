@@ -38,7 +38,7 @@ func (h *FoodHandler) FilterFood(c *gin.Context) {
 
 	hasSalad, _ := strconv.ParseBool(c.DefaultQuery("has_salad", "false"))
 
-	req := &models.{
+	req := &models.FoodItem{
 		Country:   c.Query("country"),
 		MealTime:  c.Query("meal_time"),
 		HasSalad:  hasSalad,
