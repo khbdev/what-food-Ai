@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	"google.golang.org/grpc"
+	"google.golang.org/grpc"github.com/khbdev/what-food-proto/proto/statik
 	"google.golang.org/grpc/credentials/insecure"
 
 	nutritionpb "github.com/khbdev/what-food-proto/proto/statik"
