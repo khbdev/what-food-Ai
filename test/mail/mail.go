@@ -39,8 +39,8 @@ func testFilterFood() {
 	res, err := client.FilterFood(ctx, &asosiypb.FoodFilterRequest{
 		Country:   "USA",
 		MealTime:  "lunch",
-		HasSalad:  f,
-		KcalLimit: 700,
+		HasSalad:  false,
+		KcalLimit: 50,
 	})
 
 	if err != nil {
