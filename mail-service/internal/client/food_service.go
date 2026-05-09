@@ -164,35 +164,6 @@ func (c *FoodClient) CreateRestaurant(req *foodpb.CreateRestaurantRequest) (int6
 	return res.Id, nil
 }
 
-func (c *FoodClient) GetRestaurantByID(id int64) (*foodpb.Restaurant, error) {
-	ctx, cancel := c.ctx()
-	defer cancel()
-
-	res, err := c.Restaurant.GetRestaurantByID(ctx, &foodpb.GetByIDRequest{Id: id})
-	if err != nil {
-		return nil, err
-	}
-	return res.Restaurant, nil
-}
-
-func (c *FoodClient) GetAllRestaurants() ([]*foodpb.Restaurant, error) {
-	ctx, cancel := c.ctx()
-	defer cancel()
-
-	res, err := c.Restaurant.GetAllRestaurants(ctx, &foodpb.Empty{})
-	if err != nil {
-		return nil, err
-	}
-	return res.Restaurants, nil
-}
-
-func (c *FoodClient) UpdateRestaurant(req *foodpb.UpdateRestaurantRequest) error {
-	ctx, cancel := c.ctx()
-	defer cancel()
-
-	_, err := c.Restaurant.UpdateRestaurant(ctx, req)
-	return err
-}
 
 
 func (c *FoodClient) FilterFood(req *foodpb.FoodFilterRequest) ([]*foodpb.FoodItem, error) {
