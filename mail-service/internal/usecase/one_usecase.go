@@ -37,18 +37,30 @@ type FilterResult struct {
 // 1. FILTER FOOD (FOOD SERVICE)
 // =========================
 
-func (u *FoodUsecase) FilterFood(req *foodpb.FoodFilterRequest) (*FilterResult, error) {
+func (u *FoodUsecase) FilterFood(
+	country string,
+	mealTime string,
+	hasSalad bool,
+	maxKcal int32,
+) (*FilterResult, error) {
 
-	if req.Country == "" {
+	if country == "" {
 		return nil, errors.New("country is required")
 	}
 
-	if req.MealTime == "" {
+	if mealTime == "" {
 		return nil, errors.New("meal_time is required")
 	}
 
-	if req.MaxKcal <= 0 {
+	if maxKcal <= 0 {
 		return nil, errors.New("max_kcal is invalid")
+	}
+
+	req := &foodpb.FoodFilterRequest{
+		Country:    country,
+		MealTime:   mealTime,
+		HasSalad:   hasSalad,
+		MaxKcal:    maxKcal,
 	}
 
 	items, err := u.foodClient.FilterFood(req)
