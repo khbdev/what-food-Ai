@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"mail-service/internal/client"
+	"mail-service/internal/handler"
 	"mail-service/internal/usecase"
 	"mail-service/pkg/loadenv"
 	"os"
@@ -48,7 +49,7 @@ if err != nil {
 
    oneUsecase := usecase.NewFoodUsecase(foodUrl, aiClient)
 
-   mailHand := han
+   mailHand := handler.NewFoodHandler(o)
 
 
 }
