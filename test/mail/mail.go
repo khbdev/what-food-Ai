@@ -31,16 +31,14 @@ func initClient() {
 // =========================
 // 1 FUNCTION: FILTER TEST
 // =========================
-
 func testFilterFood() {
-
 	ctx := context.Background()
 
 	res, err := client.FilterFood(ctx, &asosiypb.FoodFilterRequest{
 		Country:   "USA",
 		MealTime:  "lunch",
 		HasSalad:  false,
-		KcalLimit: 50,
+		KcalLimit: 550,
 	})
 
 	if err != nil {
@@ -48,8 +46,13 @@ func testFilterFood() {
 	}
 
 	log.Println("FILTER ITEMS:", len(res.Items))
-}
 
+	for i, item := range res.Items {
+		log.Printf("[%d] ID:%d | Type:%s | Name:%s | Kcal:%d | Country:%s | MealTime:%s\n",
+			i+1, item.Id, item.Type, item.Name, item.Kcal, item.Country, item.MealTime,
+		)
+	}
+}
 // =========================
 // 2 FUNCTION: DETAIL TEST
 // =========================
