@@ -9,10 +9,6 @@ import (
 	foodpb "github.com/khbdev/what-food-proto/proto/food"
 )
 
-// =========================
-// USECASE
-// =========================
-
 type FoodUsecase struct {
 	foodClient *client.FoodClient
 	aiClient   *client.AiClient
@@ -26,7 +22,7 @@ func NewFoodUsecase(f *client.FoodClient, ai *client.AiClient) *FoodUsecase {
 }
 
 // =========================
-// FILTER RESULT WRAPPER
+// FILTER RESULT
 // =========================
 
 type FilterResult struct {
@@ -34,7 +30,35 @@ type FilterResult struct {
 }
 
 // =========================
-// 1. FILTER FOOD (FOOD SERVICE)
+// DETAIL RESULT
+// =========================
+
+type DetailResult struct {
+	// food ma'lumotlari
+	Id           int64
+	Type         string
+	RestaurantId int64
+	Name         string
+	Description  string
+	ImageUrl     string
+	VideoUrl     string
+	Country      string
+	MealTime     string
+	Kcal         int32
+	Protein      float64
+	Fat          float64
+	Carbs        float64
+
+	// AI ma'lumotlari
+	Portion            int32
+	TotalKcal          float32
+	CookingTimeMinutes int32
+	Ingredients        []*aipb.Ingredient
+	Steps              []string
+}
+
+// =========================
+// 1. FILTER FOOD
 // =========================
 
 func (u *FoodUsecase) FilterFood(
@@ -47,20 +71,18 @@ func (u *FoodUsecase) FilterFood(
 	if country == "" {
 		return nil, errors.New("country is required")
 	}
-
 	if mealTime == "" {
 		return nil, errors.New("meal_time is required")
 	}
-
 	if maxKcal <= 0 {
 		return nil, errors.New("max_kcal is invalid")
 	}
 
 	req := &foodpb.FoodFilterRequest{
-		Country:    country,
-		MealTime:   mealTime,
-		IncludeSalads:   hasSalad,
-		MaxKcal:    maxKcal,
+		Country:       country,
+		MealTime:      mealTime,
+		IncludeSalads: hasSalad,
+		MaxKcal:       maxKcal,
 	}
 
 	items, err := u.foodClient.FilterFood(req)
@@ -68,9 +90,7 @@ func (u *FoodUsecase) FilterFood(
 		return nil, err
 	}
 
-	return &FilterResult{
-		Items: items,
-	}, nil
+	return &FilterResult{Items: items}, nil
 }
 
 // =========================
@@ -81,57 +101,58 @@ func (u *FoodUsecase) GetFoodDetailAndAnalyze(
 	id int64,
 	foodType string,
 	portion int32,
-) (*aipb.MealResponse, error) {
+) (*DetailResult, error) {
 
 	if id == 0 {
 		return nil, errors.New("id is required")
 	}
-
 	if foodType != "recipe" && foodType != "salad" {
 		return nil, errors.New("invalid type")
 	}
 
-	var (
-		name, desc, country, mealTime string
-		kcal, protein, fat, carbs      float64
-	)
+	result := &DetailResult{
+		Id:   id,
+		Type: foodType,
+	}
 
 	// =========================
 	// GET FOOD BY TYPE
 	// =========================
 
 	if foodType == "recipe" {
-
 		r, err := u.foodClient.GetRecipeByID(id)
 		if err != nil {
 			return nil, err
 		}
-
-		name = r.Name
-		desc = r.Description
-		country = r.Country
-		mealTime = r.MealTime
-		kcal = float64(r.Kcal)
-		protein = r.Protein
-		fat = r.Fat
-		carbs = r.Carbs
+		result.RestaurantId = r.RestaurantId
+		result.Name = r.Name
+		result.Description = r.Description
+		result.ImageUrl = r.ImageUrl
+		result.VideoUrl = r.VideoUrl
+		result.Country = r.Country
+		result.MealTime = r.MealTime
+		result.Kcal = r.Kcal
+		result.Protein = r.Protein
+		result.Fat = r.Fat
+		result.Carbs = r.Carbs
 	}
 
 	if foodType == "salad" {
-
 		s, err := u.foodClient.GetSaladByID(id)
 		if err != nil {
 			return nil, err
 		}
-
-		name = s.Name
-		desc = s.Description
-		country = s.Country
-		mealTime = s.MealTime
-		kcal = float64(s.Kcal)
-		protein = s.Protein
-		fat = s.Fat
-		carbs = s.Carbs
+		result.RestaurantId = s.RestaurantId
+		result.Name = s.Name
+		result.Description = s.Description
+		result.ImageUrl = s.ImageUrl
+		result.VideoUrl = s.VideoUrl
+		result.Country = s.Country
+		result.MealTime = s.MealTime
+		result.Kcal = s.Kcal
+		result.Protein = s.Protein
+		result.Fat = s.Fat
+		result.Carbs = s.Carbs
 	}
 
 	// =========================
@@ -139,16 +160,27 @@ func (u *FoodUsecase) GetFoodDetailAndAnalyze(
 	// =========================
 
 	aiReq := &aipb.MealRequest{
-		Name:        name,
-		Description: desc,
-		Country:     country,
-		MealTime:    mealTime,
-		Kcal:        float32(kcal),
-		Protein:     float32(protein),
-		Fat:         float32(fat),
-		Carbs:       float32(carbs),
+		Name:        result.Name,
+		Description: result.Description,
+		Country:     result.Country,
+		MealTime:    result.MealTime,
+		Kcal:        float32(result.Kcal),
+		Protein:     float32(result.Protein),
+		Fat:         float32(result.Fat),
+		Carbs:       float32(result.Carbs),
 		Portion:     portion,
 	}
 
-	return u.aiClient.AnalyzeMeal(aiReq)
+	aiRes, err := u.aiClient.AnalyzeMeal(aiReq)
+	if err != nil {
+		return nil, err
+	}
+
+	result.Portion = aiRes.Portion
+	result.TotalKcal = aiRes.TotalKcal
+	result.CookingTimeMinutes = aiRes.CookingTimeMinutes
+	result.Ingredients = aiRes.Ingredients
+	result.Steps = aiRes.Steps
+
+	return result, nil
 }
