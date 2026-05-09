@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
-	mailmodels "api-geteway/internal/models/mailmodels"
+	
 	
 
 	"github.com/gin-gonic/gin"
