@@ -1,4 +1,4 @@
-package 
+package mailmodels
 
 // =========================
 // FOOD ITEM (LIST)

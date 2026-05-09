@@ -4,10 +4,11 @@ import (
 	"net/http"
 	"strconv"
 
-	"api-geteway/internal/models"
-	"api-geteway/internal/service/mail"
+	mailmodels "api-geteway/internal/models/mailmodels"
+	"api-geteway/internal/usecase/mail"
 
 	"github.com/gin-gonic/gin"
+
 	asosiypb "github.com/khbdev/what-food-proto/proto/asosiy"
 )
 
@@ -28,33 +29,33 @@ func NewFoodHandler(service *mail.FoodService) *FoodHandler {
 // =========================
 // FILTER FOOD
 // =========================
-// GET /foods/filter?country=USA&meal_time=lunch&has_salad=true&kcal_limit=500
-// =========================
 
 func (h *FoodHandler) FilterFood(c *gin.Context) {
 
-	// query parse
-	kcalLimit, _ := strconv.Atoi(c.DefaultQuery("kcal_limit", "0"))
+	kcalLimit, err := strconv.Atoi(c.DefaultQuery("kcal_limit", "0"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "invalid kcal_limit",
+		})
+		return
+	}
 
-	hasSalad, _ := strconv.ParseBool(c.DefaultQuery("has_salad", "false"))
+	hasSalad, err := strconv.ParseBool(c.DefaultQuery("has_salad", "false"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "invalid has_salad",
+		})
+		return
+	}
 
-	req := &models.FoodItem{
+	req := &asosiypb.FoodFilterRequest{
 		Country:   c.Query("country"),
 		MealTime:  c.Query("meal_time"),
 		HasSalad:  hasSalad,
 		KcalLimit: int32(kcalLimit),
 	}
 
-	// grpc request
-	grpcReq := &asosiypb.FoodFilterRequest{
-		Country:   req.Country,
-		MealTime:  req.MealTime,
-		HasSalad:  req.HasSalad,
-		KcalLimit: req.KcalLimit,
-	}
-
-	// service call
-	res, err := h.service.FilterFood(c.Request.Context(), grpcReq)
+	res, err := h.service.FilterFood(c.Request.Context(), req)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
@@ -62,12 +63,11 @@ func (h *FoodHandler) FilterFood(c *gin.Context) {
 		return
 	}
 
-	// mapping response
-	foods := make([]models.FoodItem, 0)
+	foods := make([]mailmodels.FoodItem, 0)
 
 	for _, item := range res.Items {
 
-		foods = append(foods, models.FoodItem{
+		foods = append(foods, mailmodels.FoodItem{
 			ID:           item.Id,
 			Type:         item.Type,
 			RestaurantID: item.RestaurantId,
@@ -94,12 +94,9 @@ func (h *FoodHandler) FilterFood(c *gin.Context) {
 // =========================
 // GET FOOD DETAIL
 // =========================
-// GET /foods/detail?id=1&type=ai&portion=2
-// =========================
 
 func (h *FoodHandler) GetFoodDetail(c *gin.Context) {
 
-	// parse params
 	id, err := strconv.ParseInt(c.Query("id"), 10, 64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -116,21 +113,13 @@ func (h *FoodHandler) GetFoodDetail(c *gin.Context) {
 		return
 	}
 
-	req := &models.FoodDetailRequest{
-		ID:      id,
+	req := &asosiypb.FoodDetailRequest{
+		Id:      id,
 		Type:    c.Query("type"),
 		Portion: int32(portion),
 	}
 
-	// grpc request
-	grpcReq := &asosiypb.FoodDetailRequest{
-		Id:      req.ID,
-		Type:    req.Type,
-		Portion: req.Portion,
-	}
-
-	// service call
-	res, err := h.service.GetFoodDetail(c.Request.Context(), grpcReq)
+	res, err := h.service.GetFoodDetail(c.Request.Context(), req)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
@@ -138,36 +127,35 @@ func (h *FoodHandler) GetFoodDetail(c *gin.Context) {
 		return
 	}
 
-	// ingredients mapping
-	ingredients := make([]models.Ingredient, 0)
+	ingredients := make([]mailmodels.Ingredient, 0)
 
 	for _, ing := range res.Ingredients {
-		ingredients = append(ingredients, models.Ingredient{
+
+		ingredients = append(ingredients, mailmodels.Ingredient{
 			Name:   ing.Name,
 			Amount: ing.Amount,
 		})
 	}
 
-	// final response
-	food := models.FoodDetail{
-		ID:                   res.Id,
-		Type:                 res.Type,
-		RestaurantID:         res.RestaurantId,
-		Name:                 res.Name,
-		Description:          res.Description,
-		ImageURL:             res.ImageUrl,
-		VideoURL:             res.VideoUrl,
-		Country:              res.Country,
-		MealTime:             res.MealTime,
-		Kcal:                 res.Kcal,
-		Protein:              res.Protein,
-		Fat:                  res.Fat,
-		Carbs:                res.Carbs,
-		Portion:              res.Portion,
-		TotalKcal:            float64(res.TotalKcal),
-		CookingTimeMinutes:   res.CookingTimeMinutes,
-		Ingredients:          ingredients,
-		Steps:                res.Steps,
+	food := mailmodels.FoodDetail{
+		ID:                  res.Id,
+		Type:                res.Type,
+		RestaurantID:        res.RestaurantId,
+		Name:                res.Name,
+		Description:         res.Description,
+		ImageURL:            res.ImageUrl,
+		VideoURL:            res.VideoUrl,
+		Country:             res.Country,
+		MealTime:            res.MealTime,
+		Kcal:                res.Kcal,
+		Protein:             res.Protein,
+		Fat:                 res.Fat,
+		Carbs:               res.Carbs,
+		Portion:             res.Portion,
+		TotalKcal:           float64(res.TotalKcal),
+		CookingTimeMinutes:  res.CookingTimeMinutes,
+		Ingredients:         ingredients,
+		Steps:               res.Steps,
 	}
 
 	c.JSON(http.StatusOK, gin.H{
