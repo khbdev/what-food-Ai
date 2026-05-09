@@ -76,5 +76,5 @@ func main() {
 	// 👉 Qaysini xohlasang chaqirasan:
 
 	testFilterFood()
-	testFoodDetail()
+	// testFoodDetail()
 }
