@@ -28,6 +28,8 @@ func main(){
 		port = "8080"
 	}
 
+	authURL := mustEnv("AUTH_URL")
+
 
 
 }
