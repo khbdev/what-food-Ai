@@ -76,6 +76,7 @@ func main() {
 		log.Fatal(err)
 	}
 	defer statikClient.Close()
+	
 
 	log.Println("✅ All gRPC clients connected")
 
