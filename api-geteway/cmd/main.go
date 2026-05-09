@@ -35,7 +35,7 @@ userURL := os.Getenv("USER_URL")
 			log.Fatal("❌ FOOD_URL is empty")
 	}
 	statikUrl := os.Getenv("STATIK_URL")
-if s {
+if statikUrl == "" {
 	
 }
 
