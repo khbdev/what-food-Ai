@@ -1,12 +1,10 @@
 package usecase
 
 import (
+	"mail-service/internal/client"
 
-
-
-
-	foodpb "github.com/khbdev/what-food-proto/proto/food"
 	aipb "github.com/khbdev/what-food-proto/proto/ai"
+	foodpb "github.com/khbdev/what-food-proto/proto/food"
 )
 
 // =========================
@@ -15,7 +13,7 @@ import (
 
 type FoodUsecase struct {
 	foodClient *client.FoodClient
-	aiClient   *cli.AiClient
+	aiClient   *client.AiClient
 }
 
 // =========================
@@ -28,3 +26,4 @@ func NewFoodUsecase(f *client.FoodClient, ai *client.AiClient) *FoodUsecase {
 		aiClient:   ai,
 	}
 }
+
