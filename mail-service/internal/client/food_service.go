@@ -194,15 +194,6 @@ func (c *FoodClient) UpdateRestaurant(req *foodpb.UpdateRestaurantRequest) error
 	return err
 }
 
-func (c *FoodClient) DeleteRestaurant(id int64) error {
-	ctx, cancel := c.ctx()
-	defer cancel()
-
-	_, err := c.Restaurant.DeleteRestaurant(ctx, &foodpb.GetByIDRequest{Id: id})
-	return err
-}
-
-// ================== FILTER ==================
 
 func (c *FoodClient) FilterFood(req *foodpb.FoodFilterRequest) ([]*foodpb.FoodItem, error) {
 	ctx, cancel := c.ctx()
