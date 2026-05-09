@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	mailmodels "api-geteway/internal/models/mailmodels"
-	"api-geteway/internal/usecase/mail"
+	
 
 	"github.com/gin-gonic/gin"
 
