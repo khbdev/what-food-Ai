@@ -10,7 +10,7 @@ import (
 )
 
 type FoodService struct {
-	foodClient *client.FoodClient
+	foodClient *.FoodClient
 }
 
 // =========================
