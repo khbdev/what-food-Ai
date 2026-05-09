@@ -59,7 +59,7 @@ func (u *FoodUsecase) FilterFood(
 	req := &foodpb.FoodFilterRequest{
 		Country:    country,
 		MealTime:   mealTime,
-		:   hasSalad,
+		IncludeSalads:   hasSalad,
 		MaxKcal:    maxKcal,
 	}
 
