@@ -110,7 +110,7 @@ func main() {
 	productHandler := handler.NewIngredientHandler(productService)
 	foodHandler := handler.NewFoodHandler(foodService)
 	statikHandler := handler.NewNutritionHandler(statikService)
-	mailHand := mailHand\
+	mailHand := mail
 
 	// =========================
 	// ROUTER
