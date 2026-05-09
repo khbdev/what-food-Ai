@@ -76,18 +76,6 @@ func (c *FoodClient) GetRecipeByID(id int64) (*foodpb.Recipe, error) {
 	return res.Recipe, nil
 }
 
-func (c *FoodClient) GetAllRecipes() ([]*foodpb.Recipe, error) {
-	ctx, cancel := c.ctx()
-	defer cancel()
-
-	res, err := c.Recipe.GetAllRecipes(ctx, &foodpb.Empty{})
-	if err != nil {
-		return nil, err
-	}
-	return res.Recipes, nil
-}
-
-
 
 // ================== SALAD ==================
 
