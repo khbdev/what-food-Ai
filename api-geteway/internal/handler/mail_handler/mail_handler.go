@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"api-geteway/internal/models"
-	"api-geteway/internal/usecase/mail"
+
 
 	"github.com/gin-gonic/gin"
 	asosiypb "github.com/khbdev/what-food-proto/proto/asosiy"
