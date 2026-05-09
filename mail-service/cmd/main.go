@@ -48,5 +48,7 @@ if err != nil {
 
    oneUsecase := usecase.NewFoodUsecase(foodUrl, aiClient)
 
+   mailHand := han
+
 
 }
