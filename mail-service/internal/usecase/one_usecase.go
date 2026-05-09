@@ -40,7 +40,7 @@ func (u *FoodUsecase) FilterFood(req *foodpb.FoodFilterRequest) (*FilterResult, 
 	// =========================
 
 	if req.Country == "" {
-		return nil, errors.New("country is required")
+		return nil, er.New("country is required")
 	}
 
 	if req.MealTime == "" {
