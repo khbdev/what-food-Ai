@@ -10,7 +10,7 @@ import (
 	"mail-service/internal/usecase"
 	"mail-service/pkg/loadenv"
 
-	asosiyPB "github.com/khbdev/what-food-proto/proto/mail"
+	asosiyPB "github.com/khbdev/what-food-proto/proto/asosiy"
 	"google.golang.org/grpc"
 )
 
