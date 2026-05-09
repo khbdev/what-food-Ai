@@ -55,13 +55,22 @@ func (h *FoodHandler) FilterFood(
 		return nil, err
 	}
 
-	// foodpb.FoodItem -> asosiyPB.FoodItem ga convert
 	mailItems := make([]*asosiyPB.FoodItem, len(res.Items))
 	for i, item := range res.Items {
 		mailItems[i] = &asosiyPB.FoodItem{
-			Id:       item.Id,
-			Name:     item.Name,
-			// asosiyPB.FoodItem fieldlariga qarab to'ldiring
+			Id:           item.Id,
+			Type:         item.Type,
+			RestaurantId: item.RestaurantId,
+			Name:         item.Name,
+			Description:  item.Description,
+			ImageUrl:     item.ImageUrl,
+			VideoUrl:     item.VideoUrl,
+			Country:      item.Country,
+			MealTime:     item.MealTime,
+			Kcal:         item.Kcal,
+			Protein:      item.Protein,
+			Fat:          item.Fat,
+			Carbs:        item.Carbs,
 		}
 	}
 

@@ -49,7 +49,7 @@ func testFilterFood() {
 
 	for i, item := range res.Items {
 		log.Printf("[%d] ID:%d | Type:%s | Name:%s | Kcal:%d | Country:%s | MealTime:%s\n",
-			i+1, item.Id, item.Type, item.Name, item., item.Country, item.MealTime,
+			i+1, item.Id, item.Type, item.Name, item.Kcal, item.Country, item.MealTime,
 		)
 	}
 }
