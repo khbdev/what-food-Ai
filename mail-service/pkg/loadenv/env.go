@@ -3,5 +3,7 @@ package loadenv
 
 
 func LoadEnv() {
-	if
+	if err := godo {
+		
+	}
 }
