@@ -112,13 +112,13 @@ if  err != nil {
 	categoryHandler := handler.NewCategoryHandler(userCategory)
 	productHandler := handler.NewIngredientHandler(userProduct)
 	foodHandler := handler.NewFoodHandler(foodService)
-	statikHandler := handler.NewNutritionHandler()
+	statikHandler := handler.NewNutritionHandler(statikService)
 
 
 	// =========================
 	// ROUTER
 	// =========================
-	router := handler.SetupRouter(authHandler, userHander, categoryHandler, productHandler, foodHandler)
+	router := handler.SetupRouter(authHandler, userHander, categoryHandler, productHandler, foodHandler, st)
 
 	log.Println("🚀 API Gateway running on :" + port)
 
