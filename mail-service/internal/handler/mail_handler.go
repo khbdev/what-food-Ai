@@ -6,7 +6,7 @@ import (
 
 	"mail-service/internal/usecase"
 
-	asosiyPB "github.com/khbdev/what-food-proto/proto/mail"
+	asosiyPB "github.com/khbdev/what-food-proto/proto/asosiy"
 )
 
 // =========================
