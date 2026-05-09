@@ -22,7 +22,8 @@ func (r *foodFilterRepository) Filter(
 	filter models.RecipeFilter,
 ) ([]models.FoodItemResponse, error) {
 
-	recipeWhere, recipeArgs := buildWhere(filter)
+	recipeWhere, recipeArgs := buildWhere(filter, 0)
+	args := recipeArgs
 
 	query := `
 		SELECT id, 'recipe' as type, restaurant_id, name, description,
@@ -31,10 +32,9 @@ func (r *foodFilterRepository) Filter(
 		FROM recipes
 	` + recipeWhere
 
-	args := recipeArgs
-
 	if filter.IncludeSalads {
-		saladWhere, saladArgs := buildWhere(filter)
+		// ✅ offset = len(recipeArgs), salad $4,$5,$6 dan boshlanadi
+		saladWhere, saladArgs := buildWhere(filter, len(recipeArgs))
 
 		query += `
 			UNION ALL
@@ -56,54 +56,43 @@ func (r *foodFilterRepository) Filter(
 	defer rows.Close()
 
 	var results []models.FoodItemResponse
-
 	for rows.Next() {
 		var item models.FoodItemResponse
-
 		err := rows.Scan(
-			&item.ID,
-			&item.Type,
-			&item.RestaurantID,
-			&item.Name,
-			&item.Description,
-			&item.ImageURL,
-			&item.VideoURL,
-			&item.Country,
-			&item.MealTime,
-			&item.Kcal,
-			&item.Protein,
-			&item.Fat,
-			&item.Carbs,
+			&item.ID, &item.Type, &item.RestaurantID,
+			&item.Name, &item.Description,
+			&item.ImageURL, &item.VideoURL,
+			&item.Country, &item.MealTime,
+			&item.Kcal, &item.Protein, &item.Fat, &item.Carbs,
 			&item.CreatedAt,
 		)
 		if err != nil {
 			return nil, err
 		}
-
 		results = append(results, item)
 	}
-
 	return results, rows.Err()
 }
 
-func buildWhere(filter models.RecipeFilter) (string, []any) {
+// offset - oldingi args soni
+func buildWhere(filter models.RecipeFilter, offset int) (string, []any) {
 
 	var conditions []string
 	var args []any
 
 	if filter.Country != "" {
 		args = append(args, filter.Country)
-		conditions = append(conditions, fmt.Sprintf("country = $%d", len(args)))
+		conditions = append(conditions, fmt.Sprintf("country = $%d", offset+len(args)))
 	}
 
 	if filter.MealTime != "" {
 		args = append(args, filter.MealTime)
-		conditions = append(conditions, fmt.Sprintf("meal_time = $%d", len(args)))
+		conditions = append(conditions, fmt.Sprintf("meal_time = $%d", offset+len(args)))
 	}
 
 	if filter.MaxKcal > 0 {
 		args = append(args, filter.MaxKcal)
-		conditions = append(conditions, fmt.Sprintf("kcal <= $%d", len(args)))
+		conditions = append(conditions, fmt.Sprintf("kcal <= $%d", offset+len(args)))
 	}
 
 	if len(conditions) == 0 {
