@@ -112,7 +112,7 @@ if  err != nil {
 	categoryHandler := handler.NewCategoryHandler(userCategory)
 	productHandler := handler.NewIngredientHandler(userProduct)
 	foodHandler := handler.NewFoodHandler(foodService)
-	statikHandler := handler.
+	statikHandler := handler.NewNutritionHandler()
 
 
 	// =========================
