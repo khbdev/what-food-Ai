@@ -97,7 +97,7 @@ func main() {
 	productService := service.NewProductService(userProductClient)
 	foodService := service.NewFoodService(foodClient)
 	statikService := service.NewNutritionService(statikClient)
-	mail
+	mailService ;
 
 	// =========================
 	// HANDLERS
