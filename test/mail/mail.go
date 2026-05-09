@@ -18,7 +18,7 @@ var client asosiypb.FoodServiceClient
 
 func initClient() {
 	conn, err := grpc.Dial(
-		"localhost:50051",
+		"localhost:50057",
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 	)
 	if err != nil {
