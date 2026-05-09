@@ -10,7 +10,7 @@ import (
 
 	authpb "github.com/khbdev/what-food-proto/proto/auth"
 
-
+	"github.com/gin-gonic/gin"
 )
 
 type AuthHandler struct {
