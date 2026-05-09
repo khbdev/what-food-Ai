@@ -6,7 +6,7 @@ import (
 
 	"api-geteway/internal/client"
 
-	nutritionpb "pb  "github.com/khbdev/what-food-proto/proto/statik""
+	nutritionpb ""
 )
 
 type NutritionService struct {
