@@ -86,7 +86,7 @@ log.Println("✅ User client created")
 	_ = foodClient
 log.Println("✅ Food client created")
 
-
+statikClient, err := cli
 
 	// =========================
 	// SERVICE (usecase)
