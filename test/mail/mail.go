@@ -62,9 +62,9 @@ func testFoodDetail() {
 	ctx := context.Background()
 
 	res, err := client.GetFoodDetail(ctx, &asosiypb.FoodDetailRequest{
-		Id:      4,
+		Id:      3,
 		Type:    "recipe",
-		Portion: 2,
+		Portion: ,
 	})
 
 	if err != nil {
