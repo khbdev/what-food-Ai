@@ -5,7 +5,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-
 	"os"
 	"strings"
 
@@ -24,6 +23,23 @@ func NewGroqClient() *GroqClient {
 	)
 	return &GroqClient{client: client}
 }
+
+func sanitizeJSON(raw string) string {
+	raw = strings.ReplaceAll(raw, "```json", "")
+	raw = strings.ReplaceAll(raw, "```", "")
+	raw = strings.TrimSpace(raw)
+	raw = strings.ReplaceAll(raw, `\'`, `'`)
+	raw = strings.ReplaceAll(raw, `\\'`, `'`)
+
+	start := strings.Index(raw, "{")
+	end := strings.LastIndex(raw, "}")
+	if start != -1 && end != -1 && end > start {
+		raw = raw[start : end+1]
+	}
+
+	return raw
+}
+
 func (g *GroqClient) AnalyzeMeal(ctx context.Context, req models.MealRequest) (*models.MealResponse, error) {
 	prompt := fmt.Sprintf(`You are a cooking assistant.
 Return ONLY a raw JSON object with these fields:
@@ -52,14 +68,11 @@ Nutrition per portion: %.0f kcal, %.0fg protein, %.0fg fat, %.0fg carbs`,
 		return nil, err
 	}
 
-	raw := resp.Choices[0].Message.Content
-	raw = strings.ReplaceAll(raw, "```json", "")
-	raw = strings.ReplaceAll(raw, "```", "")
-	raw = strings.TrimSpace(raw)
+	raw := sanitizeJSON(resp.Choices[0].Message.Content)
 
 	var result models.MealResponse
 	if err := json.Unmarshal([]byte(raw), &result); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("json parse error: %w\nraw: %s", err, raw)
 	}
 
 	return &result, nil
@@ -90,14 +103,11 @@ Avg carbs: %.0fg`,
 		return nil, err
 	}
 
-	raw := resp.Choices[0].Message.Content
-	raw = strings.ReplaceAll(raw, "```json", "")
-	raw = strings.ReplaceAll(raw, "```", "")
-	raw = strings.TrimSpace(raw)
+	raw := sanitizeJSON(resp.Choices[0].Message.Content)
 
 	var result models.NutritionResponse
 	if err := json.Unmarshal([]byte(raw), &result); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("json parse error: %w\nraw: %s", err, raw)
 	}
 
 	return &result, nil
