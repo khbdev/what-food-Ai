@@ -77,7 +77,7 @@ func (c *FoodClient) GetSaladByID(id int64) (*foodpb.Salad, error) {
 	ctx, cancel := c.ctx()
 	defer cancel()
 
-	res, err := c.Salad.GetSaladByID(ctx, &foodpb.GetByIDRequest{Id: id})
+	res, err := c.Salad.GetSaladByID(ctx, &afoodpb.GetByIDRequest{Id: id})
 	if err != nil {
 		return nil, err
 	}

@@ -28,7 +28,47 @@ func NewFoodHandler(u *usecase.FoodUsecase) *FoodHandler {
 // =========================
 // FILTER FOOD
 // =========================
+func (h *FoodHandler) FilterFood(
+	ctx context.Context,
+	req *asosiyPB.FoodFilterRequest,
+) (*asosiyPB.FoodListResponse, error) {
 
+	if req.Country == "" {
+		return nil, errors.New("country is required")
+	}
+
+	if req.MealTime == "" {
+		return nil, errors.New("meal_time is required")
+	}
+
+	if req.KcalLimit <= 0 {
+		return nil, errors.New("kcal_limit is invalid")
+	}
+
+	res, err := h.usecase.FilterFood(
+		req.Country,
+		req.MealTime,
+		req.HasSalad,
+		req.KcalLimit,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	// foodpb.FoodItem -> asosiyPB.FoodItem ga convert
+	mailItems := make([]*asosiyPB.FoodItem, len(res.Items))
+	for i, item := range res.Items {
+		mailItems[i] = &asosiyPB.FoodItem{
+			Id:       item.Id,
+			Name:     item.Name,
+			// asosiyPB.FoodItem fieldlariga qarab to'ldiring
+		}
+	}
+
+	return &asosiyPB.FoodListResponse{
+		Items: mailItems,
+	}, nil
+}
 
 // =========================
 // FOOD DETAIL
