@@ -5,7 +5,7 @@ import (
 	"errors"
 	"strings"
 
-	"api-geteway/internal/client"
+	
 	asosiypb "github.com/khbdev/what-food-proto/proto/asosiy"
 )
 
