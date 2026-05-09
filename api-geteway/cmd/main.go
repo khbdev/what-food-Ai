@@ -42,7 +42,7 @@ func main() {
 	userProductURL := mustEnv("USERPRODUCT_URL")
 	foodURL := mustEnv("FOOD_URL")
 	statikURL := mustEnv("STATIK_URL")
-	mailURL := mustEnv("M")
+	mailURL := mustEnv("MAIL_URL")
 
 	// =========================
 	// gRPC CLIENTS
