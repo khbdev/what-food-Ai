@@ -82,5 +82,5 @@ func main() {
 	initClient()
 
 	// testFilterFood()
-	// testFoodDetail()
+	testFoodDetail()
 }
