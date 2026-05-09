@@ -1,3 +1,6 @@
+package usecase
+
+
 func (u *FoodUsecase) GetFoodDetailAndAnalyze(
 	id int64,
 	foodType string,
