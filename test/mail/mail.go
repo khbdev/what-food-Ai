@@ -37,9 +37,9 @@ func testFilterFood() {
 	ctx := context.Background()
 
 	res, err := client.FilterFood(ctx, &asosiypb.FoodFilterRequest{
-		Country:   "",
+		Country:   "USA",
 		MealTime:  "lunch",
-		HasSalad:  true,
+		HasSalad:  f,
 		KcalLimit: 700,
 	})
 
