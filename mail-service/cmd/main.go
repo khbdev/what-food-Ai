@@ -33,8 +33,8 @@ func main(){
 	foodURL := mustEnv("FOOD_URL")
 
 	aiClient, err := client.NewAiClient(aiURL)
-	if err != bi {
-		
+	if err != nil {
+		log.DFa
 	}
 
 
