@@ -17,20 +17,12 @@ func NewFoodFilterRepository(db *sql.DB) domain.FoodFilterRepository {
 	return &foodFilterRepository{db: db}
 }
 
-// =========================
-// MAIN FILTER
-// =========================
-
 func (r *foodFilterRepository) Filter(
 	ctx context.Context,
 	filter models.RecipeFilter,
 ) ([]models.FoodItemResponse, error) {
 
-	// =========================
-	// BASE QUERY (RECIPES)
-	// =========================
-
-	recipeWhere, recipeArgs := buildWhere(filter, 1)
+	recipeWhere, recipeArgs := buildWhere(filter)
 
 	query := `
 		SELECT id, 'recipe' as type, restaurant_id, name, description,
@@ -41,13 +33,8 @@ func (r *foodFilterRepository) Filter(
 
 	args := recipeArgs
 
-	// =========================
-	// OPTIONAL SALADS
-	// =========================
-
 	if filter.IncludeSalads {
-
-		saladWhere, saladArgs := buildWhere(filter, len(args)+1)
+		saladWhere, saladArgs := buildWhere(filter)
 
 		query += `
 			UNION ALL
@@ -60,15 +47,7 @@ func (r *foodFilterRepository) Filter(
 		args = append(args, saladArgs...)
 	}
 
-	// =========================
-	// FINAL ORDER
-	// =========================
-
 	query += ` ORDER BY created_at DESC`
-
-	// DEBUG (MUHIM)
-	// log.Println("SQL:", query)
-	// log.Println("ARGS:", args)
 
 	rows, err := r.db.QueryContext(ctx, query, args...)
 	if err != nil {
@@ -79,7 +58,6 @@ func (r *foodFilterRepository) Filter(
 	var results []models.FoodItemResponse
 
 	for rows.Next() {
-
 		var item models.FoodItemResponse
 
 		err := rows.Scan(
@@ -98,7 +76,6 @@ func (r *foodFilterRepository) Filter(
 			&item.Carbs,
 			&item.CreatedAt,
 		)
-
 		if err != nil {
 			return nil, err
 		}
@@ -109,40 +86,28 @@ func (r *foodFilterRepository) Filter(
 	return results, rows.Err()
 }
 
-// =========================
-// SAFE POSTGRES WHERE BUILDER
-// =========================
-
-func buildWhere(filter models.RecipeFilter, start int) (string, []any) {
+func buildWhere(filter models.RecipeFilter) (string, []any) {
 
 	var conditions []string
 	var args []any
-	i := start
 
-	// country
 	if filter.Country != "" {
-		i++
-		conditions = append(conditions, fmt.Sprintf("country = $%d", i))
 		args = append(args, filter.Country)
+		conditions = append(conditions, fmt.Sprintf("country = $%d", len(args)))
 	}
 
-	// meal_time
 	if filter.MealTime != "" {
-		i++
-		conditions = append(conditions, fmt.Sprintf("meal_time = $%d", i))
 		args = append(args, filter.MealTime)
+		conditions = append(conditions, fmt.Sprintf("meal_time = $%d", len(args)))
 	}
 
-	// kcal
 	if filter.MaxKcal > 0 {
-		i++
-		conditions = append(conditions, fmt.Sprintf("kcal <= $%d", i))
 		args = append(args, filter.MaxKcal)
+		conditions = append(conditions, fmt.Sprintf("kcal <= $%d", len(args)))
 	}
 
-	// ❗ MUHIM FIX: agar hech narsa bo‘lmasa WHERE YO‘Q
 	if len(conditions) == 0 {
-		return "", []any{}
+		return "", nil
 	}
 
 	return " WHERE " + strings.Join(conditions, " AND "), args
