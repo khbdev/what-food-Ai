@@ -17,7 +17,7 @@ type FoodService struct {
 // INIT
 // =========================
 
-func NewFoodService(c *client.FoodClient) *FoodService {
+func NewFoodService(c *mai.FoodClient) *FoodService {
 	return &FoodService{
 		foodClient: c,
 	}
