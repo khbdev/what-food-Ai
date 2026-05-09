@@ -90,6 +90,8 @@ statikClient, err := client.NewNutritionClient(statikUrl)
 if  err != nil {
 	log.Fatal("Failed to connect statik service")
 }
+
+
 	// =========================
 	// SERVICE (usecase)
 	// =========================
@@ -98,6 +100,7 @@ if  err != nil {
 	userCategory := service.NewCategoryService(userProductClient)
 	userProduct := service.NewProductService(userProductClient)
 	foodService := service.NewFoodService(foodClient)
+	
 
 
 	// =========================
