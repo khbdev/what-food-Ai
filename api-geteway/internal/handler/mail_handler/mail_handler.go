@@ -4,7 +4,6 @@ import (
 	mailmodels "api-geteway/internal/models/mail_models"
 	"api-geteway/internal/service/mail"
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 
@@ -31,28 +30,33 @@ func NewFoodHandler(service *mail.FoodService) *FoodHandler {
 
 func (h *FoodHandler) FilterFood(c *gin.Context) {
 
-	kcalLimit, err := strconv.Atoi(c.DefaultQuery("kcal_limit", "0"))
-	if err != nil {
+	// =========================
+	// PARSE JSON
+	// =========================
+
+	var body mailmodels.FoodFilter
+
+	if err := c.ShouldBindJSON(&body); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "invalid kcal_limit",
+			"error": err.Error(),
 		})
 		return
 	}
 
-	hasSalad, err := strconv.ParseBool(c.DefaultQuery("has_salad", "false"))
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "invalid has_salad",
-		})
-		return
-	}
+	// =========================
+	// DOMAIN -> PROTO
+	// =========================
 
 	req := &asosiypb.FoodFilterRequest{
-		Country:   c.Query("country"),
-		MealTime:  c.Query("meal_time"),
-		HasSalad:  hasSalad,
-		KcalLimit: int32(kcalLimit),
+		Country:   body.Country,
+		MealTime:  body.MealTime,
+		HasSalad:  body.HasSalad,
+		KcalLimit: body.KcalLimit,
 	}
+
+	// =========================
+	// SERVICE CALL
+	// =========================
 
 	res, err := h.service.FilterFood(c.Request.Context(), req)
 	if err != nil {
@@ -61,6 +65,10 @@ func (h *FoodHandler) FilterFood(c *gin.Context) {
 		})
 		return
 	}
+
+	// =========================
+	// RESPONSE MAPPING
+	// =========================
 
 	foods := make([]mailmodels.FoodItem, 0)
 
@@ -96,27 +104,32 @@ func (h *FoodHandler) FilterFood(c *gin.Context) {
 
 func (h *FoodHandler) GetFoodDetail(c *gin.Context) {
 
-	id, err := strconv.ParseInt(c.Query("id"), 10, 64)
-	if err != nil {
+	// =========================
+	// PARSE JSON
+	// =========================
+
+	var body mailmodels.FoodDetailRequest
+
+	if err := c.ShouldBindJSON(&body); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "invalid id",
+			"error": err.Error(),
 		})
 		return
 	}
 
-	portion, err := strconv.Atoi(c.DefaultQuery("portion", "1"))
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "invalid portion",
-		})
-		return
-	}
+	// =========================
+	// DOMAIN -> PROTO
+	// =========================
 
 	req := &asosiypb.FoodDetailRequest{
-		Id:      id,
-		Type:    c.Query("type"),
-		Portion: int32(portion),
+		Id:      body.ID,
+		Type:    body.Type,
+		Portion: body.Portion,
 	}
+
+	// =========================
+	// SERVICE CALL
+	// =========================
 
 	res, err := h.service.GetFoodDetail(c.Request.Context(), req)
 	if err != nil {
@@ -125,6 +138,10 @@ func (h *FoodHandler) GetFoodDetail(c *gin.Context) {
 		})
 		return
 	}
+
+	// =========================
+	// INGREDIENTS MAPPING
+	// =========================
 
 	ingredients := make([]mailmodels.Ingredient, 0)
 
@@ -135,6 +152,10 @@ func (h *FoodHandler) GetFoodDetail(c *gin.Context) {
 			Amount: ing.Amount,
 		})
 	}
+
+	// =========================
+	// RESPONSE MAPPING
+	// =========================
 
 	food := mailmodels.FoodDetail{
 		ID:                  res.Id,
