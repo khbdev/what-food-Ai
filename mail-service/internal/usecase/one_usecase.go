@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"errors"
 	"mail-service/internal/client"
 
 	aipb "github.com/khbdev/what-food-proto/proto/ai"
@@ -40,7 +41,7 @@ func (u *FoodUsecase) FilterFood(req *foodpb.FoodFilterRequest) (*FilterResult, 
 	// =========================
 
 	if req.Country == "" {
-		return nil, er.New("country is required")
+		return nil, errors.New("country is required")
 	}
 
 	if req.MealTime == "" {
@@ -69,3 +70,4 @@ func (u *FoodUsecase) FilterFood(req *foodpb.FoodFilterRequest) (*FilterResult, 
 		Items:   items,
 	}, nil
 }
+
