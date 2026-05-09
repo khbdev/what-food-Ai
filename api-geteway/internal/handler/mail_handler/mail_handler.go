@@ -1,6 +1,7 @@
 package mailhandler
 
 import (
+	mailmodels "api-geteway/internal/models/mail_models"
 	"api-geteway/internal/service/mail"
 	"net/http"
 	"strconv"
@@ -61,7 +62,7 @@ func (h *FoodHandler) FilterFood(c *gin.Context) {
 		return
 	}
 
-	foods := make([]mail.FoodItem, 0)
+	foods := make([]mailmodels.FoodItem, 0)
 
 	for _, item := range res.Items {
 
