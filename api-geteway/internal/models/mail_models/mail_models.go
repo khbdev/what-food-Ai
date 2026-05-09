@@ -25,12 +25,11 @@ type FoodItem struct {
 // =========================
 
 type FoodFilter struct {
-	Country   string
-	MealTime  string
-	HasSalad  bool
-	KcalLimit int32
+	Country   string `json:"country"`
+	MealTime  string `json:"meal_time"`
+	HasSalad  bool   `json:"has_salad"`
+	KcalLimit int32  `json:"kcal_limit"`
 }
-
 // =========================
 // DETAIL REQUEST
 // =========================
