@@ -77,7 +77,7 @@ func main() {
 	}
 	defer statikClient.Close()
 
-	mailClient, err := 
+	mailClient, err := mai
 
 	log.Println("✅ All gRPC clients connected")
 
