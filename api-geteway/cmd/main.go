@@ -101,7 +101,7 @@ if  err != nil {
 	userProduct := service.NewProductService(userProductClient)
 	foodService := service.NewFoodService(foodClient)
 	statikService := service.NewNutritionService(statikClient)
-	
+
 
 
 	// =========================
@@ -112,6 +112,7 @@ if  err != nil {
 	categoryHandler := handler.NewCategoryHandler(userCategory)
 	productHandler := handler.NewIngredientHandler(userProduct)
 	foodHandler := handler.NewFoodHandler(foodService)
+	sta
 
 
 	// =========================
