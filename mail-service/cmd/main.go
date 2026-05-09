@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"mail-service/internal/client"
 	"mail-service/pkg/loadenv"
 	"os"
 )
@@ -31,7 +32,7 @@ func main(){
 	aiURL := mustEnv("AI_URL")
 	foodURL := mustEnv("FOOD_URL")
 
-	aiClient := 
+	aiClient := client.
 
 
 
