@@ -82,7 +82,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer 
+	defer mailClient.Close()
 
 
 	log.Println("✅ All gRPC clients connected")
