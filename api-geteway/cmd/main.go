@@ -124,7 +124,7 @@ func main() {
 		productHandler,
 		foodHandler,
 		statikHandler,
-		
+		mailHand,
 	)
 
 	// =========================
