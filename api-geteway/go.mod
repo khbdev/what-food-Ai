@@ -6,7 +6,7 @@ require (
 	github.com/gin-gonic/gin v1.12.0
 	github.com/golang-jwt/jwt/v5 v5.3.1
 	github.com/joho/godotenv v1.5.1
-	github.com/khbdev/what-food-proto v0.0.0-20260430150956-00e2041ab10c
+	github.com/khbdev/what-food-proto v0.0.0-20260508140944-5c8ba154e8f7
 	google.golang.org/grpc v1.80.0
 )
 
