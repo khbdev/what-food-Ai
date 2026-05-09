@@ -82,6 +82,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer 
 
 
 	log.Println("✅ All gRPC clients connected")
