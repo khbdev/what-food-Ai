@@ -6,7 +6,7 @@ import (
 
 	"mail-service/internal/usecase"
 
-	foodpb "github.com/khbdev/what-food-proto/proto/asosiy"
+	foodpb"github.com/khbdev/what-food-proto/proto/food" 
 )
 
 // =========================
