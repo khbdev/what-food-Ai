@@ -1,16 +1,16 @@
 package service
 
 import (
+	"api-geteway/internal/client/mailservice"
 	"context"
 	"errors"
 	"strings"
 
-	
 	asosiypb "github.com/khbdev/what-food-proto/proto/asosiy"
 )
 
 type FoodService struct {
-	foodClient *.FoodClient
+	foodClient *mailservice.FoodClient
 }
 
 // =========================
