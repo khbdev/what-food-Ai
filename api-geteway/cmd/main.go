@@ -100,7 +100,8 @@ if  err != nil {
 	userCategory := service.NewCategoryService(userProductClient)
 	userProduct := service.NewProductService(userProductClient)
 	foodService := service.NewFoodService(foodClient)
-	statikService := service.NewNutritionService()
+	statikService := service.NewNutritionService(statikClient)
+	
 
 
 	// =========================
