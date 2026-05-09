@@ -1,9 +1,9 @@
 package usecase
 
 import (
-	"errors"
 
-	"api-geteway/internal/client"
+
+
 
 	foodpb "github.com/khbdev/what-food-proto/proto/food"
 	aipb "github.com/khbdev/what-food-proto/proto/ai"
@@ -15,7 +15,7 @@ import (
 
 type FoodUsecase struct {
 	foodClient *client.FoodClient
-	aiClient   *client.AiClient
+	aiClient   *cli.AiClient
 }
 
 // =========================
