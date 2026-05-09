@@ -101,12 +101,24 @@ func (h *FoodHandler) GetFoodDetail(
 			Amount: ing.Amount,
 		})
 	}
-
-	return &asosiyPB.FoodDetailResponse{
-		Portion:            res.Portion,
-		TotalKcal:          res.TotalKcal,
-		CookingTimeMinutes: res.CookingTimeMinutes,
-		Ingredients:        ingredients,
-		Steps:              res.Steps,
-	}, nil
+return &asosiyPB.FoodDetailResponse{
+    Id:                 res.Id,
+    Type:               res.Type,
+    RestaurantId:       res.RestaurantId,
+    Name:               res.Name,
+    Description:        res.Description,
+    ImageUrl:           res.ImageUrl,
+    VideoUrl:           res.VideoUrl,
+    Country:            res.Country,
+    MealTime:           res.MealTime,
+    Kcal:               res.Kcal,
+    Protein:            res.Protein,
+    Fat:                res.Fat,
+    Carbs:              res.Carbs,
+    Portion:            res.Portion,
+    TotalKcal:          res.TotalKcal,
+    CookingTimeMinutes: res.CookingTimeMinutes,
+    Ingredients:        ingredients,
+    Steps:              res.Steps,
+}, nil
 }
