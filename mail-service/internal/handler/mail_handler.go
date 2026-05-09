@@ -38,7 +38,7 @@ func (h *FoodGRPCHandler) FilterFood(
 		req.Country,
 		req.MealTime,
 		req.IncludeSalads,
-		req.,
+		req.K,
 	)
 	if err != nil {
 		return nil, err
