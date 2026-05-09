@@ -88,7 +88,8 @@ admin.DELETE("/salads/:id", foodHandler.DeleteSalad) // ← qo'shildi
 
 		// Food filter
 		user.POST("/food/filter", foodHandler.FilterFood)
-		
+
+		// Statik 
 	}
 
 	return r
