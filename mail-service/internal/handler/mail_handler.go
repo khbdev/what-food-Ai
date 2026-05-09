@@ -9,25 +9,19 @@ import (
 	asosiyPB "github.com/khbdev/what-food-proto/proto/asosiy"
 )
 
-// =========================
-// gRPC HANDLER
-// =========================
-
 type FoodHandler struct {
 	asosiyPB.UnimplementedFoodServiceServer
-
 	usecase *usecase.FoodUsecase
 }
 
 func NewFoodHandler(u *usecase.FoodUsecase) *FoodHandler {
-	return &FoodHandler{
-		usecase: u,
-	}
+	return &FoodHandler{usecase: u}
 }
 
 // =========================
 // FILTER FOOD
 // =========================
+
 func (h *FoodHandler) FilterFood(
 	ctx context.Context,
 	req *asosiyPB.FoodFilterRequest,
@@ -36,11 +30,9 @@ func (h *FoodHandler) FilterFood(
 	if req.Country == "" {
 		return nil, errors.New("country is required")
 	}
-
 	if req.MealTime == "" {
 		return nil, errors.New("meal_time is required")
 	}
-
 	if req.KcalLimit <= 0 {
 		return nil, errors.New("kcal_limit is invalid")
 	}
@@ -74,9 +66,7 @@ func (h *FoodHandler) FilterFood(
 		}
 	}
 
-	return &asosiyPB.FoodListResponse{
-		Items: mailItems,
-	}, nil
+	return &asosiyPB.FoodListResponse{Items: mailItems}, nil
 }
 
 // =========================
@@ -91,7 +81,6 @@ func (h *FoodHandler) GetFoodDetail(
 	if req.Id == 0 {
 		return nil, errors.New("id is required")
 	}
-
 	if req.Type != "recipe" && req.Type != "salad" {
 		return nil, errors.New("invalid type")
 	}
@@ -105,7 +94,6 @@ func (h *FoodHandler) GetFoodDetail(
 		return nil, err
 	}
 
-	// ingredients convert
 	var ingredients []*asosiyPB.Ingredient
 	for _, ing := range res.Ingredients {
 		ingredients = append(ingredients, &asosiyPB.Ingredient{
@@ -114,29 +102,11 @@ func (h *FoodHandler) GetFoodDetail(
 		})
 	}
 
-	if req.Type == "recipe" {
-		return &asosiyPB.FoodDetailResponse{
-			Data: &asosiyPB.FoodDetailResponse_Recipe{
-				Recipe: &asosiyPB.Recipe{
-					Portion:            res.Portion,
-					TotalKcal:          res.TotalKcal,
-					CookingTimeMinutes: res.CookingTimeMinutes,
-					Ingredients:        ingredients,
-					Steps:              res.Steps,
-				},
-			},
-		}, nil
-	}
-
 	return &asosiyPB.FoodDetailResponse{
-		Data: &asosiyPB.FoodDetailResponse_Salad{
-			Salad: &asosiyPB.Salad{
-				Portion:            res.Portion,
-				TotalKcal:          res.TotalKcal,
-				CookingTimeMinutes: res.CookingTimeMinutes,
-				Ingredients:        ingredients,
-				Steps:              res.Steps,
-			},
-		},
+		Portion:            res.Portion,
+		TotalKcal:          res.TotalKcal,
+		CookingTimeMinutes: res.CookingTimeMinutes,
+		Ingredients:        ingredients,
+		Steps:              res.Steps,
 	}, nil
 }
