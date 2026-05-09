@@ -37,7 +37,7 @@ func main(){
 		log.Fatal(err)
 	}
 
-	foodUrl, err 
+	foodUrl, err := client.
 
 
 
