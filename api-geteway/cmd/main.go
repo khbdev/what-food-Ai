@@ -88,7 +88,7 @@ log.Println("✅ Food client created")
 
 statikClient, err := client.NewNutritionClient(statikUrl)
 if  err != nil {
-	log.Fatal("Failed ")
+	log.Fatal("Failed to connect statik service")
 }
 	// =========================
 	// SERVICE (usecase)
