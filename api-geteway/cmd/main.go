@@ -34,7 +34,7 @@ userURL := os.Getenv("USER_URL")
 	if foodUrl == "" {
 			log.Fatal("❌ FOOD_URL is empty")
 	}
-	statikUrl := os.Getenv()
+	statikUrl := os.Getenv("STATK")
 
 
 	port := os.Getenv("PORT")
