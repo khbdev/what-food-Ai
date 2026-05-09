@@ -124,16 +124,7 @@ func (c *FoodClient) GetSaladByID(id int64) (*foodpb.Salad, error) {
 	return res.Salad, nil
 }
 
-func (c *FoodClient) GetAllSalads() ([]*foodpb.Salad, error) {
-	ctx, cancel := c.ctx()
-	defer cancel()
 
-	res, err := c.Salad.GetAllSalads(ctx, &foodpb.Empty{})
-	if err != nil {
-		return nil, err
-	}
-	return res.Salads, nil
-}
 
 
 
