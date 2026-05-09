@@ -86,7 +86,8 @@ log.Println("✅ User client created")
 	_ = foodClient
 log.Println("✅ Food client created")
 
-statikClient, err := client.NewNutritionClient()
+statikClient, err := client.NewNutritionClient(statikUrl)
+
 
 	// =========================
 	// SERVICE (usecase)
