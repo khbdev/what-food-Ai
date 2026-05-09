@@ -1,4 +1,4 @@
-package ma
+pac
 
 import (
 	"api-geteway/internal/client/mailservice"
