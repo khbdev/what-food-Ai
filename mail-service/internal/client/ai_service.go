@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	aipb "ai-service/proto"
+	aipb ""
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
