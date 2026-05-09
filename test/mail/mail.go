@@ -58,7 +58,6 @@ func testFilterFood() {
 // =========================
 
 func testFoodDetail() {
-
 	ctx := context.Background()
 
 	res, err := client.GetFoodDetail(ctx, &asosiypb.FoodDetailRequest{
@@ -71,7 +70,19 @@ func testFoodDetail() {
 		log.Fatal("detail error:", err)
 	}
 
-	log.Printf("DETAIL: %+v\n", res)
+	log.Printf("Portion: %d\n", res.Portion)
+	log.Printf("TotalKcal: %.0f\n", res.TotalKcal)
+	log.Printf("CookingTime: %d min\n", res.CookingTimeMinutes)
+
+	log.Println("--- Ingredients ---")
+	for i, ing := range res.Ingredients {
+		log.Printf("[%d] %s - %s\n", i+1, ing.Name, ing.Amount)
+	}
+
+	log.Println("--- Steps ---")
+	for i, step := range res.Steps {
+		log.Printf("[%d] %s\n", i+1, step)
+	}
 }
 
 // =========================
