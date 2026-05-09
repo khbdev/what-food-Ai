@@ -37,7 +37,7 @@ func (h *FoodGRPCHandler) FilterFood(
 	res, err := h.usecase.FilterFood(
 		req.Country,
 		req.MealTime,
-		req.HasSalad,
+		req.,
 		req.KcalLimit,
 	)
 	if err != nil {
