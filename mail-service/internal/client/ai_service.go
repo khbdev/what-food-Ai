@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	aipb "github.com/khbdev/what-food-proto/proto/food"
+	aipb "github.com/khbdev/what-food-proto/proto/ai"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
