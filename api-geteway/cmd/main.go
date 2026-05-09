@@ -116,16 +116,15 @@ func main() {
 	// =========================
 	// ROUTER
 	// =========================
-
-	router := handler.SetupRouter(
-		authHandler,
-		userHandler,
-		categoryHandler,
-		productHandler,
-		foodHandler,
-		statikHandler,
-		mailHand,
-	)
+router := handler.SetupRouter(
+	authHandler,
+	userHandler,
+	categoryHandler,
+	productHandler,
+	foodHandler,
+	mailHand,
+	statikHandler,
+)
 
 	// =========================
 	// START SERVER
