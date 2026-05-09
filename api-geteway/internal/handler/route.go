@@ -12,7 +12,7 @@ func SetupRouter(
 	categoryHandler *CategoryHandler,
 	ingredientHandler *IngredientHandler,
 	foodHandler *FoodHandler,
-	nutritionHandler *,
+	nutritionHandler *NutritionHandler,
 ) *gin.Engine {
 
 	r := gin.Default()
@@ -90,9 +90,11 @@ admin.DELETE("/salads/:id", foodHandler.DeleteSalad) // ← qo'shildi
 		// Food filter
 		user.POST("/food/filter", foodHandler.FilterFood)
 
-		// Statik 
-		
-	}
+		// =========================
+		// STATIK
+		// =========================
 
+		user.POST("/nutrition/weekly", nutritionHandler.GetWeeklyNutrition)
+	}
 	return r
 }
