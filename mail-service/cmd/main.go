@@ -38,6 +38,9 @@ func main(){
 	}
 
 	foodUrl, err := client.NewFoodClient(foodURL)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 
 
