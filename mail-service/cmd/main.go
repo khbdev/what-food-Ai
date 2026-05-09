@@ -2,31 +2,30 @@ package main
 
 import (
 	"log"
+	"net"
+	"os"
+
 	"mail-service/internal/client"
 	"mail-service/internal/handler"
 	"mail-service/internal/usecase"
 	"mail-service/pkg/loadenv"
-	"os"
+
+	asosiyPB "github.com/khbdev/what-food-proto/proto/mail"
+	"google.golang.org/grpc"
 )
-
-
 
 func mustEnv(key string) string {
 	v := os.Getenv(key)
-
 	if v == "" {
 		log.Fatalf("❌ %s is empty", key)
 	}
-
 	return v
 }
 
-
-func main(){
+func main() {
 	loadenv.Load()
 
-
-		port := os.Getenv("PORT")
+	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
 	}
@@ -36,20 +35,30 @@ func main(){
 
 	aiClient, err := client.NewAiClient(aiURL)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("❌ AI client error: %v", err)
+	}
+	defer aiClient.Close()
+
+	foodClient, err := client.NewFoodClient(foodURL)
+	if err != nil {
+		log.Fatalf("❌ Food client error: %v", err)
+	}
+	defer foodClient.Close()
+
+	uc := usecase.NewFoodUsecase(foodClient, aiClient)
+	h := handler.NewFoodHandler(uc)
+
+	lis, err := net.Listen("tcp", ":"+port)
+	if err != nil {
+		log.Fatalf("❌ Listen error: %v", err)
 	}
 
-	foodUrl, err := client.NewFoodClient(foodURL)
-	
+	grpcServer := grpc.NewServer()
+	asosiyPB.RegisterFoodServiceServer(grpcServer, h)
 
-if err != nil {
-		log.Fatal(err)
+	log.Printf("🚀 mail-service running on :%s", port)
+
+	if err := grpcServer.Serve(lis); err != nil {
+		log.Fatalf("❌ Serve error: %v", err)
 	}
-
-
-   oneUsecase := usecase.NewFoodUsecase(foodUrl, aiClient)
-
-   mailHand := handler.NewFoodHandler(o)
-
-
 }
