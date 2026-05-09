@@ -36,7 +36,7 @@ userURL := os.Getenv("USER_URL")
 	}
 	statikUrl := os.Getenv("STATIK_URL")
 if statikUrl == "" {
-	log.Fatal("")
+	log.Fatal("Statik not fount")
 }
 
 
