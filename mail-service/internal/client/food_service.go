@@ -135,23 +135,6 @@ func (c *FoodClient) GetAllSalads() ([]*foodpb.Salad, error) {
 	return res.Salads, nil
 }
 
-func (c *FoodClient) UpdateSalad(req *foodpb.UpdateSaladRequest) error {
-	ctx, cancel := c.ctx()
-	defer cancel()
-
-	_, err := c.Salad.UpdateSalad(ctx, req)
-	return err
-}
-
-func (c *FoodClient) DeleteSalad(id int64) error {
-	ctx, cancel := c.ctx()
-	defer cancel()
-
-	_, err := c.Salad.DeleteSalad(ctx, &foodpb.GetByIDRequest{Id: id})
-	return err
-}
-
-// ================== RESTAURANT ==================
 
 
 
