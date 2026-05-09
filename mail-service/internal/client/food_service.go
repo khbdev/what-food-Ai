@@ -153,16 +153,6 @@ func (c *FoodClient) DeleteSalad(id int64) error {
 
 // ================== RESTAURANT ==================
 
-func (c *FoodClient) CreateRestaurant(req *foodpb.CreateRestaurantRequest) (int64, error) {
-	ctx, cancel := c.ctx()
-	defer cancel()
-
-	res, err := c.Restaurant.CreateRestaurant(ctx, req)
-	if err != nil {
-		return 0, err
-	}
-	return res.Id, nil
-}
 
 
 
