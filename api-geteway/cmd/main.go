@@ -98,7 +98,7 @@ func main() {
 	productService := service.NewProductService(userProductClient)
 	foodService := service.NewFoodService(foodClient)
 	statikService := service.NewNutritionService(statikClient)
-	mailService := mail.NewFoodService(mai)
+	mailService := mail.NewFoodService(mailClient)
 
 	// =========================
 	// HANDLERS
@@ -110,6 +110,7 @@ func main() {
 	productHandler := handler.NewIngredientHandler(productService)
 	foodHandler := handler.NewFoodHandler(foodService)
 	statikHandler := handler.NewNutritionHandler(statikService)
+	mail
 
 	// =========================
 	// ROUTER
