@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"api-geteway/internal/client"
+	"api-geteway/internal/client/mailservice"
 	"api-geteway/internal/handler"
 	"api-geteway/internal/service"
 	"api-geteway/pkg/loadenv"
@@ -77,7 +78,7 @@ func main() {
 	}
 	defer statikClient.Close()
 
-	mailClient, err := mails
+	mailClient, err := mailservice.NewFoodClient(ma)
 
 	log.Println("✅ All gRPC clients connected")
 
