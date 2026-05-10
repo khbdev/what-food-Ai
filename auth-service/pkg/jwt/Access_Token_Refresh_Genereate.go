@@ -15,7 +15,7 @@ type RefreshClaims struct {
 	jwt.RegisteredClaims
 }
 
-func GenerateRefreshToken(refreshToken string) (string, error) {
+func GenerateAccessRefreshToken(refreshToken string) (string, error) {
 
 	// =========================
 	// REFRESH SECRET
