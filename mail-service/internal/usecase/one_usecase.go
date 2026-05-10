@@ -113,30 +113,74 @@ func (u *FoodUsecase) GetFoodDetailAndAnalyze(
 	portion int32,
 	userID uint,
 ) (*DetailResult, error) {
-
+ 
 	if id == 0 {
 		return nil, errors.New("id is required")
 	}
-
+ 
 	if foodType != "recipe" && foodType != "salad" {
 		return nil, errors.New("invalid type")
 	}
-
+ 
+	ctx := context.Background()
+ 
+	// =========================
+	// READ-THROUGH: Redis dan qidiramiz
+	// Cache hit bo'lsa — food fetch ham, AI ham o'tkazib yuboriladi
+	// =========================
+ 
+	cached, err := u.mealCache.Get(ctx, foodType, id)
+	if err != nil {
+		// Redis ishlamayapti — loglab davom etamiz
+		// log.Printf("cache get error (id=%d): %v", id, err)
+	}
+ 
+	if cached != nil {
+		// ✅ Cache HIT — hech qanday external request ketmaydi
+		result := &DetailResult{
+			// Food ma'lumotlari
+			Id:           cached.Id,
+			Type:         cached.Type,
+			RestaurantId: cached.RestaurantId,
+			Name:         cached.Name,
+			Description:  cached.Description,
+			ImageUrl:     cached.ImageUrl,
+			VideoUrl:     cached.VideoUrl,
+			Country:      cached.Country,
+			MealTime:     cached.MealTime,
+			Kcal:         cached.Kcal,
+			Protein:      cached.Protein,
+			Fat:          cached.Fat,
+			Carbs:        cached.Carbs,
+			// AI ma'lumotlari
+			Portion:            cached.Portion,
+			TotalKcal:          cached.TotalKcal,
+			CookingTimeMinutes: cached.CookingTimeMinutes,
+			Ingredients:        cached.Ingredients,
+			Steps:              cached.Steps,
+		}
+ 
+		go u.publishMealEvent(userID, result)
+ 
+		return result, nil
+	}
+ 
+	// =========================
+	// Cache MISS — Food fetch + AI request
+	// =========================
+ 
 	result := &DetailResult{
 		Id:   id,
 		Type: foodType,
 	}
-
-	// =========================
+ 
 	// FOOD FETCH
-	// =========================
-
 	if foodType == "recipe" {
 		r, err := u.foodClient.GetRecipeByID(id)
 		if err != nil {
 			return nil, err
 		}
-
+ 
 		result.RestaurantId = r.RestaurantId
 		result.Name = r.Name
 		result.Description = r.Description
@@ -149,13 +193,13 @@ func (u *FoodUsecase) GetFoodDetailAndAnalyze(
 		result.Fat = r.Fat
 		result.Carbs = r.Carbs
 	}
-
+ 
 	if foodType == "salad" {
 		s, err := u.foodClient.GetSaladByID(id)
 		if err != nil {
 			return nil, err
 		}
-
+ 
 		result.RestaurantId = s.RestaurantId
 		result.Name = s.Name
 		result.Description = s.Description
@@ -168,7 +212,9 @@ func (u *FoodUsecase) GetFoodDetailAndAnalyze(
 		result.Fat = s.Fat
 		result.Carbs = s.Carbs
 	}
-		aiReq := &aipb.MealRequest{
+ 
+	// AI REQUEST
+	aiReq := &aipb.MealRequest{
 		Name:        result.Name,
 		Description: result.Description,
 		Country:     result.Country,
@@ -179,36 +225,73 @@ func (u *FoodUsecase) GetFoodDetailAndAnalyze(
 		Carbs:       float32(result.Carbs),
 		Portion:     portion,
 	}
-
+ 
 	aiRes, err := u.aiClient.AnalyzeMeal(aiReq)
 	if err != nil {
 		return nil, err
 	}
-
+ 
 	result.Portion = aiRes.Portion
 	result.TotalKcal = aiRes.TotalKcal
 	result.CookingTimeMinutes = aiRes.CookingTimeMinutes
 	result.Ingredients = aiRes.Ingredients
 	result.Steps = aiRes.Steps
-		mealEvent := &models.Meal{
-		UserID:  userID,
-		Name:    result.Name,
-		Country: result.Country,
-		MealTime: time.Now(),
-
-		Kcal:    float64(result.TotalKcal),
-		Protein: result.Protein,
-		Fat:     result.Fat,
-		Carbs:   result.Carbs,
+ 
+	// =========================
+	// WRITE-THROUGH: to'liq natijani Redis ga saqlaymiz
+	// =========================
+ 
+	toCache := &cache.CachedMealAnalysis{
+		// Food ma'lumotlari
+		Id:           result.Id,
+		Type:         result.Type,
+		RestaurantId: result.RestaurantId,
+		Name:         result.Name,
+		Description:  result.Description,
+		ImageUrl:     result.ImageUrl,
+		VideoUrl:     result.VideoUrl,
+		Country:      result.Country,
+		MealTime:     result.MealTime,
+		Kcal:         result.Kcal,
+		Protein:      result.Protein,
+		Fat:          result.Fat,
+		Carbs:        result.Carbs,
+		// AI ma'lumotlari
+		Portion:            result.Portion,
+		TotalKcal:          result.TotalKcal,
+		CookingTimeMinutes: result.CookingTimeMinutes,
+		Ingredients:        result.Ingredients,
+		Steps:              result.Steps,
 	}
-
-	// async event (fail bo‘lsa system yiqilmaydi)
-	go func() {
-		err := rabbitmqproducer.PublishMeal(u.rabbit.Channel, mealEvent)
-		if err != nil {
-			// faqat log
-			// log.Println("rabbit publish error:", err)
-		}
-	}()
-		return result, nil
+ 
+	if err := u.mealCache.Set(ctx, foodType, id, toCache); err != nil {
+		// Redis yozish xatosi — kritik emas, faqat loglaymiz
+		// log.Printf("cache set error (id=%d): %v", id, err)
+	}
+ 
+	// =========================
+	// RABBIT MQ — async event
+	// =========================
+ 
+	go u.publishMealEvent(userID, result)
+ 
+	return result, nil
+}
+ 
+// publishMealEvent - RabbitMQ ga async yuborish, alohida ajratildi (DRY)
+func (u *FoodUsecase) publishMealEvent(userID uint, result *DetailResult) {
+	mealEvent := &models.Meal{
+		UserID:   userID,
+		Name:     result.Name,
+		Country:  result.Country,
+		MealTime: time.Now(),
+		Kcal:     float64(result.TotalKcal),
+		Protein:  result.Protein,
+		Fat:      result.Fat,
+		Carbs:    result.Carbs,
+	}
+ 
+	if err := rabbitmqproducer.PublishMeal(u.rabbit.Channel, mealEvent); err != nil {
+		// log.Println("rabbit publish error:", err)
+	}
 }
