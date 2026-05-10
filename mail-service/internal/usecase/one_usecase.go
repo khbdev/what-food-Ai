@@ -8,7 +8,6 @@ import (
 	"mail-service/internal/client"
 	"mail-service/internal/config"
 	"mail-service/internal/models"
-	"mail-service/pkg/cache"
 	rabbitmqproducer "mail-service/pkg/rabbitmq_producer"
 
 	aipb "github.com/khbdev/what-food-proto/proto/ai"
@@ -19,7 +18,6 @@ type FoodUsecase struct {
 	foodClient *client.FoodClient
 	aiClient   *client.AiClient
 	rabbit     *config.Rabbit
-	mealCache *cache
 }
 
 func NewFoodUsecase(
