@@ -31,7 +31,6 @@ func main() {
 		port = "8080"
 	}
 	rabbitMq := config.NewRabbit()
-	cacheRed
 
 	_ = rabbitMq
 
