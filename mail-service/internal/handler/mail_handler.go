@@ -89,6 +89,7 @@ func (h *FoodHandler) GetFoodDetail(
 		req.Id,
 		req.Type,
 		req.Portion,
+		
 	)
 	if err != nil {
 		return nil, err
