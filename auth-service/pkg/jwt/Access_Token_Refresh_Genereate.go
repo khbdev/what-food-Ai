@@ -29,7 +29,7 @@ func GenerateAccessRefreshToken(refreshToken string) (string, error) {
 
 	token, err := jwt.ParseWithClaims(
 		refreshToken,
-		&RefreshClaims{},
+		&AccessRefreshClaims{},
 		func(token *jwt.Token) (interface{}, error) {
 			return []byte(secret), nil
 		},
@@ -43,7 +43,7 @@ func GenerateAccessRefreshToken(refreshToken string) (string, error) {
 	// VALIDATE TOKEN
 	// =========================
 
-	claims, ok := token.Claims.(*RefreshClaims)
+	claims, ok := token.Claims.(*AccessRefreshClaims)
 	if !ok || !token.Valid {
 		return "", errors.New("invalid refresh token")
 	}
