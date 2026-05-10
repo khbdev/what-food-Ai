@@ -37,6 +37,7 @@ func main() {
 	}
 
 	_ = rabbitMq
+	
 	_ = redis
 
 	aiURL := mustEnv("AI_URL")
