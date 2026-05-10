@@ -31,7 +31,7 @@ func main() {
 		port = "8080"
 	}
 	rabbitMq := config.NewRabbit()
-	redis := config.NewRedisClient()
+	redis, err := config.NewRedisClient()
 	_ = rabbitMq
 
 	aiURL := mustEnv("AI_URL")
