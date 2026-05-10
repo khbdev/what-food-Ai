@@ -33,7 +33,7 @@ func main() {
 	rabbitMq := config.NewRabbit()
 	redis, err := config.NewRedisClient()
 	if err != nil {
-		
+		log.Fatal(err)
 	}
 	_ = rabbitMq
 
