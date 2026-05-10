@@ -103,7 +103,7 @@ func SetupRouter(
 		user.POST("/food/filter", aiFoodHandler.FilterFood)
 		user.GET("/food/detail", aiFoodHandler.GetFoodDetail)
 
-		// NUTRITION
+		// Statik
 		user.GET("/nutrition/weekly", nutritionHandler.GetWeeklyNutrition)
 	}
 
