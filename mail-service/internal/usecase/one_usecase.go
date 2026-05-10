@@ -18,7 +18,7 @@ type FoodUsecase struct {
 	foodClient *client.FoodClient
 	aiClient   *client.AiClient
 	rabbit     *config.Rabbit
-	mealCache *r
+	mealCache *rabbitmqproducer.
 }
 
 func NewFoodUsecase(
