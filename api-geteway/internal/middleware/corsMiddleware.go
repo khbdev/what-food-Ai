@@ -12,7 +12,6 @@ func CORSMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		allowedOrigins := []string{
 			"http://localhost:5173",
-			"https://monumental-pithivier-264317.netlify.app",
 		}
 
 		origin := c.Request.Header.Get("Origin")
