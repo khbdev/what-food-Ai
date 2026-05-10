@@ -35,9 +35,10 @@ type FoodFilter struct {
 // =========================
 
 type FoodDetailRequest struct {
-	ID      int64  `json:"id"`
-	Type    string `json:"type"`
-	Portion int32  `json:"portion"`
+	ID       int64  `json:"id"`
+	Type     string `json:"type"`
+	Portion  int32  `json:"portion"`
+	UserID   int64  `json:"user_id"`
 }
 // =========================
 // INGREDIENT
