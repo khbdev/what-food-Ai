@@ -42,7 +42,7 @@ func main() {
 
 	cacheRedis := cache.NewAIMealCache(redis)
 
-	_ 
+	_ = cacheRedis
 
 	aiURL := mustEnv("AI_URL")
 	foodURL := mustEnv("FOOD_URL")
