@@ -57,7 +57,7 @@ func main() {
 	}
 	defer foodClient.Close()
 
-	uc := usecase.NewFoodUsecase(foodClient, aiClient, rabbitMq)
+	uc := usecase.NewFoodUsecase(foodClient, aiClient, rabbitMq, )
 	h := handler.NewFoodHandler(uc)
 
 	lis, err := net.Listen("tcp", ":"+port)

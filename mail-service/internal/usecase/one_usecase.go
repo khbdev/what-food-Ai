@@ -13,6 +13,7 @@ import (
 
 	aipb "github.com/khbdev/what-food-proto/proto/ai"
 	foodpb "github.com/khbdev/what-food-proto/proto/food"
+	"github.com/redis/go-redis/v9"
 )
 
 type FoodUsecase struct {
@@ -26,7 +27,7 @@ func NewFoodUsecase(
     f *client.FoodClient,
     ai *client.AiClient,
     r *config.Rabbit,
-    rdb *redi.Client,             // ✅ qo'shildi
+    rdb *redis.Client,             // ✅ qo'shildi
 ) *FoodUsecase {
     return &FoodUsecase{
         foodClient: f,
