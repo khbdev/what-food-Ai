@@ -84,7 +84,7 @@ func SetupRouter(
 	// =========================
 	// USER ROUTES (AUTH REQUIRED)
 	// =========================
-	user := r.Group("/")
+	user := r.Group("")
 	user.Use(middleware.AuthMiddleware())
 	{
 		// CATEGORIES

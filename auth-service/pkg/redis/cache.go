@@ -31,7 +31,7 @@ func (s *Service) SetOTP(otp int64, data models.RegisterRequest) error {
 		return err
 	}
 
-	return s.rdb.Set(s.ctx, key, body, time.Minute).Err()
+return s.rdb.Set(s.ctx, key, body, 5*time.Minute).Err()
 }
 
 func (s *Service) GetOTP(otp int64) (*models.RegisterRequest, error) {
