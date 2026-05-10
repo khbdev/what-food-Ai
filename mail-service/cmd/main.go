@@ -35,7 +35,9 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	_ = rabbitMq
+	_ = redis
 
 	aiURL := mustEnv("AI_URL")
 	foodURL := mustEnv("FOOD_URL")
