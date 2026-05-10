@@ -8,7 +8,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-type RefreshClaims struct {
+type AccessRefreshClaims struct {
 	UserID   uint   `json:"user_id"`
 	UserName string `json:"user_name"`
 	Role     string `json:"role"`
