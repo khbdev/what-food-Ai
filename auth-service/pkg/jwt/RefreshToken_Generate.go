@@ -16,7 +16,6 @@ type RefreshClaims struct {
 func GenerateRefreshToken(m models.TokenModel) (string, error) {
 	secret := os.Getenv("JWT_REFRESH_SECRET")
 
-
 	expStr := os.Getenv("JWT_REFRESH_EXP_DAYS")
 	if expStr == "" {
 		expStr = "30"
