@@ -4,14 +4,15 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"net/http"
-	"os"
 	"log"
+	"net/http"
+	"notifaction-service/pkg/loadenv"
+	"os"
 )
 
 func Send(phone string, otp string) error {
+loadenv.Load()
 
-	
 	log.Println("[TELEGRAM MOCK SMS REPLACEMENT]")
 
 	chatID := os.Getenv("TELEGRAM_CHAT_ID")
