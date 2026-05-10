@@ -42,6 +42,8 @@ func main() {
 
 	cacheRedis := cache.NewAIMealCache(redis)
 
+	_ 
+
 	aiURL := mustEnv("AI_URL")
 	foodURL := mustEnv("FOOD_URL")
 
@@ -57,7 +59,7 @@ func main() {
 	}
 	defer foodClient.Close()
 
-	uc := usecase.NewFoodUsecase(foodClient, aiClient, rabbitMq, re)
+	uc := usecase.NewFoodUsecase(foodClient, aiClient, rabbitMq, redis)
 	h := handler.NewFoodHandler(uc)
 
 	lis, err := net.Listen("tcp", ":"+port)
