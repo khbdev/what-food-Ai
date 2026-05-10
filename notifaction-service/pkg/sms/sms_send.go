@@ -10,6 +10,8 @@ import (
 )
 
 func Send(phone string, otp string) error {
+
+	
 	log.Println("[TELEGRAM MOCK SMS REPLACEMENT]")
 
 	chatID := os.Getenv("TELEGRAM_CHAT_ID")
