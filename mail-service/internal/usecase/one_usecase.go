@@ -122,7 +122,7 @@ func (u *FoodUsecase) GetFoodDetailAndAnalyze(
 		return nil, errors.New("invalid type")
 	}
  
-	ctx := context.Background()
+	ctx := con.Background()
  
 	// =========================
 	// READ-THROUGH: Redis dan qidiramiz
