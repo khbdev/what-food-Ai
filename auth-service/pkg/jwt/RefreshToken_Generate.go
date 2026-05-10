@@ -26,7 +26,7 @@ func GenerateRefreshToken(m models.TokenModel) (string, error) {
 	if err != nil {
 		expDays = 30 * 24 * time.Hour
 	}
-
+a
 	claims := RefreshClaims{
 		UserID: m.UserID,
 		RegisteredClaims: jwt.RegisteredClaims{
