@@ -30,12 +30,10 @@ func NewNutritionHandler(s *service.NutritionService) *NutritionHandler {
 
 func (h *NutritionHandler) GetWeeklyNutrition(c *gin.Context) {
 
+	// =========================
+	// BODY (faqat filter bo‘lsa)
+	// =========================
 	var req models.WeeklyNutritionRequest
-
-	// =========================
-	// BIND JSON
-	// =========================
-
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
@@ -44,13 +42,31 @@ func (h *NutritionHandler) GetWeeklyNutrition(c *gin.Context) {
 	}
 
 	// =========================
+	// USER ID FROM JWT CONTEXT
+	// =========================
+	userID, exists := c.Get("user_id")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "user not found in token",
+		})
+		return
+	}
+
+	uid, ok := userID.(uint64)
+	if !ok {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "invalid user_id type",
+		})
+		return
+	}
+
+	// =========================
 	// CALL SERVICE
 	// =========================
-
 	res, err := h.service.GetWeeklyNutrition(
 		c.Request.Context(),
 		&nutritionpb.WeeklyNutritionRequest{
-			UserId: req.UserID,
+			UserId: uid,
 		},
 	)
 
@@ -64,8 +80,7 @@ func (h *NutritionHandler) GetWeeklyNutrition(c *gin.Context) {
 	// =========================
 	// MAPPING RESPONSE
 	// =========================
-
-	var days []models.DailyNutrition
+	days := make([]models.DailyNutrition, 0, len(res.Days))
 
 	for _, d := range res.Days {
 		days = append(days, models.DailyNutrition{
@@ -80,7 +95,6 @@ func (h *NutritionHandler) GetWeeklyNutrition(c *gin.Context) {
 	// =========================
 	// RESPONSE
 	// =========================
-
 	c.JSON(http.StatusOK, models.WeeklyNutritionResponse{
 		Days: days,
 	})

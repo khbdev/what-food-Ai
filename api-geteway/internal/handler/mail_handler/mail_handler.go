@@ -102,3 +102,104 @@ func (h *FoodHandler) FilterFood(c *gin.Context) {
 // GET FOOD DETAIL
 // =========================
 
+func (h *FoodHandler) GetFoodDetail(c *gin.Context) {
+
+	// =========================
+	// PARSE JSON (NO USER_ID HERE)
+	// =========================
+
+	var body mailmodels.FoodDetailRequest
+
+	if err := c.ShouldBindJSON(&body); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	// =========================
+	// GET USER ID FROM JWT CONTEXT
+	// =========================
+
+	userIDAny, exists := c.Get("user_id")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "unauthorized",
+		})
+		return
+	}
+
+	userID, ok := userIDAny.(uint64)
+	if !ok {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "invalid user_id type",
+		})
+		return
+	}
+
+	// =========================
+	// DOMAIN -> PROTO
+	// =========================
+
+	req := &asosiypb.FoodDetailRequest{
+		Id:      body.ID,
+		Type:    body.Type,
+		Portion: body.Portion,
+		UserId:  int64(userID),
+	}
+
+	// =========================
+	// SERVICE CALL
+	// =========================
+
+	res, err := h.service.GetFoodDetail(c.Request.Context(), req)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	// =========================
+	// INGREDIENTS MAPPING
+	// =========================
+
+	ingredients := make([]mailmodels.Ingredient, 0, len(res.Ingredients))
+
+	for _, ing := range res.Ingredients {
+		ingredients = append(ingredients, mailmodels.Ingredient{
+			Name:   ing.Name,
+			Amount: ing.Amount,
+		})
+	}
+
+	// =========================
+	// RESPONSE MAPPING
+	// =========================
+
+	food := mailmodels.FoodDetail{
+		ID:                 res.Id,
+		Type:               res.Type,
+		RestaurantID:       res.RestaurantId,
+		Name:               res.Name,
+		Description:        res.Description,
+		ImageURL:           res.ImageUrl,
+		VideoURL:           res.VideoUrl,
+		Country:            res.Country,
+		MealTime:           res.MealTime,
+		Kcal:               res.Kcal,
+		Protein:            res.Protein,
+		Fat:                res.Fat,
+		Carbs:              res.Carbs,
+		Portion:            res.Portion,
+		TotalKcal:          float64(res.TotalKcal),
+		CookingTimeMinutes: res.CookingTimeMinutes,
+		Ingredients:        ingredients,
+		Steps:              res.Steps,
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"data":    food,
+	})
+}
