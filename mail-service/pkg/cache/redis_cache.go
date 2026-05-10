@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	aipb "your_module/proto/ai" // o'zingizning proto import path
+	aipb "github.com/khbdev/what-food-proto/proto/ai"
 	"github.com/redis/go-redis/v9"
 )
 
