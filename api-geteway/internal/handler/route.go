@@ -3,6 +3,7 @@ package handler
 import (
 	mailhandler "api-geteway/internal/handler/mail_handler"
 	"api-geteway/internal/middleware"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -26,8 +27,14 @@ func SetupRouter(
 	r.Use(gin.Recovery())
 	r.Use(middleware.CORSMiddleware())
 
+	// OPTIONS preflight — CORS middleware headerlar o'rnatgandan keyin 204 qaytaradi.
+	// Bu route bo'lmasa Gin "404 Not Found" qaytarishi mumkin.
+	r.OPTIONS("/*path", func(c *gin.Context) {
+		c.AbortWithStatus(http.StatusNoContent)
+	})
+
 	// =========================
-	// AUTH (PUBLIC)
+	// AUTH (PUBLIC) — token talab qilinmaydi
 	// =========================
 	auth := r.Group("/auth")
 	{
@@ -37,7 +44,7 @@ func SetupRouter(
 	}
 
 	// =========================
-	// ADMIN ROUTES
+	// ADMIN ROUTES — auth + admin roli talab qilinadi
 	// =========================
 	admin := r.Group("/admin")
 	admin.Use(
@@ -82,15 +89,17 @@ func SetupRouter(
 	}
 
 	// =========================
-	// USER ROUTES (AUTH REQUIRED)
+	// USER ROUTES — faqat auth talab qilinadi
 	// =========================
 	user := r.Group("")
 	user.Use(middleware.AuthMiddleware())
 	{
 		// CATEGORIES
+		// MUHIM: statik route /:id dan OLDIN kelishi kerak,
+		// aks holda Gin "with-products" ni `:id` deb o'qiydi.
+		user.GET("/categories/with-products", categoryHandler.GetAllWithUserProducts) // ← OLDIN
 		user.GET("/categories", categoryHandler.GetAllCategories)
-		user.GET("/categories/:id", categoryHandler.GetCategoryByID)
-		user.GET("/categories/with-products", categoryHandler.GetAllWithUserProducts)
+		user.GET("/categories/:id", categoryHandler.GetCategoryByID)                  // ← KEYIN
 
 		// INGREDIENTS
 		user.POST("/ingredients", ingredientHandler.CreateIngredient)
@@ -103,7 +112,7 @@ func SetupRouter(
 		user.POST("/food/filter", aiFoodHandler.FilterFood)
 		user.GET("/food/detail", aiFoodHandler.GetFoodDetail)
 
-		// Statik
+		// NUTRITION
 		user.GET("/nutrition/weekly", nutritionHandler.GetWeeklyNutrition)
 	}
 
