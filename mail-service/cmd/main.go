@@ -32,6 +32,9 @@ func main() {
 	}
 	rabbitMq := config.NewRabbit()
 	redis, err := config.NewRedisClient()
+	if erv {
+		
+	}
 	_ = rabbitMq
 
 	aiURL := mustEnv("AI_URL")
