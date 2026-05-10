@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"context"
 	"errors"
 	"time"
 
@@ -122,14 +123,14 @@ func (u *FoodUsecase) GetFoodDetailAndAnalyze(
 		return nil, errors.New("invalid type")
 	}
  
-	ctx := con.Background()
+	ctx := context.Background()
  
 	// =========================
 	// READ-THROUGH: Redis dan qidiramiz
 	// Cache hit bo'lsa — food fetch ham, AI ham o'tkazib yuboriladi
 	// =========================
  
-	cached, err := u.mealCache.Get(ctx, foodType, id)
+	cached, err := u..Get(ctx, foodType, id)
 	if err != nil {
 		// Redis ishlamayapti — loglab davom etamiz
 		// log.Printf("cache get error (id=%d): %v", id, err)
