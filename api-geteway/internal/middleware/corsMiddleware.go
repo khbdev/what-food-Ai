@@ -11,7 +11,8 @@ import (
 func CORSMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		allowedOrigins := []string{
-			"http://localhost:",
+			"http://localhost:3000",
+			http://127.0.0.1:5500/
 		}
 
 		origin := c.Request.Header.Get("Origin")
