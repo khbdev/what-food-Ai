@@ -67,7 +67,7 @@ func (h *NutritionHandler) GetWeeklyNutrition(c *gin.Context) {
 	res, err := h.service.GetWeeklyNutrition(
 		c.Request.Context(),
 		&nutritionpb.WeeklyNutritionRequest{
-			UserId: uid, // 🔥 FIX HERE
+		UserId: int64(uid),
 		},
 	)
 
