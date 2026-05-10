@@ -9,6 +9,7 @@ import (
 	"mail-service/internal/config"
 	"mail-service/internal/handler"
 	"mail-service/internal/usecase"
+	"mail-service/pkg/cache"
 	"mail-service/pkg/loadenv"
 
 	asosiyPB "github.com/khbdev/what-food-proto/proto/asosiy"
@@ -39,7 +40,7 @@ func main() {
 	_ = rabbitMq
 	_ = redis
 
-	cacheRed 
+	cacheRedis := cache.
 
 	aiURL := mustEnv("AI_URL")
 	foodURL := mustEnv("FOOD_URL")
