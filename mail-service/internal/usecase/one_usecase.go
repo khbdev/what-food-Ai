@@ -2,8 +2,12 @@ package usecase
 
 import (
 	"errors"
+	"time"
 
 	"mail-service/internal/client"
+	"mail-service/internal/config"
+	"mail-service/internal/models"
+	rabbitmqproducer "mail-service/pkg/rabbitmq_producer"
 
 	aipb "github.com/khbdev/what-food-proto/proto/ai"
 	foodpb "github.com/khbdev/what-food-proto/proto/food"
@@ -12,12 +16,18 @@ import (
 type FoodUsecase struct {
 	foodClient *client.FoodClient
 	aiClient   *client.AiClient
+	rabbit     *config.Rabbit
 }
 
-func NewFoodUsecase(f *client.FoodClient, ai *client.AiClient) *FoodUsecase {
+func NewFoodUsecase(
+	f *client.FoodClient,
+	ai *client.AiClient,
+	r *config.Rabbit,
+) *FoodUsecase {
 	return &FoodUsecase{
 		foodClient: f,
 		aiClient:   ai,
+		rabbit:     r,
 	}
 }
 
@@ -101,11 +111,13 @@ func (u *FoodUsecase) GetFoodDetailAndAnalyze(
 	id int64,
 	foodType string,
 	portion int32,
+	userID uint,
 ) (*DetailResult, error) {
 
 	if id == 0 {
 		return nil, errors.New("id is required")
 	}
+
 	if foodType != "recipe" && foodType != "salad" {
 		return nil, errors.New("invalid type")
 	}
@@ -116,7 +128,7 @@ func (u *FoodUsecase) GetFoodDetailAndAnalyze(
 	}
 
 	// =========================
-	// GET FOOD BY TYPE
+	// FOOD FETCH
 	// =========================
 
 	if foodType == "recipe" {
@@ -124,6 +136,7 @@ func (u *FoodUsecase) GetFoodDetailAndAnalyze(
 		if err != nil {
 			return nil, err
 		}
+
 		result.RestaurantId = r.RestaurantId
 		result.Name = r.Name
 		result.Description = r.Description
@@ -142,6 +155,7 @@ func (u *FoodUsecase) GetFoodDetailAndAnalyze(
 		if err != nil {
 			return nil, err
 		}
+
 		result.RestaurantId = s.RestaurantId
 		result.Name = s.Name
 		result.Description = s.Description
@@ -154,12 +168,7 @@ func (u *FoodUsecase) GetFoodDetailAndAnalyze(
 		result.Fat = s.Fat
 		result.Carbs = s.Carbs
 	}
-
-	// =========================
-	// AI REQUEST
-	// =========================
-
-	aiReq := &aipb.MealRequest{
+		aiReq := &aipb.MealRequest{
 		Name:        result.Name,
 		Description: result.Description,
 		Country:     result.Country,
@@ -181,6 +190,25 @@ func (u *FoodUsecase) GetFoodDetailAndAnalyze(
 	result.CookingTimeMinutes = aiRes.CookingTimeMinutes
 	result.Ingredients = aiRes.Ingredients
 	result.Steps = aiRes.Steps
+		mealEvent := &models.Meal{
+		UserID:  userID,
+		Name:    result.Name,
+		Country: result.Country,
+		MealTime: time.Now(),
 
-	return result, nil
+		Kcal:    float64(result.TotalKcal),
+		Protein: result.Protein,
+		Fat:     result.Fat,
+		Carbs:   result.Carbs,
+	}
+
+	// async event (fail bo‘lsa system yiqilmaydi)
+	go func() {
+		err := rabbitmqproducer.PublishMeal(u.rabbit.Channel, mealEvent)
+		if err != nil {
+			// faqat log
+			// log.Println("rabbit publish error:", err)
+		}
+	}()
+		return result, nil
 }

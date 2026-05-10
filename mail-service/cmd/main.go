@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"mail-service/internal/client"
+	"mail-service/internal/config"
 	"mail-service/internal/handler"
 	"mail-service/internal/usecase"
 	"mail-service/pkg/loadenv"
@@ -29,6 +30,9 @@ func main() {
 	if port == "" {
 		port = "8080"
 	}
+	rabbitMq := config.NewRabbit()
+
+	_ = rabbitMq
 
 	aiURL := mustEnv("AI_URL")
 	foodURL := mustEnv("FOOD_URL")
