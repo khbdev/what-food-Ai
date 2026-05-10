@@ -15,23 +15,25 @@ import (
 )
 
 type FoodUsecase struct {
-	foodClient *client.FoodClient
-	aiClient   *client.AiClient
-	rabbit     *config.Rabbit
+    foodClient *client.FoodClient
+    aiClient   *client.AiClient
+    rabbit     *config.Rabbit
+    mealCache  *cache.AIMealCache  // ✅ qo'shildi
 }
 
 func NewFoodUsecase(
-	f *client.FoodClient,
-	ai *client.AiClient,
-	r *config.Rabbit,
+    f *client.FoodClient,
+    ai *client.AiClient,
+    r *config.Rabbit,
+    rdb *redis.Client,             // ✅ qo'shildi
 ) *FoodUsecase {
-	return &FoodUsecase{
-		foodClient: f,
-		aiClient:   ai,
-		rabbit:     r,
-	}
+    return &FoodUsecase{
+        foodClient: f,
+        aiClient:   ai,
+        rabbit:     r,
+        mealCache:  cache.NewAIMealCache(rdb), // ✅ inject qilindi
+    }
 }
-
 // =========================
 // FILTER RESULT
 // =========================
