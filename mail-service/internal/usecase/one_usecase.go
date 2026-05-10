@@ -18,6 +18,7 @@ type FoodUsecase struct {
 	foodClient *client.FoodClient
 	aiClient   *client.AiClient
 	rabbit     *config.Rabbit
+	
 }
 
 func NewFoodUsecase(
@@ -130,7 +131,7 @@ func (u *FoodUsecase) GetFoodDetailAndAnalyze(
 	// Cache hit bo'lsa — food fetch ham, AI ham o'tkazib yuboriladi
 	// =========================
  
-	cached, err := u.mail.Get(ctx, foodType, id)
+	cached, err := u.mealCache.Get(ctx, foodType, id)
 	if err != nil {
 		// Redis ishlamayapti — loglab davom etamiz
 		// log.Printf("cache get error (id=%d): %v", id, err)
