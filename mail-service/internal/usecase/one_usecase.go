@@ -26,7 +26,7 @@ func NewFoodUsecase(
     f *client.FoodClient,
     ai *client.AiClient,
     r *config.Rabbit,
-    rdb *redis.Client,             // ✅ qo'shildi
+    rdb *redi.Client,             // ✅ qo'shildi
 ) *FoodUsecase {
     return &FoodUsecase{
         foodClient: f,
