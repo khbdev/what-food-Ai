@@ -113,7 +113,7 @@ func SetupRouter(
 		// NUTRITION
 		// =========================
 
-		user.("/nutrition/weekly", nutritionHandler.GetWeeklyNutrition)
+		user.GET("/nutrition/weekly", nutritionHandler.GetWeeklyNutrition)
 	}
 
 	return r
