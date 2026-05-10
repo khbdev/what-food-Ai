@@ -125,7 +125,7 @@ func (h *FoodHandler) GetFoodDetail(c *gin.Context) {
 		Id:      body.ID,
 		Type:    body.Type,
 		Portion: body.Portion,
-		UserId: body.,
+		UserId: body.UserID,
 	}
 
 	// =========================
