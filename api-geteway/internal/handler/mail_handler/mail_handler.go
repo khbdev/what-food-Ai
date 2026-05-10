@@ -121,12 +121,7 @@ func (h *FoodHandler) GetFoodDetail(c *gin.Context) {
 	// DOMAIN -> PROTO
 	// =========================
 
-	req := &asosiypb.FoodDetailRequest{
-		Id:      body.ID,
-		Type:    body.Type,
-		Portion: body.Portion,
-		Us
-	}
+	req := &asos
 
 	// =========================
 	// SERVICE CALL
