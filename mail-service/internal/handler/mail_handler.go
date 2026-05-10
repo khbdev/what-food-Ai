@@ -89,7 +89,7 @@ func (h *FoodHandler) GetFoodDetail(
 		req.Id,
 		req.Type,
 		req.Portion,
-		
+		uint(req.UserId)
 	)
 	if err != nil {
 		return nil, err
