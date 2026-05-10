@@ -37,8 +37,9 @@ func main() {
 	}
 
 	_ = rabbitMq
-	
 	_ = redis
+
+	cache
 
 	aiURL := mustEnv("AI_URL")
 	foodURL := mustEnv("FOOD_URL")
