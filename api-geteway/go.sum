@@ -48,6 +48,8 @@ github.com/json-iterator/go v1.1.12 h1:PV8peI4a0ysnczrg+LtxykD8LfKY9ML6u2jnxaEnr
 github.com/json-iterator/go v1.1.12/go.mod h1:e30LSqwooZae/UwlEbR2852Gd8hjQvJoHmT4TnhNGBo=
 github.com/khbdev/what-food-proto v0.0.0-20260510034851-72fc6dbf5b37 h1:lx05nUS9Us+XyBqRnLwLTJtIzpmMK1yzFpmpjzrVU+Y=
 github.com/khbdev/what-food-proto v0.0.0-20260510034851-72fc6dbf5b37/go.mod h1:Q2+4AJ9Y3viJLI9Imm2VH+hnk58N9ZJ/vWl53xTHW74=
+github.com/khbdev/what-food-proto v0.0.0-20260510075940-4ae32c721dfc h1:O7qELcM5KxQkkeDtg3h/7eL6vAEhePartBGTEXNDZUw=
+github.com/khbdev/what-food-proto v0.0.0-20260510075940-4ae32c721dfc/go.mod h1:Q2+4AJ9Y3viJLI9Imm2VH+hnk58N9ZJ/vWl53xTHW74=
 github.com/klauspost/cpuid/v2 v2.3.0 h1:S4CRMLnYUhGeDFDqkGriYKdfoFlDnMtqTiI/sFzhA9Y=
 github.com/klauspost/cpuid/v2 v2.3.0/go.mod h1:hqwkgyIinND0mEev00jJYCxPNVRVXFQeu1XKlok6oO0=
 github.com/leodido/go-urn v1.4.0 h1:WT9HwE9SGECu3lg4d/dIA+jxlljEa1/ffXKmRjqdmIQ=

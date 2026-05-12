@@ -72,7 +72,7 @@ func (h *AuthHandler) RefreshToken(
     req *authpb.RefreshRequest,
 ) (*authpb.AuthResponse, error) {
 
-    access, err := jwt.GenerateAccessRefreshToken()(req.RefreshToken)
+    access, err := jwt.GenerateAccessRefreshToken(req.RefreshToken)
     if err != nil {
         return nil, err
     }
