@@ -86,8 +86,7 @@ func (c *AuthClient) VerifyOTP(req *authpb.VerifyRequest) (*authpb.AuthResponse,
 }
 
 func (c *AuthClient) RefreshToken(
-	req *authpb.RefreshRequest,
-) (*authpb.AuthResponse, error) {
+	req *authpb.RefreshRequest,) (*authpb.AuthResponse, error) {
 
 	ctx, cancel := c.ctx()
 	defer cancel()
