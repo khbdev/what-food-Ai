@@ -65,3 +65,18 @@ func (h *AuthHandler) VerifyOTP(ctx context.Context, req *authpb.VerifyRequest) 
 		RefreshToken: refresh,
 	}, nil
 }
+
+func (h *AuthHandler) RefreshToken(
+    ctx context.Context,
+    req *authpb.RefreshRequest,
+) (*authpb.AuthResponse, error) {
+
+    access, err := jwt.RefreshAccessToken(req.RefreshToken)
+    if err != nil {
+        return nil, err
+    }
+
+    return &authpb.AuthResponse{
+        AccessToken: access,
+    }, nil
+}
