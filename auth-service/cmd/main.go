@@ -26,7 +26,7 @@ func main() {
 	// rabbit
 	rabbitmq := config.NewRabbit()
 
-	// redis
+	// redis11k
 	redisClient, err := config.NewRedisClient()
 	if err != nil {
 		log.Fatal("redis error:", err)
