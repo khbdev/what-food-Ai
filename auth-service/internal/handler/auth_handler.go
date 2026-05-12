@@ -5,6 +5,7 @@ import (
 
 	"auth-service/internal/domain"
 	"auth-service/internal/models"
+	"auth-service/pkg/jwt"
 
 	authpb "github.com/khbdev/what-food-proto/proto/auth"
 )
