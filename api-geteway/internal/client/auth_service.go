@@ -89,7 +89,7 @@ func (c *AuthClient) RefreshToken(req *authpb.RefreshRequest,) (*authpb.AuthResp
 
 	ctx, cancel := c.ctx()
 	defer cancel()
-
++
 	return c.svc.RefreshToken(ctx, req)
 }
 
