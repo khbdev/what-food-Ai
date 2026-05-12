@@ -41,6 +41,7 @@ func SetupRouter(
 		auth.POST("/register", authHandler.Register)
 		auth.POST("/login", authHandler.Login)
 		auth.POST("/verify", authHandler.VerifyOTP)
+		auth.
 	}
 
 	// =========================
