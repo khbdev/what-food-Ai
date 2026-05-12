@@ -5,7 +5,7 @@ go 1.25.0
 require (
 	github.com/golang-jwt/jwt/v5 v5.3.1
 	github.com/joho/godotenv v1.5.1
-	github.com/khbdev/what-food-proto v0.0.0-20260423154413-afefb2c8d023
+	github.com/khbdev/what-food-proto v0.0.0-20260510075940-4ae32c721dfc
 	github.com/rabbitmq/amqp091-go v1.11.0
 	github.com/redis/go-redis/v9 v9.18.0
 	google.golang.org/grpc v1.80.0
