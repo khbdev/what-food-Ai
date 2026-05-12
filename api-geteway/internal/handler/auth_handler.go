@@ -93,3 +93,27 @@ func (h *AuthHandler) VerifyOTP(c *gin.Context) {
 
 	response.OK(c, res)
 }
+
+
+func (h *AuthHandler) RefreshToken(c *gin.Context) {
+	var req models.RefreshRequest
+
+	if err := c.ShouldBindJSON(&req); err != nil {
+		response.Fail(c, http.StatusBadRequest, err)
+		return
+	}
+
+	res, err := h.svc.RefreshToken(
+		c.Request.Context(),
+		&authpb.RefreshRequest{
+			RefreshToken: req.RefreshToken,
+		},
+	)
+
+	if err != nil {
+		response.Fail(c, http.StatusBadRequest, err)
+		return
+	}
+
+	response.OK(c, res)
+}

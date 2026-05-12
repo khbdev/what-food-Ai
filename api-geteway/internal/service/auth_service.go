@@ -81,3 +81,16 @@ func (s *AuthService) VerifyOTP(ctx context.Context, req *authpb.VerifyRequest) 
 
 	return s.authClient.VerifyOTP(req)
 }
+
+
+func (s *AuthService) RefreshToken(
+	ctx context.Context,
+	req *authpb.RefreshRequest,
+) (*authpb.AuthResponse, error) {
+
+	if strings.TrimSpace(req.RefreshToken) == "" {
+		return nil, errors.New("refresh token is required")
+	}
+
+	return s.authClient.RefreshToken(req)
+}
