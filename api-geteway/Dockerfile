@@ -8,13 +8,13 @@ RUN go mod download
 COPY . .
 
 
-RUN go build -o api ./cmd/main.go
+RUN go build -o api-geteway ./cmd/main.go
 
 FROM alpine:latest
 
 WORKDIR /app
 
-COPY --from=builder /app/ai-service .
+COPY --from=builder /app/a .
 
 EXPOSE 50055
 
