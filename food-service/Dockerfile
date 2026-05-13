@@ -14,7 +14,7 @@ FROM alpine:latest
 
 WORKDIR /app
 
-COPY --from=builder /app/user-product-service .
+COPY --from=builder /app/u .
 
 EXPOSE 50053
 
