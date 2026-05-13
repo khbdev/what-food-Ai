@@ -20,7 +20,7 @@ jobs:
             auth-service,
             analytics-service,
             mail-service,
-            api-gateway,
+            api-geteway,
             ai-service
           ]
 
