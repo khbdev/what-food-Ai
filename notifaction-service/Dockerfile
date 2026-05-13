@@ -18,4 +18,4 @@ COPY --from=builder /app/notifaction-service .
 
 EXPOSE 50050
 
-CMD ["./user-service"]
+CMD ["./notifaction-service"]
