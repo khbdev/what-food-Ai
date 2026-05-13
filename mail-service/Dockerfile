@@ -16,6 +16,6 @@ WORKDIR /app
 
 COPY --from=builder /app/mail-service .
 
-EXPOSE 50055
+EXPOSE 50057
 
 CMD ["./mail-service"]
