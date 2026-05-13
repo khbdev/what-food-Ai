@@ -14,8 +14,8 @@ FROM alpine:latest
 
 WORKDIR /app
 
-COPY --from=builder /app/ai-service .
+COPY --from=builder /app/mail-service .
 
 EXPOSE 50055
 
-CMD ["./ai-service"]
+CMD ["./mail-service"]
