@@ -8,7 +8,7 @@ RUN go mod download
 COPY . .
 
 
-RUN go build -o  ./cmd/main.go
+RUN go build -o food-service ./cmd/main.go
 
 FROM alpine:latest
 
