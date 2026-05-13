@@ -16,6 +16,6 @@ WORKDIR /app
 
 COPY --from=builder /app/api-geteway .
 
-EXPOSE 50055
+EXPOSE 
 
 CMD ["./ai-service"]
