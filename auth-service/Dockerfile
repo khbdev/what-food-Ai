@@ -16,6 +16,6 @@ WORKDIR /app
 
 COPY --from=builder /app/food-service .
 
-EXPOSE 50054
+EXPOSE 5005
 
 CMD ["./food-service"]
