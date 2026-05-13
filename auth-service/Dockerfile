@@ -8,7 +8,7 @@ RUN go mod download
 COPY . .
 
 
-RUN go build -o food-service ./cmd/main.go
+RUN go build -o auth-service ./cmd/main.go
 
 FROM alpine:latest
 
@@ -16,6 +16,6 @@ WORKDIR /app
 
 COPY --from=builder /app/food-service .
 
-EXPOSE 5005
+EXPOSE 50051
 
 CMD ["./food-service"]
