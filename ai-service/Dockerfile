@@ -16,6 +16,6 @@ WORKDIR /app
 
 COPY --from=builder /app/ai-service .
 
-EXPOSE 50056
+EXPOSE 50055
 
 CMD ["./ai-service"]
