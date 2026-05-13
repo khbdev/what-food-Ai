@@ -14,8 +14,8 @@ FROM alpine:latest
 
 WORKDIR /app
 
-COPY --from=builder /app/food-service .
+COPY --from=builder /app/auth-service .
 
 EXPOSE 50051
 
-CMD ["./food-service"]
+CMD ["./auth-service"]
