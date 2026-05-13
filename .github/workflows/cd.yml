@@ -15,7 +15,7 @@ jobs:
           [
             user-service,
             user-product-service,
-            notification-service,
+            notifaction-service,
             food-service,
             auth-service,
             analytics-service,
