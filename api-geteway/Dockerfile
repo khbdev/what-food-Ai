@@ -14,7 +14,7 @@ FROM alpine:latest
 
 WORKDIR /app
 
-COPY --from=builder /app/a .
+COPY --from=builder /app/api-geteway .
 
 EXPOSE 50055
 
