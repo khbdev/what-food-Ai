@@ -14,7 +14,7 @@ FROM alpine:latest
 
 WORKDIR /app
 
-COPY --from=builder /app/analytics-service .
+COPY --from=builder /app/auth-service .
 
 EXPOSE 50051
 
