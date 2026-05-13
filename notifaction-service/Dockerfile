@@ -1,4 +1,4 @@
-FROM golang:1.25-alpine AS builder
+FROM golang:1.26-alpine AS builder
 
 WORKDIR /app
 
@@ -7,7 +7,6 @@ RUN go mod download
 
 COPY . .
 
-
 RUN go build -o notifaction-service ./cmd/main.go
 
 FROM alpine:latest
@@ -15,7 +14,5 @@ FROM alpine:latest
 WORKDIR /app
 
 COPY --from=builder /app/notifaction-service .
-
-EXPOSE 50050
 
 CMD ["./notifaction-service"]
