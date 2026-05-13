@@ -16,6 +16,6 @@ WORKDIR /app
 
 COPY --from=builder /app/analytics-service .
 
-EXPOSE 50051
+EXPOSE 50056
 
-CMD ["./auth-service"]
+CMD ["./analytics-service"]
