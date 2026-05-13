@@ -14,7 +14,7 @@ FROM alpine:latest
 
 WORKDIR /app
 
-COPY --from=builder /app/user-service .
+COPY --from=builder /app/notifaction-service .
 
 EXPOSE 50050
 
