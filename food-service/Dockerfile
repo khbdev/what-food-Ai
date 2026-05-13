@@ -18,4 +18,4 @@ COPY --from=builder /app/food-service .
 
 EXPOSE 50054
 
-CMD ["./user-product-service"]
+CMD ["./"]
