@@ -13,18 +13,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         go: [1.24]
-        service: 
-        [
-        #   user-service, 
-        # user-product-service,
-         notifaction-service, 
-        #  food-service,
-        #   auth-service,
-        #    analytics-service,
-        #     mail-service,
-        #      api-geteway, 
-        #      ai-service 
-             ]
+        service: [user-service, user-product-service, notifaction-service, food-service, auth-service, analytics-service, mail-service, api-geteway, ai-service ]
 
     steps:
       - name: Checkout repo

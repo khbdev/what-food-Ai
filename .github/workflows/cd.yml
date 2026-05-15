@@ -13,15 +13,15 @@ jobs:
       matrix:
         service:
           [
-            # user-service,
-            # user-product-service,
+            user-service,
+            user-product-service,
             notifaction-service,
-            # food-service,
-            # auth-service,
-            # analytics-service,
-            # mail-service,
-            # api-geteway,
-            # ai-service
+            food-service,
+            auth-service,
+            analytics-service,
+            mail-service,
+            api-geteway,
+            ai-service
           ]
 
     steps:
