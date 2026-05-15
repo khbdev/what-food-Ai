@@ -64,6 +64,32 @@ services:
     networks:
       - what-food-network
 
+  notification-service:
+    image: gopherkhb/what-food-notifaction-service:latest
+    container_name: what-food-notification-service
+    restart: always
+    env_file:
+      - ./notification-service/.env
+    depends_on:
+      - postgres
+      - redis
+      - rabbitmq
+    networks:
+      - what-food-network
+
+  auth-service:
+    image: gopherkhb/what-food-auth-service:latest
+    container_name: what-food-auth-service
+    restart: always
+    env_file:
+      - ./auth-service/.env
+    depends_on:
+      - postgres
+      - redis
+      - rabbitmq
+    networks:
+      - what-food-network
+
 volumes:
   postgres_data:
 
