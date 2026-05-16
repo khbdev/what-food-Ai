@@ -120,6 +120,13 @@ func (c *UserProductClient) GetAllWithUserProducts(req *categorypb.GetAllWithUse
 	return c.Category.GetAllWithUserProducts(ctx, req)
 }
 
+func (c *UserProductClient) GetCategoryByIDWithUserProducts(req *categorypb.GetByIDWithUserProductsRequest) (*categorypb.CategoryWithIngredientsResponse, error) {
+	ctx, cancel := c.ctx()
+	defer cancel()
+
+	return c.Category.GetByIDWithUserProducts(ctx, req)
+}
+
 //
 // =====================================
 // INGREDIENT METHODS

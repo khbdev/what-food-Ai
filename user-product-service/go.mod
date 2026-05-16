@@ -5,8 +5,9 @@ go 1.25.0
 require (
 	github.com/jackc/pgx/v5 v5.9.2
 	github.com/joho/godotenv v1.5.1
-	github.com/khbdev/what-food-proto v0.0.0-20260428121134-0b83c87e404b
+	github.com/khbdev/what-food-proto v0.0.0-20260516154227-91e9b697b286
 	github.com/redis/go-redis/v9 v9.18.0
+	google.golang.org/grpc v1.80.0
 )
 
 require (
@@ -21,6 +22,5 @@ require (
 	golang.org/x/sys v0.40.0 // indirect
 	golang.org/x/text v0.33.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20260120221211-b8f7ae30c516 // indirect
-	google.golang.org/grpc v1.80.0 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
 )

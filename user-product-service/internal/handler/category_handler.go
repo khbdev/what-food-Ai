@@ -146,3 +146,23 @@ func mapCategoryWithIngredients(m *models.CategoryWithIngredients) *categorypb.C
 		Items:      items,
 	}
 }
+
+func (h *CategoryHandler) GetByIDWithUserProducts(
+	ctx context.Context,
+	req *categorypb.GetByIDWithUserProductsRequest,
+) (*categorypb.CategoryWithIngredientsResponse, error) {
+
+	res, err := h.uc.GetByIDWithUserProducts(
+		ctx,
+		req.GetCategoryId(),
+		req.GetUserId(),
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &categorypb.CategoryWithIngredientsResponse{
+		Category: mapCategoryWithIngredients(res),
+	}, nil
+}

@@ -116,6 +116,51 @@ services:
     networks:
       - what-food-network
 
+  analytics-service:
+    image: gopherkhb/what-food-analytics-service:latest
+    container_name: what-food-analytics-service
+    restart: always
+    env_file:
+      - ./analytics-service/.env
+    depends_on:
+      - postgres
+      - redis
+      - rabbitmq
+    networks:
+      - what-food-network
+
+  mail-service:
+    image: gopherkhb/what-food-mail-service:latest
+    container_name: what-food-mail-service
+    restart: always
+    env_file:
+      - ./mail-service/.env
+    depends_on:
+      - rabbitmq
+      - redis
+    networks:
+      - what-food-network
+
+  api-gateway:
+    image: gopherkhb/what-food-api-geteway:latest
+    container_name: what-food-api-gateway
+    restart: always
+    env_file:
+      - ./api-geteway/.env
+    depends_on:
+      - auth-service
+      - user-service
+      - user-product-service
+      - food-service
+      - ai-service
+      - analytics-service
+      - notification-service
+      - mail-service
+    ports:
+      - "8082:8082"
+    networks:
+      - what-food-network
+
 volumes:
   postgres_data:
 

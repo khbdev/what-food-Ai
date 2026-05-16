@@ -195,3 +195,49 @@ func (h *CategoryHandler) GetAllWithUserProducts(c *gin.Context) {
 
     response.OK(c, res)
 }
+
+// =========================
+// GET BY ID WITH USER PRODUCTS
+// =========================
+
+func (h *CategoryHandler) GetCategoryByIDWithUserProducts(c *gin.Context) {
+
+	idStr := c.Param("id")
+	if idStr == "" {
+		response.Fail(c, http.StatusBadRequest, errors.New("id is required"))
+		return
+	}
+
+	id, err := strconv.ParseInt(idStr, 10, 64)
+	if err != nil {
+		response.Fail(c, http.StatusBadRequest, errors.New("invalid id"))
+		return
+	}
+
+	val, exists := c.Get("user_id")
+	if !exists {
+		response.Fail(c, http.StatusUnauthorized, errors.New("unauthorized"))
+		return
+	}
+
+	userID, ok := val.(uint64)
+	if !ok || userID == 0 {
+		response.Fail(c, http.StatusUnauthorized, errors.New("invalid user_id"))
+		return
+	}
+
+	res, err := h.svc.GetCategoryByIDWithUserProducts(
+		c.Request.Context(),
+		&categorypb.GetByIDWithUserProductsRequest{
+			CategoryId: id,
+			UserId:     int64(userID),
+		},
+	)
+
+	if err != nil {
+		response.Fail(c, http.StatusBadRequest, err)
+		return
+	}
+
+	response.OK(c, res)
+}

@@ -106,3 +106,16 @@ func (s *CategoryService) GetAllWithUserProducts(ctx context.Context, req *categ
 
 	return s.client.GetAllWithUserProducts(req)
 }
+
+func (s *CategoryService) GetCategoryByIDWithUserProducts(ctx context.Context, req *categorypb.GetByIDWithUserProductsRequest) (*categorypb.CategoryWithIngredientsResponse, error) {
+
+	if req.CategoryId == 0 {
+		return nil, errors.New("category_id is required")
+	}
+
+	if req.UserId == 0 {
+		return nil, errors.New("user_id is required")
+	}
+
+	return s.client.GetCategoryByIDWithUserProducts(req)
+}

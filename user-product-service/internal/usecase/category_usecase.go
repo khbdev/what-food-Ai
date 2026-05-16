@@ -104,3 +104,17 @@ func (u *CategoryUsecase) Delete(ctx context.Context, id int64) error {
 
 	return nil
 }
+
+func (u *CategoryUsecase) GetByIDWithUserProducts(
+	ctx context.Context,
+	categoryID int64,
+	userID int64,
+) (*models.CategoryWithIngredients, error) {
+
+	res, err := u.repo.GetByIDWithUserProducts(categoryID, userID)
+	if err != nil {
+		return nil, fmt.Errorf("usecase.GetByIDWithUserProducts: %w", err)
+	}
+
+	return res, nil
+}

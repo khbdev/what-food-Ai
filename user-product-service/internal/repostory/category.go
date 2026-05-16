@@ -176,3 +176,75 @@ func (r *categoryRepo) GetAllWithUserProducts(userID int64) ([]models.CategoryWi
 
 	return result, nil
 }
+
+func (r *categoryRepo) GetByIDWithUserProducts(categoryID int64, userID int64) (*models.CategoryWithIngredients, error) {
+	query := `
+		SELECT 
+			c.id,
+			c.name,
+			i.id,
+			i.name,
+			i.quantity
+		FROM categories c
+		LEFT JOIN ingredients i
+			ON i.category_id = c.id
+			AND i.user_id = $2
+		WHERE c.id = $1
+	`
+
+	rows, err := r.db.Query(query, categoryID, userID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var category *models.CategoryWithIngredients
+
+	for rows.Next() {
+		var (
+			catID   int64
+			catName string
+
+			ingID   sql.NullInt64
+			ingName sql.NullString
+			ingQty  sql.NullFloat64
+		)
+
+		err := rows.Scan(
+			&catID,
+			&catName,
+			&ingID,
+			&ingName,
+			&ingQty,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		if category == nil {
+			category = &models.CategoryWithIngredients{
+				CategoryID: catID,
+				Name:       catName,
+				Items:      []models.IngredientC{},
+			}
+		}
+
+		if ingID.Valid {
+			category.Items = append(category.Items, models.IngredientC{
+				ID:       ingID.Int64,
+				Name:     ingName.String,
+				Quantity: ingQty.Float64,
+			})
+		}
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	if category == nil {
+		return nil, sql.ErrNoRows
+	}
+
+	return category, nil
+}

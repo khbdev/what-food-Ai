@@ -11,6 +11,7 @@ type CategoryRepository interface {
 	Delete(id int64) error
 
 	GetAllWithUserProducts(userID int64) ([]models.CategoryWithIngredients, error)
+	GetByIDWithUserProducts(categoryID int64, userID int64) (*models.CategoryWithIngredients, error)
 }
 
 

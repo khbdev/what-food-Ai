@@ -98,9 +98,10 @@ func SetupRouter(
 		// CATEGORIES
 		// MUHIM: statik route /:id dan OLDIN kelishi kerak,
 		// aks holda Gin "with-products" ni `:id` deb o'qiydi.
-		user.GET("/categories/with-products", categoryHandler.GetAllWithUserProducts) // ← OLDIN
-		user.GET("/categories", categoryHandler.GetAllCategories)
-		user.GET("/categories/:id", categoryHandler.GetCategoryByID)                  // ← KEYIN
+		user.GET("/categories/with-products", categoryHandler.GetAllWithUserProducts)
+user.GET("/categories/with-products/:id", categoryHandler.GetCategoryByIDWithUserProducts) // ← QO'SHILDI
+user.GET("/categories", categoryHandler.GetAllCategories)
+user.GET("/categories/:id", categoryHandler.GetCategoryByID)             // ← KEYIN
 
 		// INGREDIENTS
 		user.POST("/ingredients", ingredientHandler.CreateIngredient)
