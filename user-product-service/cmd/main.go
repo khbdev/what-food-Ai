@@ -10,7 +10,7 @@ import (
 	"user-product-service/internal/handler"
 	repository "user-product-service/internal/repostory"
 	"user-product-service/internal/usecase"
-	"user-product-service/pkg/loadenv"
+
 
 	incrideatspb "github.com/khbdev/what-food-proto/proto/incrideats"
 	categorypb "github.com/khbdev/what-food-proto/proto/products"
@@ -18,7 +18,7 @@ import (
 )
 
 func main() {
-	loadenv.LoadEnv()
+	// loadenv.LoadEnv()
 
 	postgress, err := config.NewPostgresDB()
 	if err != nil {

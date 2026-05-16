@@ -4,7 +4,7 @@ import (
 	aimodel "ai-service/internal/ai-model"
 	"ai-service/internal/handler"
 	"ai-service/internal/usecase"
-	"ai-service/pkg/env"
+	// "ai-service/pkg/env"
 	pb "github.com/khbdev/what-food-proto/proto/ai"
 	"log"
 	"net"
@@ -14,7 +14,7 @@ import (
 )
 
 func main() {
-	env.LoadEnv()
+	// env.LoadEnv()
 
 	groqAi := aimodel.NewGroqClient()
 	aiUse := usecase.NewAIUsecase(groqAi)

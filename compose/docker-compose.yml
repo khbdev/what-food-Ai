@@ -90,6 +90,32 @@ services:
     networks:
       - what-food-network
 
+  food-service:
+    image: gopherkhb/what-food-food-service:latest
+    container_name: what-food-food-service
+    restart: always
+    env_file:
+      - ./food-service/.env
+    depends_on:
+      - postgres
+      - redis
+      - rabbitmq
+    networks:
+      - what-food-network
+
+  ai-service:
+    image: gopherkhb/what-food-ai-service:latest
+    container_name: what-food-ai-service
+    restart: always
+    env_file:
+      - ./ai-service/.env
+    depends_on:
+      - postgres
+      - redis
+      - rabbitmq
+    networks:
+      - what-food-network
+
 volumes:
   postgres_data:
 

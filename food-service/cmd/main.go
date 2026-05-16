@@ -9,7 +9,7 @@ import (
 	"food-service/internal/handler"
 	"food-service/internal/repository"
 	"food-service/internal/usecase"
-	"food-service/pkg/env"
+	// "food-service/pkg/env"
 
 	foodpb "github.com/khbdev/what-food-proto/proto/food"
 	"google.golang.org/grpc"
@@ -17,8 +17,8 @@ import (
 
 func main() {
 
-	// load env
-	env.LoadEnv()
+	// // load env
+	// env.LoadEnv()
 
 	// db
 	postgres, err := config.NewPostgresDB()

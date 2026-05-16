@@ -11,7 +11,7 @@ import (
 	"analytics-service/internal/handler"
 	repository "analytics-service/internal/repostory"
 	"analytics-service/internal/usecase"
-	loadenv "analytics-service/pkg/load_env"
+	// loadenv "analytics-service/pkg/load_env"
 
 pb  "github.com/khbdev/what-food-proto/proto/statik"
 )
@@ -21,7 +21,7 @@ func main() {
 	// =====================
 	// LOAD ENV
 	// =====================
-	loadenv.LoadEnv()
+	// loadenv.LoadEnv()
 
 	// =====================
 	// PORT (DIRECT ENV)

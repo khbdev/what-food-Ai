@@ -10,7 +10,7 @@ import (
 	"mail-service/internal/handler"
 	"mail-service/internal/usecase"
 	"mail-service/pkg/cache"
-	"mail-service/pkg/loadenv"
+	// "mail-service/pkg/loadenv"
 
 	asosiyPB "github.com/khbdev/what-food-proto/proto/asosiy"
 	"google.golang.org/grpc"
@@ -25,7 +25,7 @@ func mustEnv(key string) string {
 }
 
 func main() {
-	loadenv.Load()
+	// loadenv.Load()
 
 	port := os.Getenv("PORT")
 	if port == "" {

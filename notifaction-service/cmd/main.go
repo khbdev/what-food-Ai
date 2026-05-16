@@ -4,13 +4,13 @@ import (
 	"notifaction-service/internal/config"
 	"notifaction-service/internal/handler"
 	"notifaction-service/internal/usecase"
-	"notifaction-service/pkg/loadenv"
+	// "notifaction-service/pkg/loadenv"
 )
 
 
 func main(){
 
-	loadenv.Load()
+	// loadenv.Load()
 
 	rabbitMqConnectio := config.NewRabbit()
 
