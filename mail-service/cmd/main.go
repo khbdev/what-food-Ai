@@ -13,6 +13,7 @@ import (
 	// "mail-service/pkg/loadenv"
 
 	asosiyPB "github.com/khbdev/what-food-proto/proto/asosiy"
+	feedbackPB "github.com/khbdev/what-food-proto/proto/feedback"
 	"google.golang.org/grpc"
 )
 
@@ -60,7 +61,9 @@ func main() {
 	defer foodClient.Close()
 
 	uc := usecase.NewFoodUsecase(foodClient, aiClient, rabbitMq, redis)
+	ucFeedBack := usecase.NewNutritionUsecase(aiClient)
 	h := handler.NewFoodHandler(uc)
+	hFeedback := handler.NewNutritionHandler(ucFeedBack)
 
 	lis, err := net.Listen("tcp", ":"+port)
 	if err != nil {
@@ -69,6 +72,8 @@ func main() {
 
 	grpcServer := grpc.NewServer()
 	asosiyPB.RegisterFoodServiceServer(grpcServer, h)
+	feedbackPB.RegisterMailServiceServer(grpcServer, hFeedback)
+
 
 	log.Printf("🚀 mail-service running on :%s", port)
 

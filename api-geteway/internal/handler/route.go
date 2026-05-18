@@ -16,6 +16,8 @@ func SetupRouter(
 	foodHandler *FoodHandler,
 	aiFoodHandler *mailhandler.FoodHandler,
 	nutritionHandler *NutritionHandler,
+	feedbackHandler *FeedbackHandler,
+
 ) *gin.Engine {
 
 	r := gin.New()
@@ -116,6 +118,9 @@ user.GET("/categories/:id", categoryHandler.GetCategoryByID)             // ← 
 
 		// NUTRITION
 		user.GET("/nutrition/weekly", nutritionHandler.GetWeeklyNutrition)
+
+		// FeedBack 
+		user.POST("feedback", feedbackHandler.AnalyzeNutrition)
 	}
 
 	return r

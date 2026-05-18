@@ -46,6 +46,7 @@ func main() {
 	foodURL := mustEnv("FOOD_URL")
 	statikURL := mustEnv("STATIK_URL")
 	mailURL := mustEnv("MAIL_URL")
+	feedBack := mustEnv("MAIL_URL")
 
 	// =========================
 	// gRPC CLIENTS
@@ -86,6 +87,11 @@ func main() {
 	}
 	defer mailClient.Close()
 
+	feedMailClient, err := client.NewFeedbackClient(feedBack)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer feedMailClient.Close()
 
 	log.Println("✅ All gRPC clients connected")
 
@@ -100,6 +106,7 @@ func main() {
 	foodService := service.NewFoodService(foodClient)
 	statikService := service.NewNutritionService(statikClient)
 	mailService := mail.NewFoodService(mailClient)
+	
 
 	// =========================
 	// HANDLERS

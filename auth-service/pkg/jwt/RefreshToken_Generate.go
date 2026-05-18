@@ -9,13 +9,14 @@ import (
 )
 
 type RefreshClaims struct {
-	UserID uint `json:"user_id"`
+	UserID   uint   `json:"user_id"`
+	UserName string `json:"user_name"`
+	Role     string `json:"role"`
 	jwt.RegisteredClaims
 }
 
 func GenerateRefreshToken(m models.TokenModel) (string, error) {
 	secret := os.Getenv("JWT_REFRESH_SECRET")
-
 
 	expStr := os.Getenv("JWT_REFRESH_EXP_DAYS")
 	if expStr == "" {
@@ -28,7 +29,9 @@ func GenerateRefreshToken(m models.TokenModel) (string, error) {
 	}
 
 	claims := RefreshClaims{
-		UserID: m.UserID,
+		UserID:   m.UserID,
+		UserName: m.UserName,
+		Role:     m.Role,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(expDays)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
