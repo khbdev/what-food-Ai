@@ -49,9 +49,10 @@ func (u *NutritionUsecase) AnalyzeNutrition(
 	if n == 0 {
 		n = 1
 	}
+   pariod := "weekly"
 
 	grpcReq := &aipb.NutritionRequest{
-		Period:     req.Period,
+		Period:     pariod,
 		AvgKcal:    totalKcal / n,
 		AvgFat:     totalFat / n,
 		AvgCarbs:   totalCarbs / n,
