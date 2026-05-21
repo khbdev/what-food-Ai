@@ -1,10 +1,12 @@
 package usecase
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"os"
 	"strconv"
+	"time"
 
 	"auth-service/internal/domain"
 	"auth-service/internal/models"
@@ -20,27 +22,59 @@ type AuthUsecase struct {
 	userClient domain.UserService
 	redis      *redis.Service
 	rabbit     *rabbitmq.Publisher
+	phoneCache *redis.PhoneCache
+
+	ctx context.Context
 }
 
-func NewAuthUsecase(u domain.UserService, r *redis.Service, mq *rabbitmq.Publisher) *AuthUsecase {
+func NewAuthUsecase(
+	u domain.UserService,
+	r *redis.Service,
+	mq *rabbitmq.Publisher,
+	p *redis.PhoneCache,
+) *AuthUsecase {
+
+	ctx, _ := context.WithTimeout(
+		context.Background(),
+		3*time.Second,
+	)
+
 	return &AuthUsecase{
 		userClient: u,
 		redis:      r,
 		rabbit:     mq,
+		phoneCache: p,
+		ctx:        ctx,
 	}
 }
-
 //////////////////////////////////////////////////////
 // REGISTER
 //////////////////////////////////////////////////////
 
 func (uc *AuthUsecase) Register(req models.RegisterRequest) error {
 
+	// redis check
+	exists, err := uc.phoneCache.Get(uc.ctx, req.Phone)
+	if err != nil {
+		return err
+	}
+
+	// agar otp allaqachon yuborilgan bo‘lsa
+	if exists {
+		return errors.New("otp already sent")
+	}
+
 	res, _ := uc.userClient.GetUserByPhone(&userrpb.GetUserByPhoneRequest{
 		Phone: req.Phone,
 	})
+
 	if res != nil && res.User != nil {
 		return errors.New("user already exists")
+	}
+
+	// phone redisga save
+	if err := uc.phoneCache.Set(uc.ctx,req.Phone); err != nil {
+		return err
 	}
 
 	code := otp.GenerateCode()
@@ -50,11 +84,14 @@ func (uc *AuthUsecase) Register(req models.RegisterRequest) error {
 		return err
 	}
 
-	if err := uc.rabbit.PublishAuthMessage(os.Getenv("AUTH_ROUTING_KEY"), models.AuthMessage{
-		Task:  "register",
-		Phone: req.Phone,
-		OTP:   strconv.Itoa(code),
-	}); err != nil {
+	if err := uc.rabbit.PublishAuthMessage(
+		os.Getenv("AUTH_ROUTING_KEY"),
+		models.AuthMessage{
+			Task:  "register",
+			Phone: req.Phone,
+			OTP:   strconv.Itoa(code),
+		},
+	); err != nil {
 		return err
 	}
 
@@ -67,11 +104,28 @@ func (uc *AuthUsecase) Register(req models.RegisterRequest) error {
 
 func (uc *AuthUsecase) Login(req models.LoginRequest) error {
 
+	// redis check
+	exists, err := uc.phoneCache.Get(uc.ctx,req.Phone)
+	if err != nil {
+		return err
+	}
+
+	// agar otp allaqachon yuborilgan bo‘lsa
+	if exists {
+		return errors.New("otp already sent")
+	}
+
 	res, _ := uc.userClient.GetUserByPhone(&userrpb.GetUserByPhoneRequest{
 		Phone: req.Phone,
 	})
+
 	if res == nil || res.User == nil {
 		return errors.New("user not found")
+	}
+
+	// phone redisga save
+	if err := uc.phoneCache.Set(uc.ctx, req.Phone); err != nil {
+		return err
 	}
 
 	code := otp.GenerateCode()
@@ -84,17 +138,19 @@ func (uc *AuthUsecase) Login(req models.LoginRequest) error {
 		return err
 	}
 
-	if err := uc.rabbit.PublishAuthMessage(os.Getenv("AUTH_ROUTING_KEY"), models.AuthMessage{
-		Task:  "login",
-		Phone: req.Phone,
-		OTP:   strconv.Itoa(code),
-	}); err != nil {
+	if err := uc.rabbit.PublishAuthMessage(
+		os.Getenv("AUTH_ROUTING_KEY"),
+		models.AuthMessage{
+			Task:  "login",
+			Phone: req.Phone,
+			OTP:   strconv.Itoa(code),
+		},
+	); err != nil {
 		return err
 	}
 
 	return nil
 }
-
 //////////////////////////////////////////////////////
 // VERIFY
 //////////////////////////////////////////////////////
