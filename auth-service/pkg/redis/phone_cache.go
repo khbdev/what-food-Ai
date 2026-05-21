@@ -21,7 +21,7 @@ func NewRedis(client *redis.Client) *PhoneCache {
 const userPhoneTTL = time.Minute
 
 func userPhoneKey(phone string) string {
-	return fmt.Sprintf("user_phone:%d", phone)
+	return fmt.Sprintf("user_phone:%s", phone)
 }
 
 // Get
