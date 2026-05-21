@@ -45,7 +45,7 @@ func main() {
 
 	// redis service wrapper
 	rd := Redis.NewService(redisClient)
-	phoneCache := Redis.NewRedis(redisClient)
+	phoneCache := Redis.NewPhoneCache(redisClient)
 
 	// usecase
 	usc := usecase.NewAuthUsecase(userClient, rd, producer, phoneCache)

@@ -10,11 +10,13 @@ import (
 
 type PhoneCache struct {
 	client *redis.Client
+	ctx    context.Context  // ✅ ctx qo'shildi
 }
 
-func NewRedis(client *redis.Client) *PhoneCache {
+func NewPhoneCache(client *redis.Client) *PhoneCache {
 	return &PhoneCache{
 		client: client,
+		ctx:    context.Background(),  // ✅ initsializatsiya
 	}
 }
 
@@ -25,15 +27,13 @@ func userPhoneKey(phone string) string {
 }
 
 // Get
-// redisda phone mavjud bo‘lsa true qaytaradi
-func (r *PhoneCache) Get(ctx context.Context, phone string) (bool, error) {
+func (r *PhoneCache) Get(phone string) (bool, error) {
 	key := userPhoneKey(phone)
 
-	_, err := r.client.Get(ctx, key).Result()
+	_, err := r.client.Get(r.ctx, key).Result()  // ✅ r.ctx
 	if err == redis.Nil {
 		return false, nil
 	}
-
 	if err != nil {
 		return false, err
 	}
@@ -42,14 +42,13 @@ func (r *PhoneCache) Get(ctx context.Context, phone string) (bool, error) {
 }
 
 // Set
-// phone numberni redisga 1 minut TTL bilan saqlaydi
-func (r *PhoneCache) Set(ctx context.Context, phone string) error {
+func (r *PhoneCache) Set(phone string) error {
 	key := userPhoneKey(phone)
 
 	return r.client.Set(
-		ctx,
+		r.ctx,  // ✅ r.ctx
 		key,
-		1,
+		"1",
 		userPhoneTTL,
 	).Err()
 }

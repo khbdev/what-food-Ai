@@ -1,12 +1,12 @@
 package usecase
 
 import (
-	"context"
+	
 	"errors"
 	"fmt"
 	"os"
 	"strconv"
-	"time"
+
 
 	"auth-service/internal/domain"
 	"auth-service/internal/models"
@@ -46,14 +46,9 @@ func NewAuthUsecase(
 
 func (uc *AuthUsecase) Register(req models.RegisterRequest) error {
 
-	ctx, cancel := context.WithTimeout(
-		context.Background(),
-		3*time.Second,
-	)
-	defer cancel()
 
 	// redis check
-	exists, err := uc.phoneCache.Get(ctx, req.Phone)
+	exists, err := uc.phoneCache.Get(req.Phone)
 	if err != nil {
 		return err
 	}
@@ -74,7 +69,7 @@ func (uc *AuthUsecase) Register(req models.RegisterRequest) error {
 	}
 
 	// phone redisga save
-	if err := uc.phoneCache.Set(ctx, req.Phone); err != nil {
+	if err := uc.phoneCache.Set(req.Phone); err != nil {
 		return err
 	}
 
@@ -105,14 +100,10 @@ func (uc *AuthUsecase) Register(req models.RegisterRequest) error {
 
 func (uc *AuthUsecase) Login(req models.LoginRequest) error {
 
-	ctx, cancel := context.WithTimeout(
-		context.Background(),
-		3*time.Second,
-	)
-	defer cancel()
+
 
 	// redis check
-	exists, err := uc.phoneCache.Get(ctx, req.Phone)
+	exists, err := uc.phoneCache.Get( req.Phone)
 	if err != nil {
 		return err
 	}
@@ -133,7 +124,7 @@ func (uc *AuthUsecase) Login(req models.LoginRequest) error {
 	}
 
 	// phone redisga save
-	if err := uc.phoneCache.Set(ctx, req.Phone); err != nil {
+	if err := uc.phoneCache.Set( req.Phone); err != nil {
 		return err
 	}
 
