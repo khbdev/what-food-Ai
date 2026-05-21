@@ -23,8 +23,6 @@ type AuthUsecase struct {
 	redis      *redis.Service
 	rabbit     *rabbitmq.Publisher
 	phoneCache *redis.PhoneCache
-
-	ctx context.Context
 }
 
 func NewAuthUsecase(
@@ -34,27 +32,28 @@ func NewAuthUsecase(
 	p *redis.PhoneCache,
 ) *AuthUsecase {
 
-	ctx, _ := context.WithTimeout(
-		context.Background(),
-		3*time.Second,
-	)
-
 	return &AuthUsecase{
 		userClient: u,
 		redis:      r,
 		rabbit:     mq,
 		phoneCache: p,
-		ctx:        ctx,
 	}
 }
+
 //////////////////////////////////////////////////////
 // REGISTER
 //////////////////////////////////////////////////////
 
 func (uc *AuthUsecase) Register(req models.RegisterRequest) error {
 
+	ctx, cancel := context.WithTimeout(
+		context.Background(),
+		3*time.Second,
+	)
+	defer cancel()
+
 	// redis check
-	exists, err := uc.phoneCache.Get(uc.ctx, req.Phone)
+	exists, err := uc.phoneCache.Get(ctx, req.Phone)
 	if err != nil {
 		return err
 	}
@@ -64,16 +63,18 @@ func (uc *AuthUsecase) Register(req models.RegisterRequest) error {
 		return errors.New("otp already sent")
 	}
 
-	res, _ := uc.userClient.GetUserByPhone(&userrpb.GetUserByPhoneRequest{
-		Phone: req.Phone,
-	})
+	res, _ := uc.userClient.GetUserByPhone(
+		&userrpb.GetUserByPhoneRequest{
+			Phone: req.Phone,
+		},
+	)
 
 	if res != nil && res.User != nil {
 		return errors.New("user already exists")
 	}
 
 	// phone redisga save
-	if err := uc.phoneCache.Set(uc.ctx,req.Phone); err != nil {
+	if err := uc.phoneCache.Set(ctx, req.Phone); err != nil {
 		return err
 	}
 
@@ -104,8 +105,14 @@ func (uc *AuthUsecase) Register(req models.RegisterRequest) error {
 
 func (uc *AuthUsecase) Login(req models.LoginRequest) error {
 
+	ctx, cancel := context.WithTimeout(
+		context.Background(),
+		3*time.Second,
+	)
+	defer cancel()
+
 	// redis check
-	exists, err := uc.phoneCache.Get(uc.ctx,req.Phone)
+	exists, err := uc.phoneCache.Get(ctx, req.Phone)
 	if err != nil {
 		return err
 	}
@@ -115,16 +122,18 @@ func (uc *AuthUsecase) Login(req models.LoginRequest) error {
 		return errors.New("otp already sent")
 	}
 
-	res, _ := uc.userClient.GetUserByPhone(&userrpb.GetUserByPhoneRequest{
-		Phone: req.Phone,
-	})
+	res, _ := uc.userClient.GetUserByPhone(
+		&userrpb.GetUserByPhoneRequest{
+			Phone: req.Phone,
+		},
+	)
 
 	if res == nil || res.User == nil {
 		return errors.New("user not found")
 	}
 
 	// phone redisga save
-	if err := uc.phoneCache.Set(uc.ctx, req.Phone); err != nil {
+	if err := uc.phoneCache.Set(ctx, req.Phone); err != nil {
 		return err
 	}
 
