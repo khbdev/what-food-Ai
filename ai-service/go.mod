@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	github.com/joho/godotenv v1.5.1
-	github.com/khbdev/what-food-proto v0.0.0-20260505120227-b9a89b3ff5ec
+	github.com/khbdev/what-food-proto v0.0.2-0.20260522092425-3898d389d4bb
 	github.com/openai/openai-go v1.12.0
 )
 
