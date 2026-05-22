@@ -6,12 +6,11 @@ package models
 
 type DayNutrition struct {
 	Day     string  `json:"day"`
-	Kcal    int32   `json:"kcal"`
-	Fat     int32   `json:"fat"`
+	Kcal    float64 `json:"kcal"`
+	Fat     float64 `json:"fat"`
 	Carbs   float64 `json:"carbs"`
-	Protein int32   `json:"protein"`
+	Protein float64 `json:"protein"`
 }
-
 // =======================
 // REQUEST (API Gateway -> Mail Service)
 // =======================

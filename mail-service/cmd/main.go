@@ -9,7 +9,7 @@ import (
 	"mail-service/internal/config"
 	"mail-service/internal/handler"
 	"mail-service/internal/usecase"
-	"mail-service/pkg/cache"
+	// "mail-service/pkg/cache"
 	// "mail-service/pkg/loadenv"
 
 	asosiyPB "github.com/khbdev/what-food-proto/proto/asosiy"
@@ -38,12 +38,10 @@ func main() {
 		log.Fatal(err)
 	}
 
-	_ = rabbitMq
-	_ = redis
 
-	cacheRedis := cache.NewAIMealCache(redis)
+	// cacheRedis := cache.NewAIMealCache(redis)
 
-	_ = cacheRedis
+	// _ = cacheRedis
 
 	aiURL := mustEnv("AI_URL")
 	foodURL := mustEnv("FOOD_URL")
