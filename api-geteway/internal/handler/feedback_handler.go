@@ -40,14 +40,14 @@ func (h *FeedbackHandler) AnalyzeNutrition(c *gin.Context) {
 	}
 
 	for _, d := range req.Days {
-		pbReq.Days = append(pbReq.Days, &pb.DayNutrition{
-			Day:     d.Day,
-			Kcal:    d.Kcal,
-			Fat:     d.Fat,
-			Carbs:   d.Carbs,
-			Protein: d.Protein,
-		})
-	}
+	pbReq.Days = append(pbReq.Days, &pb.DayNutrition{
+		Day:     d.Day,
+		Kcal:    d.Kcal,
+		Fat:     d.Fat,
+		Carbs:   d.Carbs,
+		Protein: d.Protein,
+	})
+}
 
 	// 3. call service (business layer)
 	resp, err := h.service.AnalyzeNutrition(c.Request.Context(), pbReq)
