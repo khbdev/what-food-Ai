@@ -10,7 +10,7 @@ import (
 
 func RunMigrations() {
 m, err := migrate.New(
-    "file://user-product-service/migrations",
+    "file:///app/migrations",
     config.PostgresURL(),
 )
 
