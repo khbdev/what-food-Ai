@@ -8,7 +8,7 @@ import (
 	"user-product-service/internal/cache"
 	"user-product-service/internal/config"
 	"user-product-service/internal/handler"
-	"user-product-service/internal/migration"
+
 	repository "user-product-service/internal/repostory"
 	"user-product-service/internal/usecase"
 
@@ -24,7 +24,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	migration.RunMigrations()
 
 
 	redis, err := config.NewRedisClient()
