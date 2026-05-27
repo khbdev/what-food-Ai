@@ -9,10 +9,10 @@ import (
 )
 
 func RunMigrations() {
-	m, err := migrate.New(
-		"file://migrations",
-		config.PostgresURL(),
-	)
+m, err := migrate.New(
+    "file://user-product-service/migrations",
+    config.PostgresURL(),
+)
 
 	if err != nil {
 		panic(err)
