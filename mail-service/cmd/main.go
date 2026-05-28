@@ -26,7 +26,7 @@ func mustEnv(key string) string {
 }
 
 func main() {
-	loadenv.Load()
+loadenv.LoadEnv()
 
 	port := os.Getenv("PORT")
 	if port == "" {

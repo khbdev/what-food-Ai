@@ -19,7 +19,7 @@ import (
 	"google.golang.org/grpc"
 )
 func main() {
-	loadenv.Load()
+loadenv.LoadEnv()
 
 	
 

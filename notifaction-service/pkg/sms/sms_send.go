@@ -11,7 +11,7 @@ import (
 )
 
 func Send(phone string, otp string) error {
-loadenv.Load()
+loadenv.LoadEnv()
 
 	log.Println("[TELEGRAM MOCK SMS REPLACEMENT]")
 

@@ -6,10 +6,8 @@ import (
 	"github.com/joho/godotenv"
 )
 
-
-
-func Load(){
-if err := godotenv.Load(); err != nil {
-		log.Println(".env not found, using system env")
+func LoadEnv() {
+	if err := godotenv.Load(); err != nil {
+		log.Println("No .env file, using environment variables") // Fatal → Println
 	}
 }

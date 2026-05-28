@@ -10,8 +10,7 @@ import (
 
 func main(){
 
-	loadenv.Load()
-
+	loadenv.LoadEnv()
 	rabbitMqConnectio := config.NewRabbit()
 
 	_ = rabbitMqConnectio

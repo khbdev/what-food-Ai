@@ -29,7 +29,7 @@ func main() {
 	// LOAD ENV
 	// =========================
 
-	loadenv.Load()
+	loadenv.LoadEnv()
 
 	port := os.Getenv("PORT")
 	if port == "" {
