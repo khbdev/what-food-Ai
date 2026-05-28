@@ -12,14 +12,14 @@ import (
 
 	authpb "github.com/khbdev/what-food-proto/proto/auth"
 
-	// loadenv "auth-service/pkg/LoadEnv"
+	loadenv "auth-service/pkg/LoadEnv"
 	rabbitMq "auth-service/pkg/rabbitMq"
 	Redis "auth-service/pkg/redis"
 
 	"google.golang.org/grpc"
 )
 func main() {
-	// loadenv.Load()
+	loadenv.Load()
 
 	
 

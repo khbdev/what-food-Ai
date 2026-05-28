@@ -13,14 +13,14 @@ import (
 	"user-service/internal/usecase"
 
 	repository "user-service/internal/repostory"
-	// loadenv "user-service/pkg/loadEnv"
+	loadenv "user-service/pkg/loadEnv"
 
 	userpb "github.com/khbdev/what-food-proto/proto/userr"
 )
 
 func main() {
-	// // load env
-	// loadenv.LoadEnv()
+	// load env
+	loadenv.LoadEnv()
 
 	// config
 	db, err := config.NewPostgresDB()

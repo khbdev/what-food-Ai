@@ -8,6 +8,7 @@ import (
 	"user-product-service/internal/cache"
 	"user-product-service/internal/config"
 	"user-product-service/internal/handler"
+	"user-product-service/pkg/loadenv"
 
 	repository "user-product-service/internal/repostory"
 	"user-product-service/internal/usecase"
@@ -18,7 +19,7 @@ import (
 )
 
 func main() {
-	// loadenv.LoadEnv()
+	loadenv.LoadEnv()
 
 	postgress, err := config.NewPostgresDB()
 	if err != nil {

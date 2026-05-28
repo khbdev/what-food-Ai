@@ -17,10 +17,7 @@ func NewFoodFilterRepository(db *sql.DB) domain.FoodFilterRepository {
 	return &foodFilterRepository{db: db}
 }
 
-func (r *foodFilterRepository) Filter(
-	ctx context.Context,
-	filter models.RecipeFilter,
-) ([]models.FoodItemResponse, error) {
+func (r *foodFilterRepository) Filter(ctx context.Context, filter models.RecipeFilter,) ([]models.FoodItemResponse, error) {
 
 	recipeWhere, recipeArgs := buildWhere(filter, 0)
 	args := recipeArgs
