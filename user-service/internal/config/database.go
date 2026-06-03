@@ -2,8 +2,7 @@ package config
 
 import (
 	"fmt"
-	"log"
-	"os"
+	"log"	
 	"time"
 	"user-service/internal/models"
 
@@ -13,12 +12,12 @@ import (
 )
 
 func NewPostgresDB() (*gorm.DB, error) {
-	host := os.Getenv("DB_HOST")
-	port := os.Getenv("DB_PORT")
-	user := os.Getenv("DB_USER")
-	password := os.Getenv("DB_PASSWORD")
-	dbname := os.Getenv("DB_NAME")
-	sslmode := os.Getenv("DB_SSLMODE")
+	host := "postgres"
+	port := "5432"
+	user := "postgres"
+	password := "secret"
+	dbname := "user_service"
+	sslmode := "disable"
 
 	if host == "" || port == "" || user == "" || dbname == "" {
 		return nil, fmt.Errorf("database environment variables not set properly")
