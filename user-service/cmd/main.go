@@ -4,6 +4,7 @@ import (
 	"log"
 	"net"
 	"os"
+	"time"
 
 	"google.golang.org/grpc"
 
@@ -33,6 +34,9 @@ func main() {
 		log.Fatal(err)
 	}
 
+
+
+	time.Sleep(5 * time.Second)
 	// layers
 	userCache := cache.NewUserCache(redisClient)
 	userRepo := repository.NewUserRepository(db)

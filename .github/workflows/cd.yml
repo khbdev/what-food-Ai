@@ -1,5 +1,5 @@
 name: CD
-# yangi feature
+
 on:
   workflow_run:
     workflows: ["CI"]
@@ -39,3 +39,19 @@ jobs:
           cd ${{ matrix.service }}
           docker build -t gopherkhb/what-food-${{ matrix.service }}:latest .
           docker push gopherkhb/what-food-${{ matrix.service }}:latest
+
+  deploy:
+    needs: docker
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: SSH Deploy to VPS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            cd ~/what-food-ai/what-food-ai-compose
+            docker compose pull
+            docker compose up -d

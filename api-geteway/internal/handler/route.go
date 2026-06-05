@@ -17,6 +17,7 @@ func SetupRouter(
 	aiFoodHandler *mailhandler.FoodHandler,
 	nutritionHandler *NutritionHandler,
 	feedbackHandler *FeedbackHandler,
+	userDashBoard *DashboardHandler,
 
 ) *gin.Engine {
 
@@ -89,6 +90,9 @@ func SetupRouter(
 		admin.GET("/salads/:id", foodHandler.GetSaladByID)
 		admin.PUT("/salads/:id", foodHandler.UpdateSalad)
 		admin.DELETE("/salads/:id", foodHandler.DeleteSalad)
+
+		// DashBoards
+		admin.GET("/dashboards", userDashBoard.GetDashboardStats)
 	}
 
 	// =========================
