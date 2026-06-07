@@ -56,4 +56,3 @@ jobs:
             docker compose pull
             docker compose up -d
             docker exec -it what-food-postgres psql -U postgres -c "ALTER USER postgres WITH PASSWORD 'secret';"
-            docker compose restart user-service
