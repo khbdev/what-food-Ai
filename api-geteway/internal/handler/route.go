@@ -18,6 +18,7 @@ func SetupRouter(
 	nutritionHandler *NutritionHandler,
 	feedbackHandler *FeedbackHandler,
 	userDashBoard *DashboardHandler,
+	notificationHandler *NotificationHandler,
 
 ) *gin.Engine {
 
@@ -93,6 +94,13 @@ func SetupRouter(
 
 		// DashBoards
 		admin.GET("/dashboards", userDashBoard.GetDashboardStats)
+
+		//	Notifaction Cruds
+		admin.POST("/notifications", notificationHandler.CreateNotification)
+		admin.GET("/notifications", notificationHandler.GetNotifications)
+		admin.GET("/notifications/:id", notificationHandler.GetNotification)
+		admin.PUT("/notifications/:id", notificationHandler.UpdateNotification)
+		admin.DELETE("/notifications/:id", notificationHandler.DeleteNotification)
 	}
 
 	// =========================
@@ -105,9 +113,9 @@ func SetupRouter(
 		// MUHIM: statik route /:id dan OLDIN kelishi kerak,
 		// aks holda Gin "with-products" ni `:id` deb o'qiydi.
 		user.GET("/categories/with-products", categoryHandler.GetAllWithUserProducts)
-user.GET("/categories/with-products/:id", categoryHandler.GetCategoryByIDWithUserProducts) // ← QO'SHILDI
-user.GET("/categories", categoryHandler.GetAllCategories)
-user.GET("/categories/:id", categoryHandler.GetCategoryByID)             // ← KEYIN
+		user.GET("/categories/with-products/:id", categoryHandler.GetCategoryByIDWithUserProducts) // ← QO'SHILDI
+		user.GET("/categories", categoryHandler.GetAllCategories)
+		user.GET("/categories/:id", categoryHandler.GetCategoryByID) // ← KEYIN
 
 		// INGREDIENTS
 		user.POST("/ingredients", ingredientHandler.CreateIngredient)
@@ -123,8 +131,12 @@ user.GET("/categories/:id", categoryHandler.GetCategoryByID)             // ← 
 		// NUTRITION
 		user.GET("/nutrition/weekly", nutritionHandler.GetWeeklyNutrition)
 
-		// FeedBack 
+		// FeedBack
 		user.POST("feedback", feedbackHandler.AnalyzeNutrition)
+
+	//	Notifactions
+		user.GET("/notifications", notificationHandler.GetNotifications)
+		user.GET("/notifications/:id", notificationHandler.GetNotification)
 	}
 
 	return r

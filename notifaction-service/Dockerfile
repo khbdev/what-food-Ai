@@ -15,4 +15,7 @@ WORKDIR /app
 
 COPY --from=builder /app/notifaction-service .
 
+# ✅ EXPOSE gRPC PORT
+EXPOSE 50059
+
 CMD ["./notifaction-service"]

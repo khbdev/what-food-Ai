@@ -47,7 +47,7 @@ func main() {
 	statikURL := mustEnv("STATIK_URL")
 	mailURL := mustEnv("MAIL_URL")
 	feedBack := mustEnv("MAIL_URL")
-
+	notifactionURL := mustEnv("NOTIFACTION_URL")
 
 	// =========================
 	// gRPC CLIENTS
@@ -97,6 +97,11 @@ func main() {
 		log.Fatal(err)
 	}
 	defer feedMailClient.Close()
+	notifactionClient, err := client.NewNotificationClient(notifactionURL)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer notifactionClient.Close()
 
 	log.Println("✅ All gRPC clients connected")
 
@@ -113,7 +118,7 @@ func main() {
 	mailService := mail.NewFoodService(mailClient)
 	feedbackService := service.NewFeedbackService(feedMailClient)
 	userDashboardService := service.NewDashboardService(userDashboard_UserService_client)
-
+	notifactionService := service.NewNotificationService(notifactionClient)
 
 	// =========================
 	// HANDLERS
@@ -128,21 +133,23 @@ func main() {
 	mailHand := mailhandler.NewFoodHandler(mailService)
 	feedHand := handler.NewFeedbackHandler(feedbackService)
 	userDashboardHandler := handler.NewDashboardHandler(userDashboardService)
+	notifactionHandler := handler.NewNotificationHandler(notifactionService)
 
 	// =========================
 	// ROUTER
 	// =========================
-router := handler.SetupRouter(
-	authHandler,
-	userHandler,
-	categoryHandler,
-	productHandler,
-	foodHandler,
-	mailHand,
-	statikHandler,
-	feedHand,
-	userDashboardHandler,
-)
+	router := handler.SetupRouter(
+		authHandler,
+		userHandler,
+		categoryHandler,
+		productHandler,
+		foodHandler,
+		mailHand,
+		statikHandler,
+		feedHand,
+		userDashboardHandler,
+		notifactionHandler,
+	)
 
 	// =========================
 	// START SERVER
