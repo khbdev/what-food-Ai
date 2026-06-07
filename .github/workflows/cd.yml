@@ -55,4 +55,4 @@ jobs:
             cd ~/what-food-ai/what-food-ai-compose
             docker compose pull
             docker compose up -d
-            docker exec -it what-food-postgres psql -U postgres -c "ALTER USER postgres WITH PASSWORD 'secret';"
+            docker exec what-food-postgres psql -U postgres -c "ALTER USER postgres WITH PASSWORD 'secret';"
