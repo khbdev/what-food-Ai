@@ -15,8 +15,11 @@ var (
 )
 
 func InitRedis() *redis.Client {
-	addr := getEnv("REDIS_HOST", "what-food-redis")
+	host := getEnv("REDIS_HOST", "what-food-redis")
+	port := getEnv("REDIS_PORT", "6379")
 	pass := getEnv("REDIS_PASSWORD", "")
+
+	addr := fmt.Sprintf("%s:%s", host, port)
 
 	client := redis.NewClient(&redis.Options{
 		Addr:     addr,
@@ -27,8 +30,6 @@ func InitRedis() *redis.Client {
 	if err := client.Ping(context.Background()).Err(); err != nil {
 		log.Fatalf("Redisga ulanishda xatolik: %v", err)
 	}
-
-	fmt.Println("Redis ulandi:", addr)
 
 	return client
 }
