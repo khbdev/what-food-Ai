@@ -15,7 +15,7 @@ var (
 )
 
 func InitRedis() *redis.Client {
-	addr := getEnv("REDIS_HOST", "localhost:6379")
+	addr := getEnv("REDIS_HOST", "what-food-redis")
 	pass := getEnv("REDIS_PASSWORD", "")
 
 	client := redis.NewClient(&redis.Options{
