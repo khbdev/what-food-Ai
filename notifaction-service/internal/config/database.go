@@ -29,7 +29,7 @@ func NewPostgresConnection() *gorm.DB {
 	}
 
 	dsn := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=Asia/Tashkent",
+		"host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=UTC",
 		dbHost, dbUser, dbPass, dbName, dbPort, dbSSL,
 	)
 
