@@ -17,6 +17,8 @@ import (
 	loadenv "user-service/pkg/loadEnv"
 
 	userpb "github.com/khbdev/what-food-proto/proto/userr"
+
+	dashboardpb "github.com/khbdev/what-food-proto/proto/dashboard"
 )
 
 func main() {
@@ -34,8 +36,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-
-
 	time.Sleep(5 * time.Second)
 	// layers
 	userCache := cache.NewUserCache(redisClient)
@@ -43,11 +43,18 @@ func main() {
 	userUC := usecase.NewUserUsecase(userRepo, userCache)
 	userHandler := handler.NewUserHandler(userUC)
 
+	userDashBoardRepo := repository.NewUserDashboard(db)
+	userDashBoardUsecase := usecase.NewUserDashboardUsecase(userDashBoardRepo)
+	userDashBoardHand := handler.NewDashboardHandler(userDashBoardUsecase)
+
 	// grpc server
 	grpcServer := grpc.NewServer()
 
 	// register service
 	userpb.RegisterUserServiceServer(grpcServer, userHandler)
+	dashboardpb.RegisterUserDashboardServiceServer(grpcServer, userDashBoardHand)
+
+
 
 	// port from env (default 50050)
 	port := os.Getenv("GRPC_PORT")

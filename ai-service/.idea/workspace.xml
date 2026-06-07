@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51ac12b7-96fe-47ea-a7e2-1407525d2921" name="Changes" comment="" />
+    <list default="true" id="51ac12b7-96fe-47ea-a7e2-1407525d2921" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../user-service/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/../user-service/cmd/main.go" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,10 +16,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3,
-  "fromUser": false
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3,
+  &quot;fromUser&quot;: false
+}</component>
   <component name="ProjectId" id="3EhtmRY5gHQ3CuyvpWo7jXluQwY" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -37,7 +39,7 @@
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "main",
     "go.sdk.automatically.set": "true",
-    "last_opened_file_path": "/home/khgopher/Desktop/Go-Loyihalar/what-food-Ai/analytics-service",
+    "last_opened_file_path": "/home/khgopher/Desktop/Go-Loyihalar/what-food-Ai",
     "nodejs_package_manager_path": "npm"
   }
 }]]></component>
