@@ -10,7 +10,6 @@ import (
 	mailhandler "api-geteway/internal/handler/mail_handler"
 	"api-geteway/internal/service"
 	"api-geteway/internal/service/mail"
-	"api-geteway/pkg/loadenv"
 )
 
 func mustEnv(key string) string {
@@ -29,7 +28,7 @@ func main() {
 	// LOAD ENV
 	// =========================
 
-	loadenv.LoadEnv()
+	//loadenv.LoadEnv()
 
 	port := os.Getenv("PORT")
 	if port == "" {

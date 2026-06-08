@@ -9,7 +9,6 @@ import (
 	"food-service/internal/handler"
 	"food-service/internal/repository"
 	"food-service/internal/usecase"
-	loadenv "food-service/pkg/env"
 
 	foodpb "github.com/khbdev/what-food-proto/proto/food"
 	"google.golang.org/grpc"
@@ -18,7 +17,7 @@ import (
 func main() {
 
 	// load env
-loadenv.LoadEnv()
+	//loadenv.LoadEnv()
 
 	postgres, err := config.NewPostgresDB()
 	if err != nil {
@@ -63,7 +62,7 @@ loadenv.LoadEnv()
 	foodpb.RegisterFoodFilterServiceServer(grpcServer, hand)
 
 	// port from env
-	port :=  os.Getenv("GRPC_PORT")
+	port := os.Getenv("GRPC_PORT")
 
 	lis, err := net.Listen("tcp", ":"+port)
 	if err != nil {

@@ -9,8 +9,6 @@ import (
 	"mail-service/internal/config"
 	"mail-service/internal/handler"
 	"mail-service/internal/usecase"
-	// "mail-service/pkg/cache"
-	"mail-service/pkg/loadenv"
 
 	asosiyPB "github.com/khbdev/what-food-proto/proto/asosiy"
 	feedbackPB "github.com/khbdev/what-food-proto/proto/feedback"
@@ -26,7 +24,7 @@ func mustEnv(key string) string {
 }
 
 func main() {
-loadenv.LoadEnv()
+	//loadenv.LoadEnv()
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -37,7 +35,6 @@ loadenv.LoadEnv()
 	if err != nil {
 		log.Fatal(err)
 	}
-
 
 	// cacheRedis := cache.NewAIMealCache(redis)
 
@@ -71,7 +68,6 @@ loadenv.LoadEnv()
 	grpcServer := grpc.NewServer()
 	asosiyPB.RegisterFoodServiceServer(grpcServer, h)
 	feedbackPB.RegisterMailServiceServer(grpcServer, hFeedback)
-
 
 	log.Printf("🚀 mail-service running on :%s", port)
 

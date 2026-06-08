@@ -12,16 +12,14 @@ import (
 
 	authpb "github.com/khbdev/what-food-proto/proto/auth"
 
-	loadenv "auth-service/pkg/LoadEnv"
 	rabbitMq "auth-service/pkg/rabbitMq"
 	Redis "auth-service/pkg/redis"
 
 	"google.golang.org/grpc"
 )
-func main() {
-loadenv.LoadEnv()
 
-	
+func main() {
+	//loadenv.LoadEnv()
 
 	// rabbit
 	rabbitmq := config.NewRabbit()
@@ -34,8 +32,6 @@ loadenv.LoadEnv()
 
 	// publisher
 	producer := rabbitMq.NewPublisher(rabbitmq)
-
-	
 
 	// user service client (gRPC)
 	userClient, err := client.NewUserClient(os.Getenv("USER_SERVICE"))

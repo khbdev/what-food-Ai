@@ -11,7 +11,6 @@ import (
 	"notifaction-service/internal/handler"
 
 	"notifaction-service/internal/usecase"
-	"notifaction-service/pkg/loadenv"
 	redis_pub "notifaction-service/pkg/redis-pub"
 
 	pb "github.com/khbdev/what-food-proto/proto/notifaction-crud"
@@ -21,7 +20,7 @@ import (
 func main() {
 
 	// 1. env load
-	loadenv.LoadEnv()
+	//loadenv.LoadEnv()
 
 	// 2. port
 	port := getEnv("GRPC_PORT", "50059")

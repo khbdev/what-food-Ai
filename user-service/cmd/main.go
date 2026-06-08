@@ -14,7 +14,6 @@ import (
 	"user-service/internal/usecase"
 
 	repository "user-service/internal/repostory"
-	loadenv "user-service/pkg/loadEnv"
 
 	userpb "github.com/khbdev/what-food-proto/proto/userr"
 
@@ -23,7 +22,7 @@ import (
 
 func main() {
 	// load env
-	loadenv.LoadEnv()
+	//loadenv.LoadEnv()
 
 	// config
 	db, err := config.NewPostgresDB()
@@ -53,8 +52,6 @@ func main() {
 	// register service
 	userpb.RegisterUserServiceServer(grpcServer, userHandler)
 	dashboardpb.RegisterUserDashboardServiceServer(grpcServer, userDashBoardHand)
-
-
 
 	// port from env (default 50050)
 	port := os.Getenv("GRPC_PORT")
