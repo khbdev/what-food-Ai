@@ -27,6 +27,8 @@ func NewPostgresDB() (*gorm.DB, error) {
 	log.Println("DB:", dbname)
 	log.Println("SSL:", sslmode)
 
+	//dfhdfhdhdadsoshdoihsogjshagnkdgnsngnsndlkgnlskdngdfsn' gjlfhngklad'fnaglgnk"Lsfhaklgnkljg
+
 	if host == "" || port == "" || user == "" || dbname == "" {
 		return nil, fmt.Errorf("database environment variables not set properly")
 	}
