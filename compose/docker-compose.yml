@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: secret
-      POSTGRES_MULTIPLE_DATABASES: user_service,user_product_service,food_service,statik_service
+      POSTGRES_DB: postgres
 
     ports:
       - "5433:5432"
@@ -24,7 +24,30 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
-      start_period: 30s
+      start_period: 20s
+
+  redis:
+    image: redis:8-alpine
+    container_name: what-food-redis
+    restart: always
+
+    ports:
+      - "6380:6379"
+
+    networks:
+      - what-food-network
+
+  rabbitmq:
+    image: rabbitmq:4-management
+    container_name: what-food-rabbitmq
+    restart: always
+
+    ports:
+      - "5673:5672"
+      - "15673:15672"
+
+    networks:
+      - what-food-network
 
   user-service:
     image: gopherkhb/what-food-user-service:latest
@@ -111,11 +134,14 @@ services:
     image: gopherkhb/what-food-notifaction-service:latest
     container_name: what-food-notification-service
     restart: always
+
     env_file:
       - ./notification-service/.env
+
     depends_on:
       postgres:
         condition: service_healthy
+
     networks:
       - what-food-network
 
@@ -126,6 +152,9 @@ services:
 
     env_file:
       - ./api-geteway/.env
+
+    ports:
+      - "8082:8082"
 
     depends_on:
       auth-service:
@@ -144,9 +173,6 @@ services:
         condition: service_started
       mail-service:
         condition: service_started
-
-    ports:
-      - "8082:8082"
 
     networks:
       - what-food-network

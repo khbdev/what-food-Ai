@@ -13,12 +13,19 @@ import (
 )
 
 func NewPostgresDB() (*gorm.DB, error) {
-host := os.Getenv("DB_HOST")
-port := os.Getenv("DB_PORT")
-user := os.Getenv("DB_USER")
-password := os.Getenv("DB_PASSWORD")
-dbname := os.Getenv("DB_NAME")
-sslmode := os.Getenv("DB_SSLMODE")
+	host := os.Getenv("DB_HOST")
+	port := os.Getenv("DB_PORT")
+	user := os.Getenv("DB_USER")
+	password := os.Getenv("DB_PASSWORD")
+	dbname := os.Getenv("DB_NAME")
+	sslmode := os.Getenv("DB_SSLMODE")
+
+	log.Println("HOST:", host)
+	log.Println("PORT:", port)
+	log.Println("USER:", user)
+	log.Println("PASS:", password)
+	log.Println("DB:", dbname)
+	log.Println("SSL:", sslmode)
 
 	if host == "" || port == "" || user == "" || dbname == "" {
 		return nil, fmt.Errorf("database environment variables not set properly")
@@ -30,13 +37,12 @@ sslmode := os.Getenv("DB_SSLMODE")
 	)
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
-		Logger: logger.Default.LogMode(logger.Warn), 
+		Logger: logger.Default.LogMode(logger.Warn),
 	})
 	if err != nil {
 		return nil, err
 	}
 
-	
 	sqlDB, err := db.DB()
 	if err != nil {
 		return nil, err
@@ -46,7 +52,6 @@ sslmode := os.Getenv("DB_SSLMODE")
 	sqlDB.SetMaxIdleConns(10)
 	sqlDB.SetConnMaxLifetime(time.Hour)
 
-	
 	if err := db.AutoMigrate(
 		&models.User{},
 	); err != nil {
